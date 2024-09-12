@@ -1,1 +1,39 @@
-/* You can add global styles to this file, and also import other style files */
+*{
+    --background-color: #E9ECF5;
+    --text-color: #696F7E;
+    --main-color: #4264D0;
+    --secondary-color: #728DE4;
+    --third-color: #fff;
+
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--background-color);
+    font-family: Arial, sans-serif;
+    padding: 0;
+    margin: 0;
+}
+
+.grid-container{
+    display: grid;
+    grid-template-areas:
+        "side nav"
+        "side main";
+    grid-template-columns: 200px 1fr;
+    grid-template-rows: 60px 1fr;
+    height: 100vh;
+}
+
+.main {
+    grid-area: main;
+}
+
+.side {
+  grid-area: side;
+  padding: 1rem;
+}
+
+.nav{
+    grid-area: nav;
+}

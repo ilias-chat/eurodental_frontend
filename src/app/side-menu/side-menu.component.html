@@ -1,0 +1,26 @@
+<div class="side-menu">
+    <div class="logo">Logo</div>
+    <div class="buttons">
+      <button class="button" [class.active] = "selected_button == 1" (click)="onMenuButtonClicked(1)">
+        <i class="icon fa-solid fa-house"></i> <span class="label">Home</span>  
+      </button>
+      <button class="button" [class.active] = "selected_button == 2" (click)="onMenuButtonClicked(2)">
+        <i class="icon fa-solid fa-file-lines"></i> <span class="label">Invoices</span> 
+      </button>
+      <button class="button" [class.active] = "selected_button == 3" (click)="onMenuButtonClicked(3)">
+        <i class="icon fa-solid fa-user-group"></i> <span class="label">Clients</span> 
+      </button>
+      <button class="button" [class.active] = "selected_button == 4" (click)="onMenuButtonClicked(4)">
+        <i class="icon fa-solid fa-tags"></i> <span class="label">Procucts </span>
+      </button>
+      <button class="button" [class.active] = "selected_button == 5" (click)="onMenuButtonClicked(5)">
+        <i class="icon fa-solid fa-comments"></i> <span class="label"> Messages</span>
+      </button>
+      <button class="button" [class.active] = "selected_button == 6" (click)="onMenuButtonClicked(6)">
+        <i class="icon fa-solid fa-gear"></i> <span class="label">Sittings</span> 
+      </button>
+      <button class="button">
+        <i class="icon fa-solid fa-right-from-bracket"></i> <span class="label"> Log out</span>
+      </button>
+    </div>
+</div>
