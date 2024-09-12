@@ -1,0 +1,17 @@
+<!-- @if (is_form_dialog_open){ -->
+    <app-client-form (close)="close_form_dialog()" #dialog></app-client-form>
+<!-- } -->
+
+<div class="clients-container">
+    <div class="list-header">
+        <button class="primary-button button-with-icon" (click)="on_add_client()">
+            <i class="fa-solid fa-plus"></i>
+            <span> new client </span>
+        </button>
+    </div>
+    @for(client of clients(); track client.id){
+        <app-client [client] = "client"></app-client>
+    }
+</div>
+
+

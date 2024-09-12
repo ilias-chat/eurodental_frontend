@@ -1,9 +1,15 @@
 *{
+    /* --background-color: #f2f3f7; */
     --background-color: #E9ECF5;
-    --text-color: #696F7E;
+    --secondary-background-color: #f2f3f7;
+    --text-color: #4B4F6E;
+    --secondary-text-color:rgb(210, 211, 230);
     --main-color: #4264D0;
     --secondary-color: #728DE4;
     --third-color: #fff;
+
+    --danger-color: #EF7373;
+    --danger-color-secondary: #FCEAEA;
 
     box-sizing: border-box;
 }
@@ -32,8 +38,123 @@ body{
 .side {
   grid-area: side;
   padding: 1rem;
+  position: fixed;
+  height: 100%;
 }
 
 .nav{
     grid-area: nav;
+}
+
+button{
+    cursor: pointer;
+}
+
+.primary-button{
+    background-color: var(--main-color);
+    color: var(--third-color);
+    border: none;
+    padding: .7rem 1.25rem;
+    border-radius: .5rem;
+}
+
+.primary-button:hover{
+    opacity: .9;
+}
+
+.icon-button{
+    border: none;
+    padding: .5rem;
+    border-radius: .5rem;
+    font-size: 16px;
+}
+
+.icon-button-primary{
+    background-color: transparent;
+    color: var(--text-color);
+}
+
+
+.icon-button-primary:hover{
+    background-color: var(--main-color);
+    color: var(--third-color);
+    
+    /* border: 1px var(--text-color) solid; */
+}
+
+.icon-button-danger{
+    background-color: var(--danger-color);
+    color: var(--third-color);
+}
+
+.icon-button-danger:hover{
+    opacity: .9;
+}
+
+.button-with-icon{
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    align-items: center;
+}
+
+dialog{
+    padding: 0;
+    overflow: hidden;
+    width: 60%;
+    background-color: var(--secondary-background-color);
+    border: 1px solid var(--secondary-text-color);
+    border-radius: 1rem;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.dialog-header{
+    padding: 1rem 2rem;
+    border-bottom: 1px solid var(--secondary-text-color);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dialog-footer{
+    padding: 1rem 2rem;
+    border-top: 1px solid var(--secondary-text-color);
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+}
+
+.dialog-title{
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--text-color);
+}
+
+.dialog-form{
+    padding: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    height: 60vh;
+    overflow-y: scroll;
+}
+
+input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    font-size: 16px;
+}
+  
+/* Input when focused */
+input:focus {
+    border-color: var(--main-color); /* Blue border when focused */
+    outline: none; /* Remove default outline */
+    box-shadow: 0 0 5px rgba(66, 100, 208, 0.25); /* Light blue glow around input */
+}
+
+dialog[open]::backdrop {
+    background-color: rgb(0 0 0 / 25%);
 }

@@ -1,0 +1,17 @@
+#colse-dialog{
+    /* font-size: 20px; */
+    padding: .5rem .7em;
+}
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-group input {
+    margin-bottom: 20px;
+  }
+
+  dialog::backdrop {
+    background: rgba(0, 0, 0, 0.4);
+  }
