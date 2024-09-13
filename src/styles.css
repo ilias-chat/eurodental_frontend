@@ -10,6 +10,8 @@
     --danger-color: #EF7373;
     --danger-color-secondary: #FCEAEA;
 
+    --menu-width: 200px;
+
     box-sizing: border-box;
 }
 
@@ -25,7 +27,7 @@ body{
     grid-template-areas:
         "side nav"
         "side main";
-    grid-template-columns: 200px 1fr;
+    grid-template-columns: auto 1fr;
     grid-template-rows: 60px 1fr;
     height: 100vh;
 }
@@ -37,8 +39,9 @@ body{
 .side {
   grid-area: side;
   padding: 1rem;
-  position: fixed;
+  /* position: fixed; */
   height: 100%;
+  width: 100%;
 }
 
 .nav{

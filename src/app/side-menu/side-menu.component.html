@@ -1,4 +1,7 @@
-<div class="side-menu">
+<div class="side-menu" [class.menu-closed]="is_menu_closed===true">
+    <button class="menu-btn" (click)="on_btn_menu_cliked($event)">
+      <i class="fa-solid fa-angles-left"></i>
+    </button>
     <div class="logo">Logo</div>
     <div class="buttons">
       <button class="button" [class.active] = "selected_button == 1" (click)="onMenuButtonClicked(1)">

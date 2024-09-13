@@ -1,4 +1,5 @@
 .side-menu {
+  position: relative;
     display: grid;
     grid-template-rows: 60px 1fr auto;
     padding: 1rem;
@@ -47,3 +48,30 @@
     .button:last-child {
       margin-top: auto; /* Pushes the last button to the bottom */
     }
+
+.menu-btn{
+  position: absolute;
+  right: -20%;
+  color: var(--main-color);
+  background-color: transparent;
+  border: none;
+  font-size: medium;
+  transition: .2s ease;
+}
+
+.menu-closed>.menu-btn{
+  right: -40%;
+}
+
+.menu-closed>.buttons>.button>span{
+  display: none;
+}
+
+.menu-closed>.buttons>.button{
+  padding: .75rem;
+  justify-content: center;
+}
+
+.rotate{
+  transform: rotate(180deg);
+}
