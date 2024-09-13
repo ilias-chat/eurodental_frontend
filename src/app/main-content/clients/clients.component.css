@@ -11,6 +11,14 @@
     gap: 1rem;
 }
 
+.list-footer{
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: 1rem;
+}
+
 .new{
     background-color: var(--main-color);
     color: var(--third-color);

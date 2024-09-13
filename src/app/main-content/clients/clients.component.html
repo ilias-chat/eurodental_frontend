@@ -1,6 +1,4 @@
-<!-- @if (is_form_dialog_open){ -->
-    <app-client-form (close)="close_form_dialog()" #dialog></app-client-form>
-<!-- } -->
+<app-client-form></app-client-form>
 
 <div class="clients-container">
     <div class="list-header">
@@ -12,6 +10,15 @@
     @for(client of clients(); track client.id){
         <app-client [client] = "client"></app-client>
     }
+    <div class="list-footer">
+        <button class="primary-button icon-button" (click)="on_previous_btn_clicked()">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+        page {{ current_page() }}/{{ total_pages() }}
+        <button class="primary-button icon-button" (click)="on_next_btn_clicked()">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    </div>
 </div>
 
 
