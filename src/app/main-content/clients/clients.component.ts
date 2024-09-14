@@ -17,7 +17,7 @@ export class ClientsComponent {
   all_clients!:Client[];
   clients = signal<Client[]>([]);
   current_page = signal<number>(1);
-  lines_per_page:number = 1;
+  lines_per_page:number = 5;
   total_pages = signal<number>(1);
   total_clients = signal<number>(0);
 
@@ -83,5 +83,13 @@ export class ClientsComponent {
       this.total_pages.set(Math.trunc(this.total_clients()/this.lines_per_page)+1);
 
     if (this.total_pages() === 0) this.total_pages.set(1);
+  }
+
+  on_reset_filter_click(){
+    this.search_input.nativeElement.value = '';
+    this.combo_city.nativeElement.value = '';
+
+    this.all_clients = this.clientsService.filter('','');
+    this.reset_clients_list();
   }
 }
