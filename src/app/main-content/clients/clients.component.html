@@ -2,6 +2,16 @@
 
 <div class="clients-container">
     <div class="list-header">
+        <input #search_input type="text" class="search-input" 
+        placeholder="Search by name" (keyup)="on_search_input_keyup()">
+        <select #combo_city class="combo-city" (change)="on_combo_city_change()">
+            <option value=""></option>
+            <option value="Tanger">Tanger</option>
+            <option value="Casa">Casa</option>
+            <option value="Rabat">Rabat</option>
+            <option value="Fes">Fes</option>
+        </select>
+          
         <button class="primary-button button-with-icon" (click)="on_add_client()">
             <i class="fa-solid fa-plus"></i>
             <span> new client </span>
@@ -11,11 +21,15 @@
         <app-client [client] = "client"></app-client>
     }
     <div class="list-footer">
-        <button class="primary-button icon-button" (click)="on_previous_btn_clicked()">
+        <span class="total">total clients: {{ total_clients() }}</span>
+
+        <button class="primary-button icon-button" (click)="on_previous_btn_clicked()"
+        [disabled]="current_page() === 1">
             <i class="fa-solid fa-angle-left"></i>
         </button>
         page {{ current_page() }}/{{ total_pages() }}
-        <button class="primary-button icon-button" (click)="on_next_btn_clicked()">
+        <button class="primary-button icon-button" (click)="on_next_btn_clicked()"
+        [disabled]="current_page() === total_pages()">
             <i class="fa-solid fa-angle-right"></i>
         </button>
     </div>

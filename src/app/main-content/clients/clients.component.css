@@ -7,8 +7,20 @@
     padding: 1rem 0;
     display: flex;
     align-items: center;
-    justify-content: end;
+    justify-content: start;
     gap: 1rem;
+}
+
+.list-header>button{
+    margin-left: auto;
+}
+
+.combo-city{
+    width: 200px;
+}
+
+.search-input{
+    width: 300px;
 }
 
 .list-footer{
@@ -25,4 +37,9 @@
     border: none;
     padding: .5rem 1rem;
     border-radius: .5rem;
+}
+
+.total{
+    margin-right: auto;
+    color: var(--text-color);
 }

@@ -23,7 +23,7 @@ export class ClientsService {
               fixed_phone_number: '+05 67 87 89 09 78',
               image_path: 'https://randomuser.me/api/portraits/men/1.jpg',
               adresse: '',
-              city: 'Tangier'
+              city: 'Tanger'
             },
             {
               id: 2,
@@ -34,7 +34,7 @@ export class ClientsService {
               fixed_phone_number: '+05 67 87 89 09 78',
               image_path: 'https://randomuser.me/api/portraits/women/2.jpg',
               adresse: '',
-              city: 'Tangier'
+              city: 'Tanger'
             },
             {
               id: 3,
@@ -78,10 +78,28 @@ export class ClientsService {
               fixed_phone_number: '+05 67 87 89 09 78',
               image_path: 'https://randomuser.me/api/portraits/men/6.jpg',
               adresse: '',
-              city: 'Tangier'
+              city: 'Tanger'
             }
         ];
           
+    }
+
+    filter(name:string, city:string){
+      if(name != '' && city != ''){
+        return this.clients().filter((client)=>{
+          return (client.first_name.toLowerCase().includes(name) || client.last_name.toLowerCase().includes(name))
+            && client.city.toLowerCase() === city.toLowerCase();
+        });
+      } else if (name != ''){
+        return this.clients().filter((client)=>{
+          return (client.first_name.toLowerCase().includes(name) || client.last_name.toLowerCase().includes(name));
+        });
+      } else if (city != ''){
+        return this.clients().filter((client)=>{
+          return client.city.toLowerCase() === city.toLowerCase();
+        });
+      }
+      else return this.clients();
     }
 
 }
