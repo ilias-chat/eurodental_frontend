@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { Client } from '../client.model';
 
 @Component({
@@ -10,4 +10,9 @@ import { Client } from '../client.model';
 })
 export class ClientComponent {
   @Input({required:true}) client!:Client;
+  @Output() edit = new EventEmitter<Client>();
+
+  on_edit_btn_click(){
+    this.edit.emit(this.client);
+  }
 }

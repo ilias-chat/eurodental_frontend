@@ -92,4 +92,20 @@ export class ClientsComponent {
     this.all_clients = this.clientsService.filter('','');
     this.reset_clients_list();
   }
+
+  on_form_submit(client:Client){
+    console.log(client);
+    if(client.id === 0){
+      client.id = this.clientsService.add(client);
+      this.all_clients.push(client);
+      this.reset_clients_list();
+    } else {
+      this.clientsService.edit(client);
+    }
+  }
+
+  on_client_edit(client:Client){
+    this.client_form_component.init_form(client);
+    this.client_form_component.open_dialog();
+  }
 }

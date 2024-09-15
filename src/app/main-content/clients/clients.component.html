@@ -1,4 +1,4 @@
-<app-client-form></app-client-form>
+<app-client-form (submit)="on_form_submit($event)"></app-client-form>
 
 <div class="clients-container">
     <div class="list-header">
@@ -19,7 +19,7 @@
         </button>
     </div>
     @for(client of clients(); track client.id){
-        <app-client [client] = "client"></app-client>
+        <app-client [client] = "client" (edit)="on_client_edit($event)"></app-client>
     }
     <div class="list-footer">
         <span class="total">total clients: {{ total_clients() }}</span>

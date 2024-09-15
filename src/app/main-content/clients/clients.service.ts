@@ -102,4 +102,23 @@ export class ClientsService {
       else return this.clients();
     }
 
+
+  add(client:Client){
+    client.id = this.clients().length + 1;
+    console.log(client.id)
+    this.clients.set([...this.clients(),client]);
+    return client.id;
+  }
+
+  edit(client:Client){
+    this.clients.set(
+      this.clients().map((cl) => {
+        if (cl.id === client.id) {
+          return client;
+        }
+        return cl;
+      })
+    ); 
+  }
+
 }

@@ -11,50 +11,50 @@
         <div>
             <div class="form-group">
             <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name" required>
+            <input type="text" id="first_name" name="first_name" required [(ngModel)]="selected_client.first_name">
             </div>
         
             <div class="form-group">
             <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name" required>
+            <input type="text" id="last_name" name="last_name" required [(ngModel)]="selected_client.last_name">
             </div>
         
             <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" required [(ngModel)]="selected_client.email">
             </div>
         
             <div class="form-group">
             <label for="phone_number">Phone Number</label>
-            <input type="tel" id="phone_number" name="phone_number" required>
+            <input type="tel" id="phone_number" name="phone_number" required [(ngModel)]="selected_client.phone_number">
             </div>
         
             <div class="form-group">
             <label for="fixed_phone_number">Fixed Phone Number</label>
-            <input type="tel" id="fixed_phone_number" name="fixed_phone_number" required>
+            <input type="tel" id="fixed_phone_number" name="fixed_phone_number" required [(ngModel)]="selected_client.phone_number">
             </div>        
         </div>
 
         <div>      
             <div class="form-group">
                 <label for="image_path">Image URL</label>
-                <input type="url" id="image_path" name="image_path">
+                <input type="url" id="image_path" name="image_path" [(ngModel)]="selected_client.image_path">
             </div>
         
             <div class="form-group">
                 <label for="city">City</label>
-                <input type="text" id="city" name="city" required>
+                <input type="text" id="city" name="city" required [(ngModel)]="selected_client.city">
             </div>
 
             <div class="form-group">
                 <label for="adresse">Address</label>
-                <input type="text" id="adresse" name="adresse" required>
+                <input type="text" id="adresse" name="adresse" required [(ngModel)]="selected_client.adresse">
             </div>
   
         </div>
 
     </form>
     <div class="dialog-footer">
-        <button type="submit" class="primary-button">Submit</button>
+        <button type="submit" class="primary-button" (click)="on_save_btn_click()">Save</button>
     </div>
   </dialog>
