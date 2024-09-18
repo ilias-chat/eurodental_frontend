@@ -106,6 +106,8 @@ export class ClientsComponent {
       client.id = this.clientsService.add(client);
       this.all_clients.set([...this.all_clients(),client]);
       this.reset_clients_list();
+
+      this.ToastsService.add("Client have been created successfully", "success");
     } else {
       this.clientsService.edit(client);
 
@@ -117,8 +119,10 @@ export class ClientsComponent {
         })
       );
       this.reset_clients_list();
+
+      this.ToastsService.add("Changes have been saved successfully", "success");
     }
-    this.ToastsService.add("good", "success");
+
   }
 
   on_client_edit(client:Client){

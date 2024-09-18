@@ -5,6 +5,7 @@
     border-radius: 1rem;
     display: flex;
     gap: 1rem;
+    animation: show .3s ease-in-out;
 }
 
 .toast>button{
@@ -59,4 +60,19 @@
 
 .warning>button{
     color: var(--warning-color-darker);
+}
+
+@keyframes show{
+    0%{
+        transform: translateX(100%);
+    }
+    40%{
+        transform: translateX(-1%);
+    }
+    80%{
+        transform: translateX(0%);
+    }
+    100%{
+        transform: translateX(-1%);
+    }
 }
