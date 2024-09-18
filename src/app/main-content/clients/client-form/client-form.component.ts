@@ -22,26 +22,13 @@ export class ClientFormComponent {
     image_path: '',
   };
   @ViewChild('dialog') client_dialog!:ElementRef<HTMLDialogElement>;
-  // @ViewChild('form') client_form!:ElementRef<HTMLFormElement>;
+  @ViewChild('form') client_form!:ElementRef<HTMLFormElement>;
   
   @Output() submit = new EventEmitter<Client>();
 
-  // inpute variables
-  entered_firstname:string='';
-  entered_lastname:string='';
-  entered_email:string='';
-  entered_phone_number:string='';
-  entered_fixed_number:string='';
-  entered_adresse:string='';
-  entered_city:string='';
-  entered_image_path:string='';
-
-  ngOnInit(){
-    //this.selected_client.first_name = 'haha';
-  }
-
   on_close(){
     this.close_dialog();
+    this.client_form.nativeElement.reset()
     this.reset_selected_client();
   }
 
@@ -54,7 +41,7 @@ export class ClientFormComponent {
   }
 
   on_save_btn_click(){
-    this.submit.emit(this.selected_client);
+    this.submit.emit({ ...this.selected_client});
     this.on_close();
     this.reset_selected_client();
   }
@@ -82,6 +69,22 @@ export class ClientFormComponent {
 
     if (input?.files && input.files[0]) {
       this.selected_client.image_path = URL.createObjectURL(input.files[0]);
+    }
+  }
+
+  on_img_selector_dragover(event:DragEvent){
+    event.preventDefault();
+  }
+
+  on_img_selector_drop(event:DragEvent, img_input:HTMLInputElement){
+    event.preventDefault();
+
+    // Access the dataTransfer object
+    const files = event.dataTransfer?.files;
+
+    if (files) {
+      img_input.files = files;
+      this.selected_client.image_path = URL.createObjectURL(img_input.files[0]);
     }
   }
 }

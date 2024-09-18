@@ -157,7 +157,8 @@ dialog{
     overflow-y: scroll;
 }
 
-input {
+input,
+textarea {
     width: 100%;
     padding: 0.375rem 0.75rem;
     border: 1px solid #ced4da;
@@ -168,6 +169,7 @@ input {
 }
   
 /* Input when focused */
+textarea:focus,
 input:focus,
 select:focus {
     border-color: var(--main-color); /* Blue border when focused */
