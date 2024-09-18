@@ -74,6 +74,14 @@ export class ClientFormComponent {
   }
 
   init_form(client:Client){
-    this.selected_client = client;
+    this.selected_client = { ...client };
+  }
+
+  on_img_input_change(event:Event){
+    const input = event.target as HTMLInputElement;
+
+    if (input?.files && input.files[0]) {
+      this.selected_client.image_path = URL.createObjectURL(input.files[0]);
+    }
   }
 }

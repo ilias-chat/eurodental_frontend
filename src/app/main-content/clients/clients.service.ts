@@ -105,7 +105,6 @@ export class ClientsService {
 
   add(client:Client){
     client.id = this.clients().length + 1;
-    console.log(client.id)
     this.clients.set([...this.clients(),client]);
     return client.id;
   }

@@ -1,4 +1,4 @@
-<dialog #dialog>
+<dialog #dialog open>
     <div class="dialog-header">
         <span class="dialog-title">
             add new client
@@ -37,8 +37,17 @@
 
         <div>      
             <div class="form-group">
-                <label for="image_path">Image URL</label>
-                <input type="url" id="image_path" name="image_path" [(ngModel)]="selected_client.image_path">
+                <label for="image_path">Picture</label>
+                <label class="image-selector" for="image-upload">
+                    <img class="image-view" src="{{ selected_client.image_path }}" alt=""
+                    [class.hidden] = "selected_client.image_path == ''">
+                    <div class="upload-text" [class.hidden] = "selected_client.image_path != ''">
+                        <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
+                        <p>Click here or drag and drop <br> to upload image</p>
+                    </div>
+                    <input type="file" id="image-upload" accept="image/*" hidden (change)="on_img_input_change($event)">
+                </label>
+                <!-- <input type="url" id="image_path" name="image_path" [(ngModel)]="selected_client.image_path"> -->
             </div>
         
             <div class="form-group">

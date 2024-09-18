@@ -18,7 +18,7 @@
             <span> new client </span>
         </button>
     </div>
-    @for(client of clients(); track client.id){
+    @for(client of clients; track client.id){
         <app-client [client] = "client" (edit)="on_client_edit($event)"></app-client>
     }
     <div class="list-footer">
