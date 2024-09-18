@@ -3,15 +3,18 @@ import { ClientsService } from './clients.service';
 import { Client } from './client.model';
 import { ClientComponent } from './client/client.component';
 import { ClientFormComponent } from "./client-form/client-form.component";
+import { ToastsContainerComponent } from '../../shared/toasts-container/toasts-container.component';
+import { ToastsService } from '../../shared/toasts-container/toast.service';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [ClientComponent, ClientFormComponent],
+  imports: [ClientComponent, ClientFormComponent, ToastsContainerComponent],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
 export class ClientsComponent {
+  private ToastsService = inject(ToastsService);
   private clientsService = inject(ClientsService);
   @ViewChild(ClientFormComponent) client_form_component!:ClientFormComponent;
   all_clients = signal<Client[]>([]);
@@ -115,6 +118,7 @@ export class ClientsComponent {
       );
       this.reset_clients_list();
     }
+    this.ToastsService.add("good", "success");
   }
 
   on_client_edit(client:Client){

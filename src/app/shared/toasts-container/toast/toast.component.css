@@ -1,0 +1,62 @@
+.toast{
+    position: relative;
+    padding: 1rem;
+    overflow: hidden;
+    border-radius: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.toast>button{
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    border: none;
+    width: 2rem;
+    background-color: rgb(0, 0, 0, .033);
+}
+
+.toast>button:hover{
+    background-color: rgb(0, 0, 0, .066);
+}
+
+.danger{
+    border: 1px solid var(--danger-color);
+    background-color: var(--danger-color-lighter);
+    color: var(--danger-color-darker);
+}
+
+.danger>button{
+    color: var(--danger-color-darker);
+}
+
+.success{
+    border: 1px solid var(--success-color);
+    background-color: var(--success-color-lighter);
+    color: var(--success-color-darker);
+}
+
+.success>button{
+    color: var(--success-color-darker);
+}
+
+.info{
+    border: 1px solid var(--info-color);
+    background-color: var(--info-color-lighter);
+    color: var(--info-color-darker);
+}
+
+.info>button{
+    color: var(--info-color-darker);
+}
+
+.warning{
+    border: 1px solid var(--warning-color);
+    background-color: var(--warning-color-lighter);
+    color: var(--warning-color-darker);
+}
+
+.warning>button{
+    color: var(--warning-color-darker);
+}

@@ -10,6 +10,7 @@ import { Client } from '../client.model';
   styleUrl: './client-form.component.css'
 })
 export class ClientFormComponent {
+  
   selected_client:Client = {
     id: 0,
     first_name: '',

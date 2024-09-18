@@ -1,0 +1,19 @@
+<div class="toast" 
+[class.success] = "toast.type === 'success'"
+[class.info] = "toast.type === 'info'"
+[class.warning] = "toast.type === 'warning'"
+[class.danger] = "toast.type === 'danger'">
+    @if(toast.type === 'danger'){
+        <i class="fa-solid fa-circle-exclamation"></i>
+    }@else if (toast.type === 'warning') {
+        <i class="fa-solid fa-circle-exclamation"></i>
+    }@else if (toast.type === 'success') {
+        <i class="fa-solid fa-circle-check"></i>
+    }@else if (toast.type === 'info') {
+        <i class="fa-solid fa-circle-info"></i>
+    }
+    <span>{{ toast.message }}</span>
+    <button (click)="on_close_btn_click()">
+        <i class="fa-solid fa-xmark"></i>
+    </button>
+</div>

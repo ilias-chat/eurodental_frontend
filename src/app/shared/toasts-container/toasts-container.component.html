@@ -1,0 +1,5 @@
+<div class="toast-container">
+    @for (toast of toasts(); track $index) {
+        <app-toast [toast] = "toast" (close)="on_toast_close($event)"></app-toast>
+    }
+</div>
