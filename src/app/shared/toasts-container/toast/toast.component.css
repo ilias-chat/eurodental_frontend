@@ -5,7 +5,7 @@
     border-radius: 1rem;
     display: flex;
     gap: 1rem;
-    animation: show .3s ease-in-out;
+    animation: show .3s ease-in-out, disapear .1s ease-out 3.85s;
 }
 
 .toast>button{
@@ -74,5 +74,17 @@
     }
     100%{
         transform: translateX(-1%);
+    }
+}
+
+@keyframes disapear{
+    0%{
+        transform: translateX(0%);
+    }
+    40%{
+        transform: translateX(-1%);
+    }
+    100%{
+        transform: translateX(100%);
     }
 }
