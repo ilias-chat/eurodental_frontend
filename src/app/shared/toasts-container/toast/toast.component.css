@@ -2,7 +2,7 @@
     position: relative;
     padding: 1rem;
     overflow: hidden;
-    border-radius: 1rem;
+    border-radius: .25rem;
     display: flex;
     gap: 1rem;
     animation: show .3s ease-in-out, disapear .1s ease-out 3.85s;

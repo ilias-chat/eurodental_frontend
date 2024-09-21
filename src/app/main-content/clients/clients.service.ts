@@ -9,7 +9,7 @@ export class ClientsService {
     all_clients = this.clients.asReadonly();
 
     constructor(){
-        this.clients.set(this.get_all());
+      this.clients.set(this.get_all());
     }
 
     get_all(){

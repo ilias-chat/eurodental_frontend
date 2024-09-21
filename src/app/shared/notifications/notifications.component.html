@@ -1,0 +1,34 @@
+<div class="backdrop" [class.show-backdrop]="!is_closed">
+    <div class="notifications-dialog" [class.show-dialog]="!is_closed">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                notifications
+            </span>
+            <button class="icon-button icon-button-danger" (click)="close_dialog()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="notifications">
+            @for (notification of notifications; track notification.id) {
+                <div class="notification">
+                    <img src="{{ notification.icon }}" alt="" class="image">
+                    <div class="content">
+                        <div>
+                            <span class="title">
+                                {{ notification.title }}
+                            </span>
+                            <span class="date">
+                                {{ notification.creation_time }}
+                            </span>
+                        </div>
+                        <span class="description">
+                            {{ notification.description }}
+                        </span>
+                    </div>
+                </div>
+                <!-- <app-notification [notification] = "notifications"></app-notification> -->
+            }
+        </div>
+      </div>
+</div>
+
