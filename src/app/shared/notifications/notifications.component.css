@@ -10,7 +10,7 @@
 
 .show-backdrop{
     display: block;
-    animation: show 1s ease;
+    animation: show-backdrop .2s ease;
  }
  
  @keyframes show-backdrop{
@@ -40,7 +40,7 @@
 }
 
 .show-dialog{
-    animation: show .5s ease;
+    animation: show-dialog .2s ease;
 }
 
 @keyframes show-dialog{
