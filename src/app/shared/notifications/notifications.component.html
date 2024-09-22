@@ -1,4 +1,4 @@
-<div class="backdrop" [class.show-backdrop]="!is_closed">
+<div class="backdrop" [class.show-backdrop]="!is_closed" (click)="close_dialog()">
     <div class="notifications-dialog" [class.show-dialog]="!is_closed">
         <div class="dialog-header">
             <span class="dialog-title">

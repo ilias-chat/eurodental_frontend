@@ -14,17 +14,17 @@ import { NotificationsService } from './notifications.service';
 export class NotificationsComponent {
   is_closed:boolean = true;
   private notifications_service = inject(NotificationsService);
+  
   notifications!:My_notification[];
 
   ngOnInit(){
     this.notifications = this.notifications_service.all();
-    console.log(this.notifications);
+    this.notifications_service.non_seen_count.set(this.notifications.filter((n)=>n.seen===false).length);
+    console.log(this.notifications_service.non_seen_count());
   }
 
   open_dialog(){
     this.is_closed = false;
-
-    console.log('open');
   }
 
   close_dialog(){

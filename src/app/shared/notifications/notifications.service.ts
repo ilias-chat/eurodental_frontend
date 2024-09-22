@@ -1,11 +1,12 @@
-import { Injectable } from "@angular/core";
-import { My_notification } from "./my_notification.model";
+import { Injectable, signal } from "@angular/core";
 
 @Injectable({
     providedIn:'root'
 })
 export class NotificationsService{
 
+    non_seen_count = signal<number>(0);
+    
     getRandomDate() {
         const start = new Date(0).getTime();
         const end = Date.now();
@@ -51,7 +52,7 @@ export class NotificationsService{
                 icon:'https://via.placeholder.com/36',
                 description:'description for notification 04',
                 creation_time:  this.getRandomDate(),
-                seen:true,
+                seen:false,
             }
         ];
     }
