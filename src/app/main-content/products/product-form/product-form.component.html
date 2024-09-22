@@ -1,0 +1,101 @@
+<dialog #dialog>
+    <div class="dialog-header">
+        <span class="dialog-title">
+            add new product
+        </span>
+        <button id="colse-dialog" class="icon-button icon-button-danger" (click)="on_close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <form class="dialog-form" #form>
+        <div>
+            <div class="form-group">
+                <label for="image_path">Picture</label>
+                <label class="image-selector" for="image-upload" style="margin-bottom: 20px;"
+                (drop)="on_img_selector_drop($event, img_input)"
+                (dragover)="on_img_selector_dragover($event)">
+                    <img class="image-view" src="{{ selected_product.image_path }}" alt=""
+                    [class.hidden] = "selected_product.image_path == ''">
+                    <div class="upload-text" [class.hidden] = "selected_product.image_path != ''">
+                        <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
+                        <p>Click here or drag and drop <br> to upload image</p>
+                    </div>
+                    <input #img_input type="file" id="image-upload" accept="image/*" (change)="on_img_input_change($event)" hidden>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="product_name">Name</label>
+                <input type="text" id="product_name" name="product_name" required [(ngModel)]="selected_product.product_name">
+            </div>
+
+            <div class="form-group">
+                <label for="categorie">Categorie</label>
+                <select name="categorie" [(ngModel)]="selected_product.categorie">
+                    <option value=""></option>
+                    <option value="Electronics">Electronics</option>
+                    <option value="Categorie B">Categorie B</option>
+                    <option value="Categorie C">Categorie C</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="sub_categorie">Sub-categorie</label>
+                <select name="sub_categorie" [(ngModel)]="selected_product.sub_categorie">
+                    <option value=""></option>
+                    <option value="Computers">Computers</option>
+                    <option value="Wearables">Wearables</option>
+                    <option value="Audio">Audio</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="brand">Brand</label>
+                <select name="brand" [(ngModel)]="selected_product.brand">
+                    <option value=""></option>
+                    <option value="Brand A">Brand A</option>
+                    <option value="Brand B">Brand B</option>
+                    <option value="Brand C">Brand C</option>
+                    <option value="Brand D">Brand D</option>
+                    <option value="Brand E">Brand E</option>
+                </select>
+            </div>
+        </div>
+
+        <div> 
+            <div class="form-group">
+                <label for="stock_quantity">Stock's quantity</label>
+                <input type="number" id="stock_quantity" name="stock_quantity" required [(ngModel)]="selected_product.stock_quantity">
+            </div>
+
+            <div class="form-group">
+                <label for="price">Price</label>
+                <input type="number" step=".1" id="price" name="price" required [(ngModel)]="selected_product.price">
+            </div>
+
+            <div class="form-group">
+                <label for="has_warranty">Has warranty</label>
+                <label class="checkbox-container">
+                    <input type="checkbox" name="has_warranty" [(ngModel)]="selected_product.has_warranty">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+
+            <div class="form-group">
+                <label for="warranty_duration_months">Warranty duration by months</label>
+                <input type="number" name="warranty_duration_months" required 
+                [(ngModel)]="selected_product.warranty_duration_months" [disabled]="!selected_product.has_warranty">
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" required [(ngModel)]="selected_product.description">
+                </textarea>
+            </div>
+        </div>
+
+    </form>
+    <div class="dialog-footer">
+        <button type="submit" class="primary-button" (click)="on_save_btn_click()">Save</button>
+    </div>
+  </dialog>

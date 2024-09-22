@@ -29,8 +29,8 @@ export class ClientFormComponent {
 
   on_close(){
     this.close_dialog();
-    this.client_form.nativeElement.reset()
     this.reset_selected_client();
+    this.client_form.nativeElement.reset();
   }
 
   open_dialog(){

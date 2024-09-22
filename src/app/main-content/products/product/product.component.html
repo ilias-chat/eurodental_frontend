@@ -1,0 +1,43 @@
+
+
+<div class="product-card">
+    <label class="checkbox-container">
+        <input type="checkbox">
+        <span class="checkmark"></span>
+    </label>
+    <div class="card-header">
+        <img src="{{product.image_path}}" alt="product image" class="product-img">
+        <div class="text">
+            <span class="product-name">
+                {{product.product_name}}
+            </span>
+            <span class="product-city">
+                {{ product.brand }}
+            </span>
+        </div>
+    </div>
+    <div class="column">
+        <div class="line">
+            <!-- <i class="fa-solid fa-envelope"></i> -->
+            <b> categorie: </b>
+            <span>{{ product.categorie }} </span>
+        </div>
+        <div class="line">
+            <!-- <i class="fa-solid fa-mobile-screen-button"></i> -->
+            <b> sub-categorie:</b>
+            <span> {{ product.sub_categorie }} </span>
+        </div>
+    </div>
+    <div class="price">
+        <span>{{ product.price }} DH</span>
+    </div>
+    <div class="btns">
+        <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+        <button class="icon-button icon-button-primary"><i class="fa-solid fa-up-right-from-square"></i></button>
+    </div>
+    </div>
+ 
+ 
+
+
+  

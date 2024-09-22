@@ -27,8 +27,10 @@ button{
 }
 
 .text{
-    display: grid;
-    grid-template-rows: 1fr 1fr;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
 }
 
 .primary-text{
@@ -40,7 +42,9 @@ button{
 .secondary-text{
     font-size: 14px;
     color: var(--text-color);
+    font-size: .8rem;
 }
+
 img{
     height: 100%;
     border-radius: 50%;

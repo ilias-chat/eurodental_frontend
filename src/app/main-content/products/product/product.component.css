@@ -1,4 +1,4 @@
-.client-card{
+.product-card{
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -8,13 +8,9 @@
     color: var(--text-color);
     border: 1px var(--secondary-text-color) solid;
     border-radius: .5rem;
-    /* display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    align-items: center;
-    justify-content: left; */
 }
 
-.client-card:hover{
+.product-card:hover{
     background-color: var(--secondary-background-color);
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
 }
@@ -26,7 +22,7 @@
     gap: .25rem;
 }
 
-.client-card>div:last-child{
+.product-card>div:last-child{
     margin-left: auto;
 }
 
@@ -43,40 +39,47 @@
     justify-content: center;
 }
 
-.client-name{
+.product-name{
     font-weight: bold;
     color: var(--text-color);
     /* align-self: st; */
 }
 
-.client-city{
+.product-city{
     color: var(--text-color);
     font-size: 14px;
 }
 
-.client-img {
+.product-img {
     width: 36px;
     height: 36px;
     object-fit: cover;
     border-radius: 50%;
 }
 
-.contacts{
+.column{
     width: 250px;
     display: flex;
     flex-direction: column;
     gap: .1rem;
 }
 
-.client-email,
-.client-phone{
-    display: flex;
-    gap: .1rem;
+.line{
+    display: grid;
+    grid-template-columns: 8rem 1fr;
 }
 
-.client-email>i,
-.client-phone>i{
-width: 1.3rem;
-text-align: center;
+.price{
+    width: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.price>span{
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+    background-color: var(--secondary-color);
+    color: var(--secondary-background-color);
 }
 
