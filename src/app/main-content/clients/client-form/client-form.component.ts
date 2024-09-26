@@ -19,7 +19,7 @@ export class ClientFormComponent {
     phone_number: '',
     fixed_phone_number: '',
     city: '',
-    adresse: '',
+    address: '',
     image_path: '',
   };
   @ViewChild('dialog') client_dialog!:ElementRef<HTMLDialogElement>;
@@ -56,7 +56,7 @@ export class ClientFormComponent {
       phone_number: '',
       fixed_phone_number: '',
       city: '',
-      adresse: '',
+      address: '',
       image_path: '',
     };
   }

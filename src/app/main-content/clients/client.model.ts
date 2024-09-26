@@ -6,6 +6,6 @@ export interface Client {
     phone_number:string,
     fixed_phone_number:string,
     image_path:string,
-    adresse:string,
-    city:string
+    address:string,
+    city:string,
 }

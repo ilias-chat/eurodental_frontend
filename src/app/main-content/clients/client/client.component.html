@@ -2,7 +2,7 @@
 
     <div class="client-card">
     <label class="checkbox-container">
-        <input type="checkbox">
+        <input type="checkbox" [checked]="selected" (change)="on_checkbox_change()">
         <span class="checkmark"></span>
     </label>
     <div class="card-header">

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { Client } from '../client.model';
 
 @Component({
@@ -12,7 +12,15 @@ export class ClientComponent {
   @Input({required:true}) client!:Client;
   @Output() edit = new EventEmitter<Client>();
 
+  @Output() selected_change = new EventEmitter<void>();
+
+  @Input({required:true}) selected:boolean = false;
+
   on_edit_btn_click(){
     this.edit.emit(this.client);
+  }
+
+  on_checkbox_change(){
+    this.selected_change.emit();
   }
 }

@@ -1,5 +1,7 @@
-import { Injectable,signal } from "@angular/core";
+import { Injectable,inject,signal } from "@angular/core";
 import { Client } from "./client.model";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn:'root'
@@ -8,109 +10,54 @@ export class ClientsService {
     private clients = signal<Client[]>([]);
     all_clients = this.clients.asReadonly();
 
-    constructor(){
-      this.clients.set(this.all());
-    }
+    private http_client = inject(HttpClient);
+    private api_url = 'http://35.180.66.24';
 
-    all(){
-        return [
-            {
-              id: 1,
-              first_name: 'John',
-              last_name: 'Doe',
-              email: 'john.doe@example.com',
-              phone_number: '+1-202-555-0171',
-              fixed_phone_number: '+05 67 87 89 09 78',
-              image_path: 'https://randomuser.me/api/portraits/men/1.jpg',
-              adresse: '',
-              city: 'Tanger'
-            },
-            {
-              id: 2,
-              first_name: 'Jane',
-              last_name: 'Smith',
-              email: 'jane.smith@example.com',
-              phone_number: '+1-202-555-0123',
-              fixed_phone_number: '+05 67 87 89 09 78',
-              image_path: 'https://randomuser.me/api/portraits/women/2.jpg',
-              adresse: '',
-              city: 'Tanger'
-            },
-            {
-              id: 3,
-              first_name: 'Emily',
-              last_name: 'Johnson',
-              email: 'emily.johnson@example.com',
-              phone_number: '+1-202-555-0199',
-              fixed_phone_number: '+05 67 87 89 09 78',
-              image_path: 'https://randomuser.me/api/portraits/women/3.jpg',
-              adresse: '',
-              city: 'Casa'
-            },
-            {
-              id: 4,
-              first_name: 'Michael',
-              last_name: 'Brown',
-              email: 'michael.brown@example.com',
-              phone_number: '+1-202-555-0184',
-              fixed_phone_number: '+05 67 87 89 09 78',
-              image_path: 'https://randomuser.me/api/portraits/men/4.jpg',
-              adresse: '',
-              city: 'Casa'
-            },
-            {
-              id: 5,
-              first_name: 'Sophia',
-              last_name: 'Davis',
-              email: 'sophia.davis@example.com',
-              phone_number: '+1-202-555-0175',
-              fixed_phone_number: '+05 67 87 89 09 78',
-              image_path: 'https://randomuser.me/api/portraits/women/5.jpg',
-              adresse: '',
-              city: 'Rabat'
-            },
-            {
-              id: 6,
-              first_name: 'Liam',
-              last_name: 'Wilson',
-              email: 'liam.wilson@example.com',
-              phone_number: '+1-202-555-0157',
-              fixed_phone_number: '+05 67 87 89 09 78',
-              image_path: 'https://randomuser.me/api/portraits/men/6.jpg',
-              adresse: '',
-              city: 'Tanger'
-            }
-        ];
-          
-    }
-
-    filter(name:string, city:string){
-      if(name != '' && city != ''){
-        return this.clients().filter((client)=>{
-          return (client.first_name.toLowerCase().includes(name) || client.last_name.toLowerCase().includes(name))
-            && client.city.toLowerCase() === city.toLowerCase();
-        });
-      } else if (name != ''){
-        return this.clients().filter((client)=>{
-          return (client.first_name.toLowerCase().includes(name) || client.last_name.toLowerCase().includes(name));
-        });
-      } else if (city != ''){
-        return this.clients().filter((client)=>{
-          return client.city.toLowerCase() === city.toLowerCase();
-        });
+  constructor(){
+    this.all().subscribe({
+      next:(respond_data)=>{
+        this.clients.set(respond_data);
       }
-      else return this.clients();
-    }
-
-
-  add(client:Client){
-    client.id = this.clients().length + 1;
-    this.clients.set([...this.clients(),client]);
-    return client.id;
+    });
   }
 
-  edit(client:Client){
-    this.clients.set(
+  all():Observable<Client[]>{
+    return this.http_client.get<Client[]>('http://35.180.66.24/clients');
+  }
+
+  filter(name:string, city:string){
+    if(name != '' && city != ''){
+      return this.clients().filter((client)=>{
+        return (client.first_name.toLowerCase().includes(name) || client.last_name.toLowerCase().includes(name))
+          && client.city.toLowerCase() === city.toLowerCase();
+      });
+    } else if (name != ''){
+      return this.clients().filter((client)=>{
+        return (client.first_name.toLowerCase().includes(name) || client.last_name.toLowerCase().includes(name));
+      });
+    } else if (city != ''){
+      return this.clients().filter((client)=>{
+        return client.city.toLowerCase() === city.toLowerCase();
+      });
+    }
+    else return this.clients();
+  }
+
+  add(client:Client):Observable<Object>{
+    return this.http_client.post(this.api_url + '/clients', client);
+  }
+
+  edit(client:Client):Observable<Object>{
+    return this.http_client.put(this.api_url+'/clients/'+client.id, client);
+  }
+
+  
+  public set add_client(client:Client) {
+    this.clients.set([...this.clients(), client]);
+  }
+
+  public set edit_client(client:Client) {
+     this.clients.set(
       this.clients().map((cl) => {
         if (cl.id === client.id) {
           return client;
@@ -119,5 +66,6 @@ export class ClientsService {
       })
     ); 
   }
+  
 
 }
