@@ -4,20 +4,22 @@ import { ToastsService } from '../../shared/toasts-container/toast.service';
 import { ProductFormComponent } from './product-form/product-form.component';
 import { Product } from './product.model';
 import { ProductComponent } from './product/product.component';
+import { CategoriesComponent } from "./categories/categories.component";
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductFormComponent, ProductComponent],
+  imports: [ProductFormComponent, ProductComponent, CategoriesComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
   private ToastsService = inject(ToastsService);
   private productsService = inject(ProductsService);
+  @ViewChild(CategoriesComponent) cateroies_component!:CategoriesComponent;
   @ViewChild(ProductFormComponent) product_form_component!:ProductFormComponent;
   all_products = signal<Product[]>([]);
-  selected_products_ids = signal<number[]>([1]);
+  selected_products_ids = signal<number[]>([]);
 
   current_page = signal<number>(1);
   lines_per_page:number = 5;
@@ -145,5 +147,9 @@ export class ProductsComponent {
 
   on_list_options_close_btn_click(){
     this.selected_products_ids.set([]);
+  }
+
+  on_sttings_btn_click(){
+    this.cateroies_component.open_dialog();
   }
 }

@@ -16,10 +16,6 @@
 .form-group .checkbox-container{
     margin-bottom: 44px;
 }  
-
-  dialog::backdrop {
-    background: rgba(255, 255, 255, 0.4);
-  }
   
 img{
   border-radius: 50%;

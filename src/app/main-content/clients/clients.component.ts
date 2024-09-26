@@ -18,7 +18,7 @@ export class ClientsComponent {
   private clientsService = inject(ClientsService);
   @ViewChild(ClientFormComponent) client_form_component!:ClientFormComponent;
   all_clients = signal<Client[]>([]);
-  selected_clients_ids = signal<number[]>([1,16,17,2]);
+  selected_clients_ids = signal<number[]>([]);
 
   current_page = signal<number>(1);
   lines_per_page:number = 10;
@@ -124,6 +124,7 @@ export class ClientsComponent {
           client.id = (respond_data as Client).id;
           this.clientsService.add_client = client;
           this.filter_clients();
+          this.reset_and_close_form()
         },
         error:(err)=>{
           this.toasts_service.add(err.message, "danger");
@@ -136,6 +137,7 @@ export class ClientsComponent {
           this.toasts_service.add('Changes have been saved successfully','success');
           this.clientsService.edit_client = client;
           this.filter_clients();
+          this.reset_and_close_form();
         },
         error:(err)=>{
           this.toasts_service.add(err.message,'danger');
@@ -153,7 +155,6 @@ export class ClientsComponent {
 
   on_client_selected_change(param_id:number){
 
-    console.log(param_id);
     if (this.selected_clients_ids().includes(param_id)) {
       this.selected_clients_ids.set(
         this.selected_clients_ids().filter(id => id !== param_id)
@@ -165,5 +166,10 @@ export class ClientsComponent {
 
   on_list_options_close_btn_click(){
     this.selected_clients_ids.set([]);
+  }
+
+  reset_and_close_form(){
+    this.client_form_component.on_close();
+    this.client_form_component.reset_selected_client();
   }
 }

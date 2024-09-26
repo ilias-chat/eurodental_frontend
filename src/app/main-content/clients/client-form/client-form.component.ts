@@ -43,8 +43,6 @@ export class ClientFormComponent {
 
   on_save_btn_click(){
     this.submit.emit({ ...this.selected_client});
-    this.on_close();
-    this.reset_selected_client();
   }
 
   reset_selected_client(){

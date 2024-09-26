@@ -1,4 +1,5 @@
 <app-product-form (submit)="on_form_submit($event)"></app-product-form>
+<app-categories></app-categories>
 
 <div class="products-container">
     <div class="list-header">
@@ -14,6 +15,9 @@
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           
+        <button class="edit icon-button primary-button" (click)="on_sttings_btn_click()">
+            <i class="icon fa-solid fa-gear"></i>
+        </button>
         <button class="primary-button button-with-icon" (click)="on_add_product()">
             <i class="fa-solid fa-plus"></i>
             <span> new product </span>
