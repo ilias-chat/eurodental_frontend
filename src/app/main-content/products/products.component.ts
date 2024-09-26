@@ -17,6 +17,7 @@ export class ProductsComponent {
   private productsService = inject(ProductsService);
   @ViewChild(ProductFormComponent) product_form_component!:ProductFormComponent;
   all_products = signal<Product[]>([]);
+  selected_products_ids = signal<number[]>([1]);
 
   current_page = signal<number>(1);
   lines_per_page:number = 5;
@@ -128,5 +129,21 @@ export class ProductsComponent {
   on_product_edit(product:Product){
     this.product_form_component.init_form(product);
     this.product_form_component.open_dialog();
+  }
+
+  on_product_selected_change(param_id:number){
+
+    console.log(param_id);
+    if (this.selected_products_ids().includes(param_id)) {
+      this.selected_products_ids.set(
+        this.selected_products_ids().filter(id => id !== param_id)
+      );
+    }else{
+      this.selected_products_ids.set([...this.selected_products_ids(), param_id])
+    }
+  }
+
+  on_list_options_close_btn_click(){
+    this.selected_products_ids.set([]);
   }
 }

@@ -152,6 +152,8 @@ export class ClientsComponent {
   }
 
   on_client_selected_change(param_id:number){
+
+    console.log(param_id);
     if (this.selected_clients_ids().includes(param_id)) {
       this.selected_clients_ids.set(
         this.selected_clients_ids().filter(id => id !== param_id)
