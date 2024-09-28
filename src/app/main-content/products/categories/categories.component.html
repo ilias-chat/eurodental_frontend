@@ -9,6 +9,7 @@
             </button>
         </div>
         <div class="dialog-body">
+            <progress [class.show]="is_progresbar_open()" [value]="progresbar_value()" max="100"></progress>
             <div class="category-form">
                 <input type="text" [(ngModel)]="selected_category.category" [class.hidden]="!is_category_form_open()">
                 <button class="icon-button primary-button" [class.hidden]="!is_category_form_open()"

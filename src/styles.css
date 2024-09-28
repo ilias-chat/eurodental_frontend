@@ -327,6 +327,10 @@ select {
     display: none;
   }
 
+  .show{
+    display: block;
+  }
+
   div::-webkit-scrollbar {
     width: 16px; /* Make the scrollbar thinner */
   }
@@ -344,6 +348,29 @@ select {
   
   div:hover::-webkit-scrollbar-thumb {
     background-color: var(--main-color-06); /* Darker on hover */
+  }
+
+  progress{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    appearance: none;
+    height: 4px;
+    display: none;
+}
+
+/* The progress bar container */
+progress::-webkit-progress-bar {
+    background-color: var(--main-color-01); /* Background color */
+    border-radius: 5px; /* Rounded corners */
+    overflow: hidden;
+  }
+  
+  /* The progress value inside the bar */
+  progress::-webkit-progress-value {
+    background-color: var(--main-color); /* Green color */
+    border-radius: 5px; /* Rounded progress bar */
   }
 
 
