@@ -1,12 +1,8 @@
-dialog{
-    top: -10rem;
-}
-
 .dialog-body{
     padding: 1rem 2rem;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 50vh auto;
     gap: .5rem 2rem;
     color: var(--text-color);
 }
@@ -18,6 +14,7 @@ dialog{
     border: 1px solid var(--secondary-text-color);
     border-radius: 1rem;
     overflow: hidden;
+    overflow-y: scroll;
 }
 
 .sub-category,
@@ -29,15 +26,29 @@ dialog{
     align-items: center;
 }
 
+.category>span{
+    cursor: pointer;
+}
+
 .sub-category>span,
 .category>span{
     margin-right: auto;
 }
 
-.selected,
-.sub-categories:hover,
+.sub-category>span:hover,
+.category>span:hover{
+    color: var(--main-color);
+    text-decoration: underline;
+}
+
+.selected{
+    background-color: var(--background-color);
+    color: var(--main-color);
+}
+
+.sub-category:hover,
 .category:hover{
-    background-color: var(--third-color);
+    background-color: var(--background-color);
 }
 
 .category-form,
@@ -45,7 +56,9 @@ dialog{
     display: grid;
     grid-template-columns: 1fr auto;
     gap: 1rem;
-
+    padding: 1rem;
+    border: 1px solid var(--secondary-text-color);
+    border-radius: 1rem;
 }
 
 .sub-categories-footer,

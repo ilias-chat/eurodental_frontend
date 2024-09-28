@@ -1,57 +1,66 @@
-<dialog #dialog>
-    <div class="dialog-header">
-        <span class="dialog-title">
-            Categories
-        </span>
-        <button id="colse-dialog" class="icon-button icon-button-danger" (click)="on_close()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-    <div class="dialog-body">
-        <div class="category-form">
-            <input type="text" [(ngModel)]="selected_category.category" [class.hidden]="!is_category_form_open()">
-            <button class="icon-button primary-button" [class.hidden]="!is_category_form_open()"
-            (click)="on_save_category_btn_click()">save</button>
-        </div>
-        <div class="sub-category-form">
-            <input type="text" [(ngModel)]="selected_subcategory.Sub_category" [class.hidden]="!is_sub_category_form_open()">
-            <button class="icon-button primary-button" [class.hidden]="!is_sub_category_form_open()"
-            (click)="on_save_sub_category_btn_click()">save</button>
-        </div>
-        <div class="categories">
-            @for (cat of categories(); track cat.id) {
-                <div class="category">
-                    <span>{{ cat.category }}</span>
-                    <button class="icon-button icon-button-primary" (click)="on_edit_category_btn_click(cat)">
-                        <i class="fa-solid fa-pen"></i>
-                    </button>
-                </div>
-            }
-        </div>
-        <div class="sub-categories">
-            @for (cat of sub_categories(); track cat.id) {
-                <div class="sub-category">
-                    <span>{{ cat.Sub_category }}</span>
-                    <button class="icon-button icon-button-primary"><i class="fa-solid fa-pen"></i></button>
-                </div>
-            }
-        </div>
-        <div class="categories-footer">
-            <span class="total"> 
-                total categories: {{ categories().length }}
-             </span>
-            <button class="icon-button primary-button" (click)="on_new_category_btn_click()">
-                <i class="fa-solid fa-plus"></i>
+<div class="backdrop" [class.show-backdrop]="is_open()">
+    <div class="dialog">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                Categories
+            </span>
+            <button id="colse-dialog" class="icon-button icon-button-danger" (click)="on_close()">
+                <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
-
-        <div class="sub-categories-footer">
-            <span class="total"> 
-                total sub-categories: {{ sub_categories().length }}
-             </span>
-            <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()">
-                <i class="fa-solid fa-plus"></i>
-            </button>
+        <div class="dialog-body">
+            <div class="category-form">
+                <input type="text" [(ngModel)]="selected_category.category" [class.hidden]="!is_category_form_open()">
+                <button class="icon-button primary-button" [class.hidden]="!is_category_form_open()"
+                (click)="on_save_category_btn_click()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+            </div>
+            <div class="sub-category-form">
+                <input type="text" [(ngModel)]="selected_subcategory.sub_category" [class.hidden]="!is_sub_category_form_open()">
+                <button class="icon-button primary-button" [class.hidden]="!is_sub_category_form_open()"
+                (click)="on_save_sub_category_btn_click()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+            </div>
+            <div class="categories">
+                @for (cat of categories(); track cat.id) {
+                    <div class="category" [class.selected]="selected_category.id === cat.id" 
+                    >
+                        <span (click)="on_category_click(cat)">{{ cat.category }}</span>
+                        <button class="edit icon-button icon-button-primary" (click)="on_edit_category_btn_click(cat)">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </div>
+                }
+            </div>
+            <div class="sub-categories">
+                @for (cat of subcategories_by_cat(); track cat.id) {
+                    <div class="sub-category">
+                        <span>{{ cat.sub_category }}</span>
+                        <button class="icon-button icon-button-primary" (click)="on_edit_sub_category_btn_click(cat)">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    </div>
+                }
+            </div>
+            <div class="categories-footer">
+                <span class="total"> 
+                    total categories: {{ categories().length }}
+                 </span>
+                <button class="icon-button primary-button" (click)="on_new_category_btn_click()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
+    
+            <div class="sub-categories-footer">
+                <span class="total"> 
+                    total sub-categories: {{ subcategories_by_cat().length }}
+                 </span>
+                <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            </div>
         </div>
     </div>
-</dialog>
+</div>

@@ -130,6 +130,23 @@ a{
     cursor: pointer;
 }
 
+.backdrop{
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    background-color: rgb(255, 255, 255, .4);
+    display: none;
+    z-index: 999;
+}
+
+.show-backdrop{
+    display: block;
+    /* animation: show-backdrop .2s ease; */
+}
+
+.dialog,
 dialog{
     padding: 0;
     overflow: hidden;
@@ -138,6 +155,13 @@ dialog{
     border: 1px solid var(--secondary-text-color);
     border-radius: 1rem;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.dialog{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .dialog-header{
