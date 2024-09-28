@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Observable } from 'rxjs';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 
 interface Category{
@@ -23,7 +22,7 @@ interface Sub_category{
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
-  is_open = signal<boolean>(true);
+  is_open = signal<boolean>(false);
 
   private http_client = inject(HttpClient);
   private api_url = 'http://35.180.66.24';
@@ -96,6 +95,14 @@ export class CategoriesComponent {
     this.selected_subcategory = {id:0, sub_category:'', category_id:0};
   }
 
+  on_close_category_form_btn_click(){
+    this.close_category_form();
+  }
+
+  on_close_subcategory_form_btn_click(){
+    this.close_sub_category_form();
+  }
+
   on_edit_category_btn_click(category:Category){
     this.selected_category = {...category};
     this.is_category_form_open.set(true);
@@ -164,7 +171,7 @@ export class CategoriesComponent {
     }else{
       this.http_client.put(
         this.api_url+'/sub_categories/'+this.selected_subcategory.id, 
-        {sub_category:this.selected_subcategory.sub_category, category_id:this.selected_category.id}
+        {sub_category:this.selected_subcategory.sub_category}
         ).subscribe({
         next:(respond_data)=>{
           this.sub_categories.set(this.sub_categories().map((cat)=>{

@@ -6,7 +6,12 @@
     --text-color-lighter: #555c92;
     --secondary-text-color:rgb(210, 211, 230);
     --main-color: rgb(66, 100, 208);
+    --main-color-01: rgba(66, 100, 208, .1);
+    --main-color-02: rgba(66, 100, 208, .2);
+    --main-color-04: rgba(66, 100, 208, .4);
     --main-color-opacity: rgba(66, 100, 208, .5);
+    --main-color-06: rgba(66, 100, 208, .6);
+    --main-color-08: rgba(66, 100, 208, .8);
     --secondary-color: #728DE4;
     --third-color: #fff;
 
@@ -79,6 +84,15 @@ button{
 
 .primary-button:hover{
     opacity: .9;
+}
+
+.secondary-button{
+    background-color: transparent;
+    color: var(--main-color);
+}
+
+.secondary-button:hover{
+    background-color: var(--main-color-01);
 }
 
 .icon-button{
@@ -312,5 +326,25 @@ select {
   .hidden{
     display: none;
   }
+
+  div::-webkit-scrollbar {
+    width: 16px; /* Make the scrollbar thinner */
+  }
+  
+  div::-webkit-scrollbar-track {
+    background: transparent; /* Make the scrollbar track invisible */
+  }
+  
+  div::-webkit-scrollbar-thumb {
+    background-color: var(--main-color-02); /* Darker scrollbar */
+    border-radius: 10px;
+    border: 4px solid transparent; /* Create space between thumb and track */
+    background-clip: padding-box; /* Prevent scrollbar thumb from overlapping the track */
+  }
+  
+  div:hover::-webkit-scrollbar-thumb {
+    background-color: var(--main-color-06); /* Darker on hover */
+  }
+
 
 

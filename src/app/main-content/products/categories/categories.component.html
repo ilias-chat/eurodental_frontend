@@ -2,9 +2,9 @@
     <div class="dialog">
         <div class="dialog-header">
             <span class="dialog-title">
-                Categories
+                Manage categories and sub-categories
             </span>
-            <button id="colse-dialog" class="icon-button icon-button-danger" (click)="on_close()">
+            <button class="icon-button icon-button-danger" (click)="on_close()">
                 <i class="fa-solid fa-xmark"></i>
             </button>
         </div>
@@ -15,12 +15,20 @@
                 (click)="on_save_category_btn_click()">
                     <i class="fa-solid fa-floppy-disk"></i>
                 </button>
+                <button class="icon-button secondary-button" [class.hidden]="!is_category_form_open()"
+                (click)="on_close_category_form_btn_click()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
             </div>
             <div class="sub-category-form">
                 <input type="text" [(ngModel)]="selected_subcategory.sub_category" [class.hidden]="!is_sub_category_form_open()">
                 <button class="icon-button primary-button" [class.hidden]="!is_sub_category_form_open()"
                 (click)="on_save_sub_category_btn_click()">
                     <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+                <button class="icon-button secondary-button" [class.hidden]="!is_sub_category_form_open()"
+                (click)="on_close_subcategory_form_btn_click()">
+                    <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
             <div class="categories">
