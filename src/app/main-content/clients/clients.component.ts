@@ -116,6 +116,7 @@ export class ClientsComponent {
   }
 
   on_form_submit(client:Client){
+    this.client_form_component.show_progressbar();
     if(client.id === 0){
       this.clientsService.add(client)
       .subscribe({
@@ -124,10 +125,12 @@ export class ClientsComponent {
           client.id = (respond_data as Client).id;
           this.clientsService.add_client = client;
           this.filter_clients();
-          this.reset_and_close_form()
+          this.reset_and_close_form();
+          this.client_form_component.hide_progressbar();
         },
         error:(err)=>{
           this.toasts_service.add(err.message, "danger");
+          this.client_form_component.hide_progressbar();
         },
       });     
     } else {
@@ -138,14 +141,15 @@ export class ClientsComponent {
           this.clientsService.edit_client = client;
           this.filter_clients();
           this.reset_and_close_form();
+          this.client_form_component.hide_progressbar();
         },
         error:(err)=>{
           this.toasts_service.add(err.message,'danger');
+          this.client_form_component.hide_progressbar();
           //console.log('edid error:',err);
         },
       });
     }
-
   }
 
   on_client_edit(client:Client){

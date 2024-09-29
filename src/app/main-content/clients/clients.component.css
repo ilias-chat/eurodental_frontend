@@ -1,6 +1,7 @@
 .clients-container{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .list-header{
@@ -21,6 +22,10 @@
 
 .search-input{
     width: 300px;
+}
+
+.list-body{
+    overflow-y: auto;
 }
 
 .list-footer{

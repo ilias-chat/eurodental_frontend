@@ -22,7 +22,7 @@ interface Sub_category{
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
-  is_open = signal<boolean>(true);
+  is_open = signal<boolean>(false);
 
   private http_client = inject(HttpClient);
   private api_url = 'http://35.180.66.24';
@@ -82,10 +82,12 @@ export class CategoriesComponent {
   on_new_category_btn_click(){
     this.is_category_form_open.set(true);
     this.selected_category = {id:0, category:''};
+    this.subcategories_by_cat.set([]);
   }
 
   on_new_sub_category_btn_click(){
     this.is_sub_category_form_open.set(true);
+    this.selected_subcategory = {id:0, category_id:0, sub_category:''};
   }
 
   close_category_form(){
@@ -118,12 +120,6 @@ export class CategoriesComponent {
 
   on_save_category_btn_click(){
     this.is_progresbar_open.set(true);
-    const interval = setInterval(()=>{
-      this.progresbar_value.set(this.progresbar_value()+1);
-    },25);
-    setTimeout(() => {
-      clearInterval(interval); // Stop the interval
-    }, 2000);
 
     if (this.selected_category.id === 0) {
       this.http_client.post(this.api_url+'/categories',{category:this.selected_category.category}).subscribe({
@@ -132,11 +128,12 @@ export class CategoriesComponent {
           this.categories.set([...this.categories(), this.selected_category])
           this.close_category_form();
           this.Toasts_service.add('category has been created successfully', 'success');
-          this.reset_progresbar(interval as unknown as number);
+          this.is_progresbar_open.set(false);
         },
         error:(err)=>{
           console.error(err.message);
           this.Toasts_service.add(err.message, 'danger');
+          this.is_progresbar_open.set(false);
         },
       });
     }else{
@@ -152,11 +149,12 @@ export class CategoriesComponent {
           );
           this.close_category_form();
           this.Toasts_service.add('changes have been saved successfully', 'success');
-          this.reset_progresbar(interval as unknown as number);
+          this.is_progresbar_open.set(false);
         },
         error:(err)=>{
           console.error(err.message);
           this.Toasts_service.add(err.message, 'danger');
+          this.is_progresbar_open.set(false);
         },
       });
     }

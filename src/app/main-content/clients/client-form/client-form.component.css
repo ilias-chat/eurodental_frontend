@@ -3,6 +3,10 @@
     padding: .5rem .7em;
 }
 
+.dialog-form{
+  position: relative;
+}
+
   .form-group label {
     display: block;
     margin-bottom: 5px;

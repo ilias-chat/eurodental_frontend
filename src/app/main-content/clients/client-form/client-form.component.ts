@@ -27,6 +27,8 @@ export class ClientFormComponent {
   
   @Output() submit = new EventEmitter<Client>();
 
+  is_progressbar_open:boolean = false;
+
   on_close(){
     this.close_dialog();
     this.reset_selected_client();
@@ -85,5 +87,13 @@ export class ClientFormComponent {
       img_input.files = files;
       this.selected_client.image_path = URL.createObjectURL(img_input.files[0]);
     }
+  }
+
+  show_progressbar(){
+    this.is_progressbar_open = true;
+  }
+
+  hide_progressbar(){
+    this.is_progressbar_open = false;
   }
 }

@@ -9,66 +9,94 @@
             </button>
         </div>
         <div class="dialog-body">
-            <progress [class.show]="is_progresbar_open()" [value]="progresbar_value()" max="100"></progress>
-            <div class="category-form">
-                <input type="text" [(ngModel)]="selected_category.category" [class.hidden]="!is_category_form_open()">
-                <button class="icon-button primary-button" [class.hidden]="!is_category_form_open()"
-                (click)="on_save_category_btn_click()">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                </button>
-                <button class="icon-button secondary-button" [class.hidden]="!is_category_form_open()"
-                (click)="on_close_category_form_btn_click()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
+            <div class="progress-bar-container" [class.hidden]="!is_progresbar_open()">
+                <div class="progress-bar"></div>
             </div>
-            <div class="sub-category-form">
-                <input type="text" [(ngModel)]="selected_subcategory.sub_category" [class.hidden]="!is_sub_category_form_open()">
-                <button class="icon-button primary-button" [class.hidden]="!is_sub_category_form_open()"
-                (click)="on_save_sub_category_btn_click()">
-                    <i class="fa-solid fa-floppy-disk"></i>
-                </button>
-                <button class="icon-button secondary-button" [class.hidden]="!is_sub_category_form_open()"
-                (click)="on_close_subcategory_form_btn_click()">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-            </div>
+
             <div class="categories">
                 @for (cat of categories(); track cat.id) {
-                    <div class="category" [class.selected]="selected_category.id === cat.id" 
-                    >
-                        <span (click)="on_category_click(cat)">{{ cat.category }}</span>
-                        <button class="edit icon-button icon-button-primary" (click)="on_edit_category_btn_click(cat)">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
+                    <div class="category" [class.selected]="selected_category.id === cat.id">
+                        @if (is_category_form_open() && selected_category.id === cat.id) {
+                            <input type="text" [(ngModel)]="selected_category.category">
+                            <button class="icon-button primary-button"
+                            (click)="on_save_category_btn_click()">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                            <button class="icon-button secondary-button"
+                            (click)="on_close_category_form_btn_click()">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        }@else {
+                            <span (click)="on_category_click(cat)">{{ cat.category }}</span>
+                            <button class="edit icon-button icon-button-primary" (click)="on_edit_category_btn_click(cat)">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        }
                     </div>
                 }
             </div>
             <div class="sub-categories">
                 @for (cat of subcategories_by_cat(); track cat.id) {
                     <div class="sub-category">
-                        <span>{{ cat.sub_category }}</span>
-                        <button class="icon-button icon-button-primary" (click)="on_edit_sub_category_btn_click(cat)">
-                            <i class="fa-solid fa-pen"></i>
-                        </button>
+                        @if (is_sub_category_form_open() && selected_subcategory.id === cat.id) {
+                            <input type="text" [(ngModel)]="selected_subcategory.sub_category">
+                            <button class="icon-button primary-button"
+                                (click)="on_save_sub_category_btn_click()">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                            <button class="icon-button secondary-button"
+                                (click)="on_close_subcategory_form_btn_click()">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        }@else {
+                            <span>{{ cat.sub_category }}</span>
+                            <button class="icon-button icon-button-primary" (click)="on_edit_sub_category_btn_click(cat)">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        }
                     </div>
                 }
             </div>
             <div class="categories-footer">
-                <span class="total"> 
-                    total categories: {{ categories().length }}
-                 </span>
-                <button class="icon-button primary-button" (click)="on_new_category_btn_click()">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
+                @if (is_category_form_open() && selected_category.id === 0) {
+                    <input type="text" [(ngModel)]="selected_category.category">
+                    <button class="icon-button primary-button"
+                    (click)="on_save_category_btn_click()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                    </button>
+                    <button class="icon-button secondary-button"
+                    (click)="on_close_category_form_btn_click()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                }@else {
+                    <span class="total"> 
+                        total categories: {{ categories().length }}
+                     </span>
+                    <button class="icon-button primary-button" (click)="on_new_category_btn_click()">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                }
             </div>
     
             <div class="sub-categories-footer">
-                <span class="total"> 
-                    total sub-categories: {{ subcategories_by_cat().length }}
-                 </span>
-                <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()">
-                    <i class="fa-solid fa-plus"></i>
-                </button>
+                @if (is_sub_category_form_open() && selected_subcategory.id === 0) {
+                    <input type="text" [(ngModel)]="selected_subcategory.sub_category">
+                    <button class="icon-button primary-button"
+                    (click)="on_save_sub_category_btn_click()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                    </button>
+                    <button class="icon-button secondary-button"
+                    (click)="on_close_subcategory_form_btn_click()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                }@else {
+                    <span class="total"> 
+                        total sub-categories: {{ subcategories_by_cat().length }}
+                     </span>
+                    <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                }
             </div>
         </div>
     </div>

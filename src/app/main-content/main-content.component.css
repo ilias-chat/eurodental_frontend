@@ -1,5 +1,9 @@
 .main-content{
+    position: relative;
     grid-area: main;
     padding: 1rem;
     padding-left: 0;
+    height: calc(100vh - 60px);
+    width: 100%;
 }
+

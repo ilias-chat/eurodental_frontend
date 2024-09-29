@@ -18,10 +18,13 @@
             <span> new client </span>
         </button>
     </div>
-    @for(client of clients; track client.id){
-        <app-client [client] = "client" [selected]="selected_clients_ids().includes(client.id)" 
-        (edit)="on_client_edit($event)" (selected_change)="on_client_selected_change(client.id)"></app-client>
-    }
+    <div class="list-body">
+        @for(client of clients; track client.id){
+            <app-client [client] = "client" [selected]="selected_clients_ids().includes(client.id)" 
+            (edit)="on_client_edit($event)" (selected_change)="on_client_selected_change(client.id)"></app-client>
+        }
+    </div>
+
     <div class="list-footer">
         <span class="total">total clients: {{ total_clients() }}</span>
 
