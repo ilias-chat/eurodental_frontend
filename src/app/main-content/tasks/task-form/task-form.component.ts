@@ -10,7 +10,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './task-form.component.css'
 })
 export class TaskFormComponent {
-  selected_task:Task = this.reset_task();
+  selected_task:Task = this.get_empty_task();
   @ViewChild('dialog') task_dialog!:ElementRef<HTMLDialogElement>;
   @ViewChild('form') task_form!:ElementRef<HTMLFormElement>;
   
@@ -21,7 +21,7 @@ export class TaskFormComponent {
   on_close(){
     this.close_dialog();
     this.reset_selected_task();
-    this.task_form.nativeElement.reset();
+    //this.task_form.nativeElement.reset();
   }
 
   open_dialog(){
@@ -37,10 +37,10 @@ export class TaskFormComponent {
   }
 
   reset_selected_task(){
-    this.selected_task = this.reset_task();
+    this.selected_task = this.get_empty_task();
   }
 
-  reset_task():Task{
+  get_empty_task():Task{
     return {
       id:0,
       task_name:'',
@@ -53,7 +53,7 @@ export class TaskFormComponent {
       client_id:0,
       client:'',
       client_image_path:'',
-      task_date:''
+      task_date: this.format_date_to_yyyy_mm_dd(new Date()),
     }
   }
 
@@ -71,5 +71,13 @@ export class TaskFormComponent {
 
   hide_progressbar(){
     this.is_progressbar_open = false;
+  }
+
+  format_date_to_yyyy_mm_dd(date: Date): string {
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+  
+    return `${year}-${month}-${day}`;
   }
 }

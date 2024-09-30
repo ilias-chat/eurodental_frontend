@@ -15,18 +15,42 @@
 
             <div class="form-group">
             <label for="task_name">Task Name</label>
-            <input type="text" id="task_name" name="task_name" required [(ngModel)]="selected_task.task_name">
+            <input type="text" name="task_name" [(ngModel)]="selected_task.task_name">
             </div> 
-        </div>
 
-        <div> 
+            <div class="form-group">
+                <label for="task_date">Task date</label>
+                <input type="date" name="task_date" [(ngModel)]="selected_task.task_date">
+            </div>
 
             <div class="form-group">
                 <label for="description">Description</label>
-                <textarea name="description" required [(ngModel)]="selected_task.description">
+                <textarea name="description" [(ngModel)]="selected_task.description">
                 </textarea>
             </div>
-  
+
+        </div>
+
+        <div> 
+            <div class="form-group">
+                <label for="client">Client</label>
+                <select name="client">
+                    <option value=""></option>
+                    <option value="12">client 01</option>
+                    <option value="34">client 02</option>
+                    <option value="77">client 03</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="technician">Technician</label>
+                <select name="technician">
+                    <option value=""></option>
+                    <option value="12">technician 01</option>
+                    <option value="34">technician 02</option>
+                    <option value="77">technician 03</option>
+                </select>
+            </div>
         </div>
 
     </form>
