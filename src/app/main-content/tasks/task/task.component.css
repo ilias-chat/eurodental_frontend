@@ -1,0 +1,86 @@
+.task-card{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: start;
+    gap: 1rem;
+    padding: .5rem 1rem;
+    color: var(--text-color);
+    border: 1px var(--secondary-text-color) solid;
+    border-radius: .5rem;
+    /* display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    align-items: center;
+    justify-content: left; */
+}
+
+.task-card:hover{
+    background-color: var(--secondary-background-color);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.btns{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    gap: .25rem;
+}
+
+.task-card>div:last-child{
+    margin-left: auto;
+}
+
+.persone{
+    display: flex;
+    gap: .3rem;
+    width: 250px;
+}
+
+.text{
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: center;
+}
+
+.title{
+    font-weight: bold;
+    color: var(--text-color);
+    /* align-self: st; */
+}
+
+.sub-title{
+    color: var(--text-color);
+    font-size: 14px;
+}
+
+.column{
+    width: 250px;
+}
+
+.persone-img {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.contacts{
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+    gap: .1rem;
+}
+
+.task-email,
+.task-phone{
+    display: flex;
+    gap: .1rem;
+}
+
+.task-email>i,
+.task-phone>i{
+width: 1.3rem;
+text-align: center;
+}
+

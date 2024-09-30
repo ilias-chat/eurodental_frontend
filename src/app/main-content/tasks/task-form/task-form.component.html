@@ -1,0 +1,36 @@
+<dialog #dialog>
+    <div class="dialog-header">
+        <span class="dialog-title">
+            add new task
+        </span>
+        <button id="colse-dialog" class="icon-button icon-button-danger" (click)="on_close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <form class="dialog-form" #form>
+        <div class="progress-bar-container" [class.hidden]="!is_progressbar_open">
+            <div class="progress-bar"></div>
+        </div>
+        <div>
+
+            <div class="form-group">
+            <label for="task_name">Task Name</label>
+            <input type="text" id="task_name" name="task_name" required [(ngModel)]="selected_task.task_name">
+            </div> 
+        </div>
+
+        <div> 
+
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea name="description" required [(ngModel)]="selected_task.description">
+                </textarea>
+            </div>
+  
+        </div>
+
+    </form>
+    <div class="dialog-footer">
+        <button type="submit" class="primary-button" (click)="on_save_btn_click()">Save</button>
+    </div>
+  </dialog>

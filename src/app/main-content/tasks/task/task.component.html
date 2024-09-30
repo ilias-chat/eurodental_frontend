@@ -1,0 +1,54 @@
+
+
+<div class="task-card">
+    <label class="checkbox-container">
+        <input type="checkbox" [checked]="selected" (change)="on_checkbox_change()">
+        <span class="checkmark"></span>
+    </label>
+    <div class="text column">
+        <span class="title">
+            {{ task.task_name }}
+        </span>
+        <span class="sub-title">
+            {{ task.task_date }}
+        </span>
+    </div>
+    <div class="persone">
+        <img src="{{task.client_image_path}}" alt="task image" class="persone-img">
+        <div class="text">
+            <span class="title">
+                {{task.client}}
+            </span>
+            <span class="sub-title">
+                client
+            </span>
+        </div>
+    </div>
+    <div class="persone">
+        <img src="{{task.technician_image_path}}" alt="task image" class="persone-img">
+        <div class="text">
+            <span class="title">
+                {{task.technician}}
+            </span>
+            <span class="sub-title">
+                Technician
+            </span>
+        </div>
+    </div>
+    <div>
+        <span [class.badge-success]="task.status === 'Completed'" 
+        [class.badge-danger]="task.status === 'Open'"
+        [class.badge-warning]="task.status === 'In Progress'">
+            {{ task.status }}
+        </span>
+     </div>
+    <div class="btns">
+        <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+        <button class="icon-button icon-button-primary"><i class="fa-solid fa-up-right-from-square"></i></button>
+    </div>
+    </div>
+ 
+ 
+
+
+  

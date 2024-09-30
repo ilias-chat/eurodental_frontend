@@ -12,9 +12,8 @@ export class ClientComponent {
   @Input({required:true}) client!:Client;
   @Output() edit = new EventEmitter<Client>();
 
-  @Output() selected_change = new EventEmitter<void>();
-
   @Input({required:true}) selected:boolean = false;
+  @Output() selected_change = new EventEmitter<void>();
 
   on_edit_btn_click(){
     this.edit.emit(this.client);

@@ -1,0 +1,29 @@
+#colse-dialog{
+    /* font-size: 20px; */
+    padding: .5rem .7em;
+}
+
+.dialog-form{
+  position: relative;
+}
+
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .form-group input {
+    margin-bottom: 20px;
+  }
+
+  dialog::backdrop {
+    background: rgba(255, 255, 255, 0.4);
+  }
+  
+img{
+  border-radius: 50%;
+  margin-bottom: 16px;
+}
+  .hidden{
+    display: none;
+  }

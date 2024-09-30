@@ -331,14 +331,17 @@ select {
     display: block;
   }
 
+  form::-webkit-scrollbar,
   div::-webkit-scrollbar {
     width: 14px; /* Make the scrollbar thinner */
   }
   
+  form::-webkit-scrollbar-track,
   div::-webkit-scrollbar-track {
     background: transparent; /* Make the scrollbar track invisible */
   }
   
+  form::-webkit-scrollbar-thumb,
   div::-webkit-scrollbar-thumb {
     background-color: var(--main-color-02); /* Darker scrollbar */
     border-radius: 10px;
@@ -346,6 +349,7 @@ select {
     background-clip: padding-box; /* Prevent scrollbar thumb from overlapping the track */
   }
   
+  form:hover::-webkit-scrollbar-thumb,
   div:hover::-webkit-scrollbar-thumb {
     background-color: var(--main-color-06); /* Darker on hover */
   }
@@ -388,7 +392,28 @@ select {
       left: 100%;
     }
   }
+
+  .badge-danger,
+  .badge-warning,
+  .badge-success{
+    padding: .5rem 1rem;
+    border-radius: .5rem;
+  }
+
+  .badge-success{
+    background-color: var(--success-color-lighter);
+    color: var(--success-color-darker);
+  }
   
+  .badge-danger{
+    background-color: var(--danger-color-lighter);
+    color: var(--danger-color-darker);
+  }
+
+  .badge-warning{
+    background-color: var(--warning-color-lighter);
+    color: var(--warning-color-darker);
+  }
 
 
 
