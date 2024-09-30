@@ -1,0 +1,62 @@
+<div class="backdrop" [class.show-backdrop]="is_open2()">
+    <div class="dialog">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                Manage brands 
+            </span>
+            <button class="icon-button icon-button-danger" (click)="on_close()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="dialog-body">
+            <div class="progress-bar-container" [class.hidden]="!is_progresbar_open()">
+                <div class="progress-bar"></div>
+            </div>
+
+            <div class="brands">
+                @for (cat of brands(); track cat.id) {
+                    <div class="brand" [class.selected]="selected_brand.id === cat.id">
+                        @if (is_brand_form_open() && selected_brand.id === cat.id) {
+                            <input type="text" [(ngModel)]="selected_brand.brand">
+                            <button class="icon-button primary-button"
+                            (click)="on_save_brand_btn_click()">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                            <button class="icon-button secondary-button"
+                            (click)="on_close_brand_form_btn_click()">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        }@else {
+                            <span (click)="on_brand_click(cat)">{{ cat.brand }}</span>
+                            <button class="edit icon-button icon-button-primary" (click)="on_edit_brand_btn_click(cat)">
+                                <i class="fa-solid fa-pen"></i>
+                            </button>
+                        }
+                    </div>
+                }
+            </div>
+            
+            <div class="brands-footer">
+                @if (is_brand_form_open() && selected_brand.id === 0) {
+                    <input type="text" [(ngModel)]="selected_brand.brand">
+                    <button class="icon-button primary-button"
+                    (click)="on_save_brand_btn_click()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                    </button>
+                    <button class="icon-button secondary-button"
+                    (click)="on_close_brand_form_btn_click()">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                }@else {
+                    <span class="total"> 
+                        total brands: {{ brands().length }}
+                     </span>
+                    <button class="icon-button primary-button" (click)="on_new_brand_btn_click()">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                }
+            </div>
+    
+        </div>
+    </div>
+</div>

@@ -398,6 +398,7 @@ select {
   .badge-success{
     padding: .5rem 1rem;
     border-radius: .5rem;
+    font-weight: bold;
   }
 
   .badge-success{

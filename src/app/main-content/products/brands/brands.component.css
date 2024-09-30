@@ -1,0 +1,80 @@
+.dialog-body{
+    position: relative;
+    padding: 1rem 2rem;
+    display: grid;
+    grid-template-rows: 50vh auto;
+    gap: .5rem 2rem;
+    color: var(--text-color);
+}
+
+.brands{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--secondary-text-color);
+    border-radius: 1rem;
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.brand{
+    padding: 1rem;
+    border-bottom: 1px solid var(--secondary-text-color);
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: .4rem;
+}
+
+.brand:first-child{
+    border-radius: 1rem 1rem 0 0;
+}
+
+.brand:last-child{
+    border-radius: 0 0 1rem 1rem;
+}
+
+.brand>span{
+    cursor: pointer;
+}
+
+.sub-brand>span,
+.brand>span{
+    margin-right: auto;
+}
+
+.brand>span:hover{
+    color: var(--main-color);
+    text-decoration: underline;
+}
+
+.selected{
+    background-color: var(--background-color);
+    color: var(--main-color);
+    box-shadow: var(--main-color) 1px -1px 1px inset, var(--main-color) -1px 1px 1px inset;
+}
+
+.brand:hover{
+    background-color: var(--background-color);
+}
+
+.brand-form{
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--secondary-text-color);
+    border-radius: 1rem;
+}
+
+.brands-footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    align-items: center;
+    gap: 1rem;
+}
+
+.total{
+    margin-right: auto;
+    color: var(--text-color);
+}

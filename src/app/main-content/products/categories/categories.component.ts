@@ -39,7 +39,6 @@ export class CategoriesComponent {
   is_category_form_open = signal<boolean>(false);
   is_sub_category_form_open = signal<boolean>(false);
 
-  progresbar_value = signal<number>(5);
   is_progresbar_open = signal<boolean>(false);
 
   ngOnInit(){
@@ -163,12 +162,6 @@ export class CategoriesComponent {
   on_save_sub_category_btn_click(){
 
     this.is_progresbar_open.set(true);
-    const interval = setInterval(()=>{
-      this.progresbar_value.set(this.progresbar_value()+1);
-    },25);
-    setTimeout(() => {
-      clearInterval(interval); // Stop the interval
-    }, 2000);
 
     if (this.selected_subcategory.id === 0) {
       this.http_client.post(
@@ -182,11 +175,12 @@ export class CategoriesComponent {
           this.subcategories_by_cat.set([...this.subcategories_by_cat(), this.selected_subcategory]);
           this.close_sub_category_form();
           this.Toasts_service.add('sub-category has been created successfully', 'success');
-          this.reset_progresbar(interval as unknown as number);
+          this.is_progresbar_open.set(false);
         },
         error:(err)=>{
-          console.error(err.message);
+          //console.error(err.message);
           this.Toasts_service.add(err.message, 'danger');
+          this.is_progresbar_open.set(false);
         },
       });
     }else{
@@ -206,11 +200,12 @@ export class CategoriesComponent {
           this.close_sub_category_form();
           this.filter_subcategories_by_cat();
           this.Toasts_service.add('changes have been saved successfully', 'success');
-          this.reset_progresbar(interval as unknown as number);
+          this.is_progresbar_open.set(false);
         },
         error:(err)=>{
-          console.error(err.message);
+          //console.error(err.message);
           this.Toasts_service.add(err.message, 'danger');
+          this.is_progresbar_open.set(false);
         },
       });
     }
@@ -226,12 +221,5 @@ export class CategoriesComponent {
     this.subcategories_by_cat.set(this.sub_categories().filter((sub_cat)=>{
       return sub_cat.category_id === this.selected_category.id
     }))
-  }
-
-  reset_progresbar(interval_id:number){
-    this.progresbar_value.set(100);
-    this.is_progresbar_open.set(false);
-    this.progresbar_value.set(5);
-    clearInterval(interval_id);
   }
 }
