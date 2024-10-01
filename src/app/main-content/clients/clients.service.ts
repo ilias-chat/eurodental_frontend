@@ -46,14 +46,14 @@ export class ClientsService {
     else return this.clients();
   }
 
-  add(client:Client):Observable<Object>{
+  add(client:FormData):Observable<Object>{
     return this.http_client.post(this.api_url + '/clients', client);
   }
 
-  edit(client:Client):Observable<Object>{
-    return this.http_client.put(this.api_url+'/clients/'+client.id, client);
+  edit(client:FormData, client_id:number):Observable<Object>{
+    console.log(this.api_url+'/clients/'+client_id, client);
+    return this.http_client.put(this.api_url+'/clients/'+client_id, client);
   }
-
   
   public set add_client(client:Client) {
     this.clients.set([...this.clients(), client]);

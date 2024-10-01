@@ -131,15 +131,17 @@ export class ClientsComponent {
     this.end_index.set(this.lines_per_page);
   }
 
-  on_form_submit(client:Client){
+  on_form_submit(client_form_data:{form_data:FormData, client:Client}){
+
     this.client_form_component.show_progressbar();
-    if(client.id === 0){
-      this.clients_service.add(client)
+
+    if(client_form_data.client.id === 0){
+      this.clients_service.add(client_form_data.form_data)
       .subscribe({
         next:(respond_data)=>{
           this.toasts_service.add("Client have been created successfully", "success");
-          client.id = (respond_data as Client).id;
-          this.clients_service.add_client = client;
+          client_form_data.client.id = (respond_data as Client).id;
+          this.clients_service.add_client = client_form_data.client;
           this.filter_clients();
           this.reset_and_close_form();
           this.client_form_component.hide_progressbar();
@@ -147,14 +149,14 @@ export class ClientsComponent {
         error:(err)=>{
           this.toasts_service.add(err.message, "danger");
           this.client_form_component.hide_progressbar();
+          console.log('add error:',err);
         },
       });     
     } else {
-      this.clients_service.edit(client).subscribe({
+      this.clients_service.edit(client_form_data.form_data, client_form_data.client.id).subscribe({
         next:(res)=>{
-          console.log(res);
           this.toasts_service.add('Changes have been saved successfully','success');
-          this.clients_service.edit_client = client;
+          this.clients_service.edit_client = client_form_data.client;
           this.filter_clients();
           this.reset_and_close_form();
           this.client_form_component.hide_progressbar();
@@ -162,7 +164,7 @@ export class ClientsComponent {
         error:(err)=>{
           this.toasts_service.add(err.message,'danger');
           this.client_form_component.hide_progressbar();
-          //console.log('edid error:',err);
+          console.log('edid error:',err);
         },
       });
     }
@@ -180,7 +182,7 @@ export class ClientsComponent {
         this.selected_clients_ids().filter(id => id !== param_id)
       );
     }else{
-      this.selected_clients_ids.set([...this.selected_clients_ids(), param_id])
+      this.selected_clients_ids.set([...this.selected_clients_ids(), param_id]);
     }
   }
 

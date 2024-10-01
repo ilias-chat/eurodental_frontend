@@ -8,4 +8,5 @@ export interface Client {
     image_path:string,
     address:string,
     city:string,
+    description:string,
 }

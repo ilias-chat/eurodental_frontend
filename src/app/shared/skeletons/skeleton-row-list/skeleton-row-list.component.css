@@ -5,6 +5,7 @@
     display: flex;
     align-items: center;
     gap: .5rem;
+    padding-left: 4.2rem;
 }
 
 .skeleton-img{
@@ -15,7 +16,7 @@
 }
 
 .skeleton-text{
-    height: .6rem;
+    height: .8rem;
     border-radius: .25rem;
     width: 150px;
     margin: .3rem;
