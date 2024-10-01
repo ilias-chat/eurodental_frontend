@@ -1,0 +1,54 @@
+<div class="task-details" [class.show]="is_open()">
+    <div class="header">
+        <div class="title">Task details</div>
+        <button class="icon-button icon-button-danger" (click)="on_close_btn_click()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="body">
+
+        <div class="task">
+            <span class="title">
+                {{ task_details()?.task_name }}
+            </span>
+            <span class="sub-title">
+                ({{ task_details()?.task_date }})
+            </span>
+            <span [class.badge-success]="task_details()?.status === 'Completed'" 
+            [class.badge-danger]="task_details()?.status === 'Open'"
+            [class.badge-warning]="task_details()?.status === 'In Progress'">
+            {{ task_details()?.status }}
+            </span>
+        </div>
+
+        <div class="client">
+            <div class="profile">
+                <img class="skeleton" src="{{ task_details()?.client_image_path }}" alt="">
+                <div class="profile-text">
+                    <span>{{ task_details()?.client }}</span>
+                    <span>{{ task_details()?.client_city }}</span>
+                </div>
+            </div>
+
+        <div class="contacts">
+            <div class="contacts-row">
+                <i class="fa-solid fa-envelope"></i>
+                <span> {{ task_details()?.client_email }} </span>
+            </div>
+            <div class="contacts-row">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <span> {{ task_details()?.client_phone_number }} </span>
+            </div>
+            <div class="contacts-row">
+                <i class="fa-solid fa-location-dot"></i>
+                <span> {{ task_details()?.client_adress }} </span>
+            </div>
+        </div>
+
+        @for (product of task_details()?.products; track product.id) {
+
+        }
+        </div>
+        
+    </div>
+</div>

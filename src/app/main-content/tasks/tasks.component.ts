@@ -4,11 +4,12 @@ import { TasksService } from './tasks.service';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { Task } from './task.model';
 import { TaskComponent } from './task/task.component';
+import { TaskDetailsComponent } from "./task-details/task-details.component";
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [TaskFormComponent, TaskComponent],
+  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
@@ -16,6 +17,7 @@ export class TasksComponent {
   private toasts_service = inject(ToastsService);
   private tasks_service = inject(TasksService);
   @ViewChild(TaskFormComponent) task_form_component!:TaskFormComponent;
+  @ViewChild(TaskDetailsComponent) task_details_component!:TaskDetailsComponent;
   all_tasks = signal<Task[]>([]);
   selected_tasks_ids = signal<number[]>([]);
 
@@ -179,5 +181,9 @@ export class TasksComponent {
   reset_and_close_form(){
     this.task_form_component.on_close();
     this.task_form_component.reset_selected_task();
+  }
+
+  on_show_details(task_id:number){
+    this.task_details_component.open_task_details(task_id);
   }
 }

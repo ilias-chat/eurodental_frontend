@@ -15,11 +15,17 @@ export class TaskComponent {
   @Input({required:true}) selected:boolean = false;
   @Output() selected_change = new EventEmitter<void>();
 
+  @Output() show_details = new EventEmitter<void>();
+
   on_edit_btn_click(){
     this.edit.emit(this.task);
   }
 
   on_checkbox_change(){
     this.selected_change.emit();
+  }
+
+  on_details_btn_click(){
+    this.show_details.emit();
   }
 }

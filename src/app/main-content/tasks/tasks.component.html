@@ -22,11 +22,14 @@
             <span> new task </span>
         </button>
     </div>
+
     <div class="list-body">
         @for(task of tasks; track task.id){
             <app-task [task] = "task" [selected]="selected_tasks_ids().includes(task.id)" 
-            (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"></app-task>
+            (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"
+            (show_details)="on_show_details(task.id)"></app-task>
         }
+        <app-task-details [task_id]="3"></app-task-details>
     </div>
 
     <div class="list-footer">
