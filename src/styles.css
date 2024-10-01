@@ -396,9 +396,10 @@ select {
   .badge-danger,
   .badge-warning,
   .badge-success{
-    padding: .5rem 1rem;
+    padding: .4rem .8rem;
     border-radius: .5rem;
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-size: medium;
   }
 
   .badge-success{
@@ -415,6 +416,20 @@ select {
     background-color: var(--warning-color-lighter);
     color: var(--warning-color-darker);
   }
+
+  .skeleton{
+    opacity: .6;
+    animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+    0%{
+        background-color: hsl(200, 20%, 67%);
+    }
+    100%{
+        background-color: hsl(200, 20%, 82%);
+    }
+}
 
 
 

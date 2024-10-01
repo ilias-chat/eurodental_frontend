@@ -5,17 +5,18 @@ import { ClientComponent } from './client/client.component';
 import { ClientFormComponent } from "./client-form/client-form.component";
 import { ToastsContainerComponent } from '../../shared/toasts-container/toasts-container.component';
 import { ToastsService } from '../../shared/toasts-container/toast.service';
+import { SkeletonRowListComponent } from '../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 
 @Component({
   selector: 'app-clients',
   standalone: true,
-  imports: [ClientComponent, ClientFormComponent, ToastsContainerComponent],
+  imports: [ClientComponent, ClientFormComponent, ToastsContainerComponent, SkeletonRowListComponent],
   templateUrl: './clients.component.html',
   styleUrl: './clients.component.css'
 })
 export class ClientsComponent {
   private toasts_service = inject(ToastsService);
-  private clientsService = inject(ClientsService);
+  private clients_service = inject(ClientsService);
   @ViewChild(ClientFormComponent) client_form_component!:ClientFormComponent;
   all_clients = signal<Client[]>([]);
   selected_clients_ids = signal<number[]>([]);
@@ -31,21 +32,36 @@ export class ClientsComponent {
   @ViewChild('search_input') search_input!: ElementRef;
   @ViewChild('combo_city') combo_city!: ElementRef;
 
+  is_loading = signal(false);
+  is_error = signal(false);
+
   ngOnInit(){
 
-    this.clientsService.all().subscribe({
-      next:(respond_data)=>{
-        this.all_clients.set(respond_data);
-        this.total_clients.set(respond_data.length);
-        this.filter_clients();
-      },
-      error(err) {
-        //this.toasts_service.add(err.message, "danger");
-      },
-    })
+    this.refresh_clients();
 
     this.reset_pagination();
-   }
+  }
+
+  refresh_clients(){
+    
+    this.is_loading.set(true);
+    this.is_error.set(false);
+
+    this.clients_service.all().subscribe({
+      next:(respond_data)=>{
+        this.all_clients.set(respond_data);
+        this.clients_service.set_clients = respond_data;
+        this.total_clients.set(respond_data.length);
+        this.filter_clients();
+        this.is_loading.set(false);
+      },
+      error:(err)=>{
+        console.error(err);
+        this.is_loading.set(false);
+        this.is_error.set(true);
+      },
+    })
+  } 
 
   get clients(): Client[] {
     return this.all_clients().slice(this.start_index(), this.end_index());
@@ -84,7 +100,7 @@ export class ClientsComponent {
   filter_clients(){
     const search_input_value = this.search_input.nativeElement.value;
     const city_combo_value = this.combo_city.nativeElement.value;
-    this.all_clients.set(this.clientsService.filter(search_input_value,city_combo_value));
+    this.all_clients.set(this.clients_service.filter(search_input_value,city_combo_value));
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
@@ -109,7 +125,7 @@ export class ClientsComponent {
   reset_filter(){
     this.search_input.nativeElement.value = '';
     this.combo_city.nativeElement.value = '';
-    this.all_clients.set(this.clientsService.filter('',''));
+    this.all_clients.set(this.clients_service.filter('',''));
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
@@ -118,12 +134,12 @@ export class ClientsComponent {
   on_form_submit(client:Client){
     this.client_form_component.show_progressbar();
     if(client.id === 0){
-      this.clientsService.add(client)
+      this.clients_service.add(client)
       .subscribe({
         next:(respond_data)=>{
           this.toasts_service.add("Client have been created successfully", "success");
           client.id = (respond_data as Client).id;
-          this.clientsService.add_client = client;
+          this.clients_service.add_client = client;
           this.filter_clients();
           this.reset_and_close_form();
           this.client_form_component.hide_progressbar();
@@ -134,11 +150,11 @@ export class ClientsComponent {
         },
       });     
     } else {
-      this.clientsService.edit(client).subscribe({
+      this.clients_service.edit(client).subscribe({
         next:(res)=>{
           console.log(res);
           this.toasts_service.add('Changes have been saved successfully','success');
-          this.clientsService.edit_client = client;
+          this.clients_service.edit_client = client;
           this.filter_clients();
           this.reset_and_close_form();
           this.client_form_component.hide_progressbar();

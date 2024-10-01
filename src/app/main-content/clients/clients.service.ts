@@ -13,13 +13,16 @@ export class ClientsService {
     private http_client = inject(HttpClient);
     private api_url = 'http://35.180.66.24';
 
-  constructor(){
-    this.all().subscribe({
-      next:(respond_data)=>{
-        this.clients.set(respond_data);
-      }
-    });
+  constructor(){    
+
   }
+
+  
+  public set set_clients(clients:Client[]) {
+    this.clients.set(clients);
+  }
+  
+  
 
   all():Observable<Client[]>{
     return this.http_client.get<Client[]>('http://35.180.66.24/clients');

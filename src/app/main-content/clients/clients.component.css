@@ -79,3 +79,30 @@
 .hidden{
     display: none;
 }
+
+
+.row-skeleton{
+    padding: .5rem 1rem;
+    border: 1px var(--secondary-text-color) solid;
+    border-radius: .5rem;
+    display: flex;
+    gap: .5rem;
+}
+
+.img-skeleton{
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.text-skeleton{
+    height: .6rem;
+    border-radius: .25rem;
+    width: 150px;
+    margin: .3rem;
+}
+
+.text-skeleton:last-child{
+    width: 120px;
+}

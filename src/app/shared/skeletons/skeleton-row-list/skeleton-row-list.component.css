@@ -1,0 +1,30 @@
+.skeleton-row{
+    padding: .5rem 1rem;
+    border: 1px var(--secondary-text-color) solid;
+    border-radius: .5rem;
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+.skeleton-img{
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.skeleton-text{
+    height: .6rem;
+    border-radius: .25rem;
+    width: 150px;
+    margin: .3rem;
+}
+
+.skeleton-text:last-child{
+    width: 120px;
+}
+
+.column{
+    margin-right: 50px;
+}

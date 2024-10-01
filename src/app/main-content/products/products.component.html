@@ -35,13 +35,7 @@
     }
     <div class="list-footer">
         <div class="options" [class.hidden]="selected_products_ids().length == 0">
-            <span>({{ selected_products_ids().length }} 
-                @if(selected_products_ids().length == 1){
-                    product is selected
-                }@else {
-                    products are selected
-                }
-            )</span>
+            <span>({{ selected_products_ids().length }}) selected</span>
             <button class="icon-button icon-button-primary"><i class="fa-solid fa-pen"></i></button>
             <button class="icon-button icon-button-primary"><i class="fa-solid fa-trash-can"></i></button>
             <button class="icon-button icon-button-danger" (click)="on_list_options_close_btn_click()"><i class="fa-solid fa-xmark"></i></button>
