@@ -44,7 +44,6 @@ export class BrandsService{
         this.brands.set([...this.brands(), brand]);
     }
 
-    
     public set edit_brand(brand:Brand) {
         this.brands.set(this.brands().map((br)=>{
             if(brand.id === br.id){
@@ -53,7 +52,5 @@ export class BrandsService{
                 return br;
             }
         }));
-    }
-    
-    
+    } 
 }

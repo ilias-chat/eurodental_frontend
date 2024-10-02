@@ -15,9 +15,9 @@
 
             <div class="categories">
                 @for (cat of categories(); track cat.id) {
-                    <div class="category" [class.selected]="selected_category.id === cat.id">
-                        @if (is_category_form_open() && selected_category.id === cat.id) {
-                            <input type="text" [(ngModel)]="selected_category.category">
+                    <div class="category" [class.selected]="selected_category().id === cat.id">
+                        @if (is_category_form_open() && selected_category().id === cat.id) {
+                            <input type="text" [(ngModel)]="selected_category().category">
                             <button class="icon-button primary-button"
                             (click)="on_save_category_btn_click()">
                                 <i class="fa-solid fa-floppy-disk"></i>
@@ -59,8 +59,8 @@
             </div>
             
             <div class="categories-footer">
-                @if (is_category_form_open() && selected_category.id === 0) {
-                    <input type="text" [(ngModel)]="selected_category.category">
+                @if (is_category_form_open() && selected_category().id === 0) {
+                    <input type="text" [(ngModel)]="selected_category().category">
                     <button class="icon-button primary-button"
                     (click)="on_save_category_btn_click()">
                         <i class="fa-solid fa-floppy-disk"></i>

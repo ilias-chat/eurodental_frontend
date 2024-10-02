@@ -15,10 +15,6 @@ export class BrandsComponent {
   is_open2 = signal<boolean>(false);
 
   private brands_service = inject(BrandsService);
-
-  private http_client = inject(HttpClient);
-  private api_url = 'http://35.180.66.24';
-
   private Toasts_service = inject(ToastsService);
 
   brands: Signal<Brand[]> = this.brands_service.brands;
@@ -28,17 +24,6 @@ export class BrandsComponent {
   is_brand_form_open = signal<boolean>(false);
 
   is_progresbar_open = signal<boolean>(false);
-
-  ngOnInit(){
-    // this.brands_service.all().subscribe({
-    //   next:(respond_data)=>{
-    //     this.brands.set((respond_data));
-    //   },
-    //   error:(err)=>{
-    //     console.error(err.message);
-    //   },
-    // });
-  }
 
   on_close(){
     this.close_dialog();
@@ -95,14 +80,6 @@ export class BrandsComponent {
     }else{
       this.brands_service.edit(this.selected_brand).subscribe({
         next:(respond_data)=>{
-          // this.brands.set(this.brands().map((cat)=>{
-          //     if (cat.id === this.selected_brand.id) {
-          //       return this.selected_brand;
-          //     }else{
-          //       return cat;
-          //     }
-          //   })
-          // );
           this.brands_service.edit_brand = this.selected_brand;
           this.close_brand_form();
           this.Toasts_service.add('changes have been saved successfully', 'success');

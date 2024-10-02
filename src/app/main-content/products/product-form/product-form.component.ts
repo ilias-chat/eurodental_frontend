@@ -1,6 +1,8 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, Signal, ViewChild, inject } from '@angular/core';
 import { Product } from '../product.model';
 import { FormsModule } from '@angular/forms';
+import { Brand, BrandsService } from '../brands.service';
+import { CategoriesService, Category } from '../categories.service';
 
 @Component({
   selector: 'app-product-form',
@@ -30,6 +32,12 @@ export class ProductFormComponent {
   @ViewChild('form') product_form!:ElementRef<HTMLFormElement>;
   
   @Output() submit = new EventEmitter<Product>();
+
+  private brands_service = inject(BrandsService);
+  private categoris_service = inject(CategoriesService);
+
+  brands: Signal<Brand[]> = this.brands_service.brands;
+  categories: Signal<Category[]> = this.categoris_service.categories;
 
   on_close(){
     this.close_dialog();

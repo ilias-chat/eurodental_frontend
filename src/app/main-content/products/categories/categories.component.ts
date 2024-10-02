@@ -1,12 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, inject, signal } from '@angular/core';
+import { Component, Signal, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
-
-interface Category{
-  id:number,
-  category:string,
-}
+import { CategoriesService, Category } from '../categories.service';
 
 interface Sub_category{
   id:number,
@@ -28,12 +24,13 @@ export class CategoriesComponent {
   private api_url = 'http://35.180.66.24';
 
   private Toasts_service = inject(ToastsService);
+  private categoris_service = inject(CategoriesService);
 
-  categories = signal<Category[]>([]);
+  categories: Signal<Category[]> = this.categoris_service.categories;
   sub_categories = signal<Sub_category[]>([]);
   subcategories_by_cat = signal<Sub_category[]>([]);
 
-  selected_category:Category = {id:0, category:''};
+  selected_category = signal<Category>({id:0, category:''});
   selected_subcategory:Sub_category = {id:0, category_id:0, sub_category:''};
 
   is_category_form_open = signal<boolean>(false);
@@ -42,15 +39,6 @@ export class CategoriesComponent {
   is_progresbar_open = signal<boolean>(false);
 
   ngOnInit(){
-    this.http_client.get<Category[]>(this.api_url+'/categories').subscribe({
-      next:(respond_data)=>{
-        this.categories.set((respond_data));
-      },
-      error:(err)=>{
-        console.error(err.message);
-      },
-    });
-
     this.http_client.get<Sub_category[]>(this.api_url+'/sub_categories').subscribe({
       next:(respond_data)=>{
         this.sub_categories.set((respond_data));
@@ -73,14 +61,14 @@ export class CategoriesComponent {
   close_dialog(){
     this.is_open.set(false);
     this.is_category_form_open.set(false);
-    this.selected_category = {id:0, category:''};
+    this.selected_category.set({id:0, category:''});
     this.is_sub_category_form_open.set(false);
     this.selected_subcategory = {id:0, category_id:0, sub_category:''};
   }
 
   on_new_category_btn_click(){
     this.is_category_form_open.set(true);
-    this.selected_category = {id:0, category:''};
+    this.selected_category.set({id:0, category:''});
     this.subcategories_by_cat.set([]);
   }
 
@@ -91,7 +79,7 @@ export class CategoriesComponent {
 
   close_category_form(){
     this.is_category_form_open.set(false);
-    this.selected_category = {id:0, category:''};
+    this.selected_category.set({id:0, category:''});
   }
 
   close_sub_category_form(){
@@ -108,7 +96,7 @@ export class CategoriesComponent {
   }
 
   on_edit_category_btn_click(category:Category){
-    this.selected_category = {...category};
+    this.selected_category.set({...category});
     this.is_category_form_open.set(true);
   }
 
@@ -120,11 +108,12 @@ export class CategoriesComponent {
   on_save_category_btn_click(){
     this.is_progresbar_open.set(true);
 
-    if (this.selected_category.id === 0) {
-      this.http_client.post(this.api_url+'/categories',{category:this.selected_category.category}).subscribe({
+    if (this.selected_category().id === 0) {
+      this.http_client.post(this.api_url+'/categories',{category:this.selected_category().category}).subscribe({
         next:(respond_data)=>{
-          this.selected_category.id = (respond_data as Category).id;
-          this.categories.set([...this.categories(), this.selected_category])
+          this.selected_category().id = (respond_data as Category).id;
+          //this.categories.set([...this.categories(), this.selected_category])
+          this.categoris_service.add_brand = this.selected_category();
           this.close_category_form();
           this.Toasts_service.add('category has been created successfully', 'success');
           this.is_progresbar_open.set(false);
@@ -136,16 +125,9 @@ export class CategoriesComponent {
         },
       });
     }else{
-      this.http_client.put(this.api_url+'/categories/'+this.selected_category.id, {category:this.selected_category.category}).subscribe({
+      this.http_client.put(this.api_url+'/categories/'+this.selected_category().id, {category:this.selected_category().category}).subscribe({
         next:(respond_data)=>{
-          this.categories.set(this.categories().map((cat)=>{
-              if (cat.id === this.selected_category.id) {
-                return this.selected_category;
-              }else{
-                return cat;
-              }
-            })
-          );
+          this.categoris_service.edit_category = this.selected_category();
           this.close_category_form();
           this.Toasts_service.add('changes have been saved successfully', 'success');
           this.is_progresbar_open.set(false);
@@ -166,7 +148,7 @@ export class CategoriesComponent {
     if (this.selected_subcategory.id === 0) {
       this.http_client.post(
         this.api_url+'/sub_categories',
-        {sub_category:this.selected_subcategory.sub_category, category_id:this.selected_category.id}
+        {sub_category:this.selected_subcategory.sub_category, category_id:this.selected_category().id}
         ).subscribe({
         next:(respond_data)=>{
           this.selected_subcategory.id = (respond_data as Sub_category).id;
@@ -212,14 +194,14 @@ export class CategoriesComponent {
   }
 
   on_category_click(cat:Category){
-    this.selected_category = {...cat}
+    this.selected_category.set({...cat});
     this.is_category_form_open.set(false);
     this.filter_subcategories_by_cat();
   }
 
   filter_subcategories_by_cat(){
     this.subcategories_by_cat.set(this.sub_categories().filter((sub_cat)=>{
-      return sub_cat.category_id === this.selected_category.id
+      return sub_cat.category_id === this.selected_category().id
     }))
   }
 }
