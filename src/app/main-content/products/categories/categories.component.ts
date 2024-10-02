@@ -3,12 +3,7 @@ import { Component, Signal, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { CategoriesService, Category } from '../categories.service';
-
-interface Sub_category{
-  id:number,
-  category_id:number,
-  sub_category:string,
-}
+import { SubCategoriesService, Sub_category } from '../sub_categories.service';
 
 @Component({
   selector: 'app-categories',
@@ -25,10 +20,11 @@ export class CategoriesComponent {
 
   private Toasts_service = inject(ToastsService);
   private categoris_service = inject(CategoriesService);
+  private sub_categoris_service = inject(SubCategoriesService);
 
   categories: Signal<Category[]> = this.categoris_service.categories;
-  sub_categories = signal<Sub_category[]>([]);
-  subcategories_by_cat = signal<Sub_category[]>([]);
+  sub_categories: Signal<Sub_category[]> = this.sub_categoris_service.sub_categories;
+  //subcategories_by_cat = signal<Sub_category[]>([]);
 
   selected_category = signal<Category>({id:0, category:''});
   selected_subcategory:Sub_category = {id:0, category_id:0, sub_category:''};
@@ -38,20 +34,9 @@ export class CategoriesComponent {
 
   is_progresbar_open = signal<boolean>(false);
 
-  ngOnInit(){
-    this.http_client.get<Sub_category[]>(this.api_url+'/sub_categories').subscribe({
-      next:(respond_data)=>{
-        this.sub_categories.set((respond_data));
-      },
-      error:(err)=>{
-        console.error(err.message);
-      },
-    });
-  }
-
   on_close(){
     this.close_dialog();
-    this.subcategories_by_cat.set([]);
+    //this.subcategories_by_cat.set([]);
   }
 
   open_dialog(){
@@ -69,7 +54,7 @@ export class CategoriesComponent {
   on_new_category_btn_click(){
     this.is_category_form_open.set(true);
     this.selected_category.set({id:0, category:''});
-    this.subcategories_by_cat.set([]);
+    //this.subcategories_by_cat.set([]);
   }
 
   on_new_sub_category_btn_click(){
@@ -113,7 +98,7 @@ export class CategoriesComponent {
         next:(respond_data)=>{
           this.selected_category().id = (respond_data as Category).id;
           //this.categories.set([...this.categories(), this.selected_category])
-          this.categoris_service.add_brand = this.selected_category();
+          this.categoris_service.add_category = this.selected_category();
           this.close_category_form();
           this.Toasts_service.add('category has been created successfully', 'success');
           this.is_progresbar_open.set(false);
@@ -153,8 +138,8 @@ export class CategoriesComponent {
         next:(respond_data)=>{
           this.selected_subcategory.id = (respond_data as Sub_category).id;
           this.selected_subcategory.category_id = (respond_data as Sub_category).category_id;
-          this.sub_categories.set([...this.sub_categories(), this.selected_subcategory]);
-          this.subcategories_by_cat.set([...this.subcategories_by_cat(), this.selected_subcategory]);
+          this.sub_categoris_service.add_sub_category = this.selected_subcategory;
+          //this.subcategories_by_cat.set([...this.subcategories_by_cat(), this.selected_subcategory]);
           this.close_sub_category_form();
           this.Toasts_service.add('sub-category has been created successfully', 'success');
           this.is_progresbar_open.set(false);
@@ -171,14 +156,7 @@ export class CategoriesComponent {
         {sub_category:this.selected_subcategory.sub_category}
         ).subscribe({
         next:(respond_data)=>{
-          this.sub_categories.set(this.sub_categories().map((cat)=>{
-              if (cat.id === this.selected_subcategory.id) {
-                return this.selected_subcategory;
-              }else{
-                return cat;
-              }
-            })
-          );
+          this.sub_categoris_service.edit_sub_category = this.selected_subcategory
           this.close_sub_category_form();
           this.filter_subcategories_by_cat();
           this.Toasts_service.add('changes have been saved successfully', 'success');
@@ -200,8 +178,16 @@ export class CategoriesComponent {
   }
 
   filter_subcategories_by_cat(){
-    this.subcategories_by_cat.set(this.sub_categories().filter((sub_cat)=>{
-      return sub_cat.category_id === this.selected_category().id
-    }))
+    // this.subcategories_by_cat.set(this.sub_categories().filter((sub_cat)=>{
+    //   return sub_cat.category_id === this.selected_category().id
+    // }))
   }
+
+  
+  public get sub_categories_by_category() : Sub_category[] {
+    return this.sub_categories().filter((cat)=>{
+      return cat.category_id === this.selected_category().id;
+    })
+  }
+  
 }

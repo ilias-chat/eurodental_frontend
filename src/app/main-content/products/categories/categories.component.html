@@ -36,7 +36,7 @@
                 }
             </div>
             <div class="sub-categories">
-                @for (cat of subcategories_by_cat(); track cat.id) {
+                @for (cat of sub_categories_by_category; track cat.id) {
                     <div class="sub-category">
                         @if (is_sub_category_form_open() && selected_subcategory.id === cat.id) {
                             <input type="text" [(ngModel)]="selected_subcategory.sub_category">
@@ -92,7 +92,7 @@
                     </button>
                 }@else {
                     <span class="total"> 
-                        total sub-categories: {{ subcategories_by_cat().length }}
+                        total sub-categories: {{ sub_categories_by_category.length }}
                      </span>
                     <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()">
                         <i class="fa-solid fa-plus"></i>

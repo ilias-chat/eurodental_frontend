@@ -1,8 +1,9 @@
-import { Component, ElementRef, EventEmitter, Output, Signal, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, Signal, ViewChild, inject, signal } from '@angular/core';
 import { Product } from '../product.model';
 import { FormsModule } from '@angular/forms';
 import { Brand, BrandsService } from '../brands.service';
 import { CategoriesService, Category } from '../categories.service';
+import { SubCategoriesService, Sub_category } from '../sub_categories.service';
 
 @Component({
   selector: 'app-product-form',
@@ -35,9 +36,12 @@ export class ProductFormComponent {
 
   private brands_service = inject(BrandsService);
   private categoris_service = inject(CategoriesService);
+  private sub_categoris_service = inject(SubCategoriesService);
 
   brands: Signal<Brand[]> = this.brands_service.brands;
   categories: Signal<Category[]> = this.categoris_service.categories;
+  sub_categories: Signal<Sub_category[]> = this.sub_categoris_service.sub_categories;
+  selected_category_id = signal(0);
 
   on_close(){
     this.close_dialog();
@@ -104,5 +108,15 @@ export class ProductFormComponent {
       img_input.files = files;
       this.selected_product.image_path = URL.createObjectURL(img_input.files[0]);
     }
+  }
+
+  public get sub_categories_by_category() : Sub_category[] {
+    return this.sub_categories().filter((cat)=>{
+      return cat.category_id == this.selected_category_id();
+    })
+  }
+
+  on_combo_category_change(){
+    this.selected_category_id.set(this.selected_product.id_categorie);
   }
 }

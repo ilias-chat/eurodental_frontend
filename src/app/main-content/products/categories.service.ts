@@ -40,7 +40,7 @@ export class CategoriesService{
         return this.http_client.put(this.api_url + '/categories/'+category.id, category);
     }
     
-    public set add_brand(category:Category) {
+    public set add_category(category:Category) {
         this.categories.set([...this.categories(), category]);
     }
 

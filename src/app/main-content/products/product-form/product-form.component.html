@@ -31,7 +31,7 @@
 
             <div class="form-group">
                 <label for="categorie">Categorie</label>
-                <select name="categorie" [(ngModel)]="selected_product.categorie">
+                <select name="categorie" [(ngModel)]="selected_product.id_categorie" (change)="on_combo_category_change()">
                     <option value=""></option>
                     @for(category of categories(); track category.id){
                         <option value="{{category.id}}">{{category.category}}</option>
@@ -41,11 +41,11 @@
 
             <div class="form-group">
                 <label for="sub_categorie">Sub-categorie</label>
-                <select name="sub_categorie" [(ngModel)]="selected_product.sub_categorie">
+                <select name="sub_categorie" [(ngModel)]="selected_product.id_sub_categorie">
                     <option value=""></option>
-                    <option value="Computers">Computers</option>
-                    <option value="Wearables">Wearables</option>
-                    <option value="Audio">Audio</option>
+                    @for(sub_category of sub_categories_by_category; track sub_category.id){
+                        <option value="{{sub_category.id}}">{{sub_category.sub_category}}</option>
+                    }
                 </select>
             </div>
 
