@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject, signal } from '@angular/core';
+import { Component, ElementRef, Signal, ViewChild, inject, signal } from '@angular/core';
 import { ProductsService } from './products.service';
 import { ToastsService } from '../../shared/toasts-container/toast.service';
 import { ProductFormComponent } from './product-form/product-form.component';
@@ -6,6 +6,7 @@ import { Product } from './product.model';
 import { ProductComponent } from './product/product.component';
 import { CategoriesComponent } from "./categories/categories.component";
 import { BrandsComponent } from './brands/brands.component';
+import { Brand, BrandsService } from './brands.service';
 
 @Component({
   selector: 'app-products',
@@ -17,6 +18,7 @@ import { BrandsComponent } from './brands/brands.component';
 export class ProductsComponent {
   private ToastsService = inject(ToastsService);
   private productsService = inject(ProductsService);
+  private brand_service = inject(BrandsService);
   @ViewChild(CategoriesComponent) cateroies_component!:CategoriesComponent;
   @ViewChild(BrandsComponent) brands_component!:BrandsComponent;
   @ViewChild(ProductFormComponent) product_form_component!:ProductFormComponent;
@@ -34,10 +36,11 @@ export class ProductsComponent {
   @ViewChild('search_input') search_input!: ElementRef;
   @ViewChild('combo_brand') combo_brand!: ElementRef;
 
+  brands: Signal<Brand[]> = this.brand_service.brands;
+
   ngOnInit(){
     //this.all_products.set(this.productsService.filter('',''));
     this.all_products.set(this.productsService.all_products());
-
     this.reset_products_list();
    }
 

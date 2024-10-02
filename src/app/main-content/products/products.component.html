@@ -8,11 +8,15 @@
         placeholder="Search by name" (keyup)="on_search_input_keyup()">
         <select #combo_brand class="combo-brand" (change)="on_combo_brand_change()">
             <option value=""></option>
-            <option value="Brand A">Brand A</option>
+            @for(brand of brands(); track brand.id){
+                <option value="{{brand.brand}}">{{brand.brand}}</option>
+            }
+
+            <!-- <option value="Brand A">Brand A</option>
             <option value="Brand B">Brand B</option>
             <option value="Brand C">Brand C</option>
             <option value="Brand D">Brand D</option>
-            <option value="Brand E">Brand E</option>
+            <option value="Brand E">Brand E</option> -->
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           

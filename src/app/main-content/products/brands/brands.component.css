@@ -34,23 +34,7 @@
 }
 
 .brand>span{
-    cursor: pointer;
-}
-
-.sub-brand>span,
-.brand>span{
     margin-right: auto;
-}
-
-.brand>span:hover{
-    color: var(--main-color);
-    text-decoration: underline;
-}
-
-.selected{
-    background-color: var(--background-color);
-    color: var(--main-color);
-    box-shadow: var(--main-color) 1px -1px 1px inset, var(--main-color) -1px 1px 1px inset;
 }
 
 .brand:hover{
