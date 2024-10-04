@@ -20,7 +20,6 @@ export class BrandsService{
         this.all().subscribe({
             next:(respond_data)=>{
               this.brands.set((respond_data));
-              console.log(this.brands().length);
             },
             error:(err)=>{
               console.error(err.message);

@@ -91,3 +91,17 @@ img{
 .task span:last-child{
     margin-left: auto;
 }
+
+.products{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    border: 1px solid var(--secondary-text-color);
+    border-radius: .5rem;
+    overflow: hidden;
+}
+
+.product{
+    border-bottom: 1px solid var(--secondary-text-color);
+    padding: .5rem 1rem;
+}

@@ -49,6 +49,14 @@
 
         }
         </div>
+
+        <div class="products">
+            @for (product of task_details()?.products; track product.id) {
+                <div class="product">
+                    {{ product.name }} ({{ product.reference }})
+                </div>
+            }
+        </div>
         
     </div>
 </div>

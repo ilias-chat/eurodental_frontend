@@ -20,7 +20,6 @@ export class CategoriesService{
         this.all().subscribe({
             next:(respond_data)=>{
               this.categories.set((respond_data));
-              console.log(this.categories().length);
             },
             error:(err)=>{
               console.error(err.message);

@@ -6,7 +6,11 @@
         <span class="checkmark"></span>
     </label>
     <div class="card-header">
-        <img src="{{client.image_path}}" alt="client image" class="client-img skeleton">
+        <!-- @if(client.image_path.length < 3){
+            <img src="../../../../assets/imgs/profile-user.png" alt="" class="client-img">
+        }@else{ -->
+            <img src="{{client.image_path}}" alt="" class="client-img">
+        <!-- } -->
         <div class="text">
             <span class="client-name">
                 {{client.first_name}} {{client.last_name}}
