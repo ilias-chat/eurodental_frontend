@@ -7,11 +7,11 @@ import { Observable } from "rxjs";
     providedIn:'root'
 })
 export class ClientsService {
-    private clients = signal<Client[]>([]);
-    all_clients = this.clients.asReadonly();
+  private clients = signal<Client[]>([]);
+  all_clients = this.clients.asReadonly();
 
-    private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+  private http_client = inject(HttpClient);
+  private api_url = 'http://35.180.66.24';
 
   constructor(){    
 

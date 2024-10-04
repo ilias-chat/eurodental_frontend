@@ -7,17 +7,18 @@ import { ProductComponent } from './product/product.component';
 import { CategoriesComponent } from "./categories/categories.component";
 import { BrandsComponent } from './brands/brands.component';
 import { Brand, BrandsService } from './brands.service';
+import { SkeletonRowListComponent } from '../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductFormComponent, ProductComponent, CategoriesComponent, BrandsComponent],
+  imports: [ProductFormComponent, ProductComponent, CategoriesComponent, BrandsComponent, SkeletonRowListComponent],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  private ToastsService = inject(ToastsService);
-  private productsService = inject(ProductsService);
+  private toasts_service = inject(ToastsService);
+  private products_service = inject(ProductsService);
   private brand_service = inject(BrandsService);
   @ViewChild(CategoriesComponent) cateroies_component!:CategoriesComponent;
   @ViewChild(BrandsComponent) brands_component!:BrandsComponent;
@@ -38,11 +39,36 @@ export class ProductsComponent {
 
   brands: Signal<Brand[]> = this.brand_service.brands;
 
+  is_loading = signal(false);
+  is_error = signal(false);
+
   ngOnInit(){
-    //this.all_products.set(this.productsService.filter('',''));
-    this.all_products.set(this.productsService.all_products());
+    this.refresh_products();
     this.reset_products_list();
-   }
+    console.log('hh');
+
+  }
+
+  refresh_products(){
+    
+    this.is_loading.set(true);
+    this.is_error.set(false);
+
+    this.products_service.all().subscribe({
+      next:(respond_data)=>{
+        this.all_products.set(respond_data);
+        this.products_service.set_products = respond_data;
+        this.total_products.set(respond_data.length);
+        this.filter_products();
+        this.is_loading.set(false);
+      },
+      error:(err)=>{
+        console.error(err);
+        this.is_loading.set(false);
+        this.is_error.set(true);
+      },
+    })
+  } 
 
   get products(): Product[] {
     return this.all_products().slice(this.start_index(), this.end_index());
@@ -81,7 +107,7 @@ export class ProductsComponent {
   filter_products(){
     const search_input_value = this.search_input.nativeElement.value;
     const brand_combo_value = this.combo_brand.nativeElement.value;
-    this.all_products.set(this.productsService.filter(search_input_value, brand_combo_value));
+    this.all_products.set(this.products_service.filter(search_input_value, brand_combo_value));
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
@@ -102,35 +128,50 @@ export class ProductsComponent {
     this.search_input.nativeElement.value = '';
     this.combo_brand.nativeElement.value = '';
 
-    this.all_products.set(this.productsService.filter('',''));
+    this.all_products.set(this.products_service.filter('',''));
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
     this.reset_products_list();
   }
 
-  on_form_submit(product:Product){
-    if(product.id === 0){
-      product.id = this.productsService.add(product);
-      this.all_products.set([...this.all_products(),product]);
-      this.reset_products_list();
+  on_form_submit(product_form_data:{form_data:FormData, product:Product}){
+    console.log(product_form_data.product);
+    this.product_form_component.show_progressbar();
 
-      this.ToastsService.add("product have been created successfully", "success");
+    if(product_form_data.product.id === 0){
+      this.products_service.add(product_form_data.form_data)
+      .subscribe({
+        next:(respond_data)=>{
+          this.toasts_service.add("Product have been created successfully", "success");
+          product_form_data.product.id = (respond_data as Product).id;
+          this.products_service.add_product = product_form_data.product;
+          this.filter_products();
+          this.reset_and_close_form();
+          this.product_form_component.hide_progressbar();
+        },
+        error:(err)=>{
+          this.toasts_service.add(err.message, "danger");
+          this.product_form_component.hide_progressbar();
+          console.log('add error:',err);
+        },
+      });     
     } else {
-      this.productsService.edit(product);
-
-      this.all_products.set(this.all_products().map((cl) => {
-          if (cl.id === product.id) {
-            return product;
-          }
-          return cl;
-        })
-      );
-      this.reset_products_list();
-
-      this.ToastsService.add("Changes have been saved successfully", "success");
+      this.products_service.edit(product_form_data.form_data, product_form_data.product.id).subscribe({
+        next:(res)=>{
+          this.toasts_service.add('Changes have been saved successfully','success');
+          this.products_service.edit_product = product_form_data.product;
+          this.filter_products();
+          this.reset_and_close_form();
+          this.product_form_component.hide_progressbar();
+        },
+        error:(err)=>{
+          this.toasts_service.add(err.message,'danger');
+          this.product_form_component.hide_progressbar();
+          console.error(err);
+        },
+      });
     }
-
   }
 
   on_product_edit(product:Product){
@@ -160,5 +201,10 @@ export class ProductsComponent {
 
   on_manage_brands_btn_click(){
     this.brands_component.open_dialog();
+  }
+
+  reset_and_close_form(){
+    this.product_form_component.on_close();
+    this.product_form_component.reset_selected_product();
   }
 }

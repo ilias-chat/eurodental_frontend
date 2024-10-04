@@ -27,10 +27,24 @@
             <span> new product </span>
         </button>
     </div>
-    @for(product of products; track product.id){
-        <app-product [product] = "product" [selected]="selected_products_ids().includes(product.id)" 
-         (selected_change)="on_product_selected_change(product.id)" (edit)="on_product_edit($event)"></app-product>
-    }
+    <div class="list-body">
+        @if(is_loading()){
+            @for (item of [1,2,3,4,5]; track $index) {
+                <app-skeleton-row-list></app-skeleton-row-list>
+            }
+        }
+
+        @if(is_error()){
+            <p>Error occurred while loading the data.</p>
+            <button class="primary-button" (click)="refresh_products()">refresh</button>
+        }
+
+        @for(product of products; track product.id){
+            <app-product [product] = "product" [selected]="selected_products_ids().includes(product.id)" 
+             (selected_change)="on_product_selected_change(product.id)" (edit)="on_product_edit($event)"></app-product>
+        }
+    </div>
+    
     <div class="list-footer">
         <div class="options" [class.hidden]="selected_products_ids().length == 0">
             <span>({{ selected_products_ids().length }}) selected</span>

@@ -1,4 +1,4 @@
-import { Component, ElementRef, Output, ViewChild, EventEmitter } from '@angular/core';
+import { Component, ElementRef, Output, ViewChild, EventEmitter, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Client } from '../client.model';
 
@@ -25,11 +25,10 @@ export class ClientFormComponent {
   };
   @ViewChild('dialog') client_dialog!:ElementRef<HTMLDialogElement>;
   @ViewChild('form') client_form!:ElementRef<HTMLFormElement>;
-  //@ViewChild('img_input') img_input!:ElementRef<HTMLInputElement>;
   
   @Output() submit = new EventEmitter<{form_data:FormData, client:Client}>();
 
-  is_progressbar_open:boolean = false;
+  is_progressbar_open = signal(false);
 
   on_close(){
     this.close_dialog();
@@ -106,10 +105,10 @@ export class ClientFormComponent {
   }
 
   show_progressbar(){
-    this.is_progressbar_open = true;
+    this.is_progressbar_open.set(true);
   }
 
   hide_progressbar(){
-    this.is_progressbar_open = false;
+    this.is_progressbar_open.set(false);
   }
 }
