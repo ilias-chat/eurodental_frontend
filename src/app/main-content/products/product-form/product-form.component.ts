@@ -80,6 +80,7 @@ export class ProductFormComponent {
       has_warranty:false ,
       warranty_duration_months:0,
       description:'',
+      image_id:0,
     };
   }
 

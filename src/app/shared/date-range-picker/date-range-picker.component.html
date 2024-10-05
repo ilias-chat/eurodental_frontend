@@ -1,0 +1,62 @@
+<div class="calendar">
+    <div class="calendar-header">
+        <span class="prev" (click)="change_month(-1)">
+            <i class="fa-solid fa-angle-left"></i>
+        </span>
+        <span class="next" (click)="change_month(1)">
+            <i class="fa-solid fa-angle-right"></i>
+        </span>
+        <div #month_label class="month-label"></div>
+    </div>
+    <div class="calendar-body">
+        <div #test class="weekdays">
+            <div>Sun</div>
+            <div>Mon</div>
+            <div>Tue</div>
+            <div>Wed</div>
+            <div>Thu</div>
+            <div>Fri</div>
+            <div>Sat</div>
+        </div>
+        <div #days class="days">
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+            <div (click)="select_date($event)" class="day"></div>
+        </div>
+    </div>
+</div>
+<p>{{ date_range() }}</p>

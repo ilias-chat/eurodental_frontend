@@ -21,19 +21,20 @@ export class ProductsService{
       return this.http.get<Product[]>('http://35.180.66.24/products');
     }
   
-    filter(name:string, brand:string){
-      if(name != '' && brand != ''){
+    filter(name:string, id_brand:number){
+      
+      if(name != '' && id_brand != 0){
         return this.products().filter((product)=>{
           return (product.product_name.toLowerCase().includes(name))
-            && product.brand.toLowerCase() === brand.toLowerCase();
+            && product.id_brand == id_brand
         });
       } else if (name != ''){
         return this.products().filter((product)=>{
           return (product.product_name.toLowerCase().includes(name));
         });
-      } else if (brand != ''){
+      } else if (id_brand != 0){
         return this.products().filter((product)=>{
-          return product.brand.toLowerCase() === brand.toLowerCase();
+          return product.id_brand == id_brand;
         });
       }
       else return this.products();
@@ -44,7 +45,6 @@ export class ProductsService{
     }
   
     edit(product:FormData, product_id:number):Observable<Object>{
-      console.log(this.api_url+'/products/'+product_id, product);
       return this.http.put(this.api_url+'/products/'+product_id, product);
     }
     

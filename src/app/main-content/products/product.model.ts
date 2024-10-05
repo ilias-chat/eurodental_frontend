@@ -14,4 +14,5 @@ export interface Product{
 	warranty_duration_months:number,
     description:string,
 	reference:string,
+	image_id:number,
 }

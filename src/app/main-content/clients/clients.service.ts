@@ -21,8 +21,6 @@ export class ClientsService {
   public set set_clients(clients:Client[]) {
     this.clients.set(clients);
   }
-  
-  
 
   all():Observable<Client[]>{
     return this.http_client.get<Client[]>('http://35.180.66.24/clients');

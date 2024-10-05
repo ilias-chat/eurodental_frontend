@@ -1,0 +1,71 @@
+.calendar {
+    width: 350px;
+    margin: 20px auto;
+    border: 1px solid var(--secondary-text-color);
+    color: var(--text-color);
+    background-color: var(--secondary-background-color);
+    border-radius: .5rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    gap: 2rem;
+    padding: 1rem;
+    border-bottom: 1px solid var(--secondary-text-color);
+}
+
+.prev, 
+.next {
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.month-label {
+    font-weight: bold;
+    margin-left: auto;
+}
+
+.calendar-body{
+    padding: 1rem;
+}
+
+.weekdays, 
+.days {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+}
+
+.weekdays{
+    margin-bottom: .3rem;
+}
+
+.day {
+    padding: .8rem .4rem;
+    cursor: pointer;
+    border-radius: .5rem;
+    /* transition: background-color 0.3s; */
+}
+
+/* .day:hover {
+    background-color: #f0f0f0;
+} */
+
+.selected {
+    background-color: var(--main-color);
+    color: var(--third-color);
+}
+
+.in_range {
+    background-color: var(--main-color-04);
+    color: var(--third-color);
+    border-radius: 0;
+    box-shadow: var(--secondary-background-color) 0 -.3rem 0 0rem inset, var(--secondary-background-color) 0 .3rem 0 0rem inset;
+}
+
+#date-range {
+    margin-top: 20px;
+    font-size: 18px;
+}

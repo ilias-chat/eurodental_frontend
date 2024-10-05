@@ -9,7 +9,7 @@
         <select #combo_brand class="combo-brand" (change)="on_combo_brand_change()">
             <option value=""></option>
             @for(brand of brands(); track brand.id){
-                <option value="{{brand.brand}}">{{brand.brand}}</option>
+                <option value="{{brand.id}}">{{brand.brand}}</option>
             }
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>

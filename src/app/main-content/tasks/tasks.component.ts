@@ -5,11 +5,12 @@ import { TaskFormComponent } from './task-form/task-form.component';
 import { Task } from './task.model';
 import { TaskComponent } from './task/task.component';
 import { TaskDetailsComponent } from "./task-details/task-details.component";
+import { DateRangePickerComponent } from "../../shared/date-range-picker/date-range-picker.component";
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent],
+  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent, DateRangePickerComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })

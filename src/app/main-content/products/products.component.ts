@@ -44,9 +44,7 @@ export class ProductsComponent {
 
   ngOnInit(){
     this.refresh_products();
-    this.reset_products_list();
-    console.log('hh');
-
+    this.reset_pagination();
   }
 
   refresh_products(){
@@ -111,10 +109,10 @@ export class ProductsComponent {
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
-    this.reset_products_list();
+    this.reset_pagination();
   }
 
-  reset_products_list(){
+  reset_pagination(){
     this.total_products.set(this.all_products().length);
     if(this.total_products() % this.lines_per_page == 0)
       this.total_pages.set(this.total_products()/this.lines_per_page);
@@ -128,11 +126,11 @@ export class ProductsComponent {
     this.search_input.nativeElement.value = '';
     this.combo_brand.nativeElement.value = '';
 
-    this.all_products.set(this.products_service.filter('',''));
+    this.all_products.set(this.products_service.filter('',0));
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
-    this.reset_products_list();
+    this.reset_pagination();
   }
 
   on_form_submit(product_form_data:{form_data:FormData, product:Product}){
