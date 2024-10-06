@@ -36,9 +36,9 @@
         </div>
     </div>
     <div>
-        <span [class.badge-success]="task.status === 'Completed'" 
-        [class.badge-danger]="task.status === 'Open'"
-        [class.badge-warning]="task.status === 'In Progress'">
+        <span [class.badge-success]="task.status.toLowerCase() === 'completed'" 
+        [class.badge-danger]="task.status.toLowerCase() === 'unassigned'"
+        [class.badge-warning]="task.status.toLowerCase() === 'in progress'">
             {{ task.status }}
         </span>
      </div>
