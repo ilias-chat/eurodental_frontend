@@ -42,7 +42,7 @@ export class TaskDetailsComponent {
   @Input({required:true}) task_id:number = 0;
   task_details = signal<Task_details|undefined>(undefined);
 
-  is_open = signal(false);
+  is_open = signal(true);
 
   on_close_btn_click(){
     this.is_open.set(false);
@@ -66,12 +66,12 @@ export class TaskDetailsComponent {
       status:'Open',
       technician_id:101,
       technician:'technician name',
-      technician_image_path:'',
+      technician_image_path:'https://www.w3schools.com/howto/img_avatar.png',
       technician_phone_number:'0655889944',
       technician_email:'example@email.com',
       client_id:893,
       client:'client name',
-      client_image_path:'',
+      client_image_path:'https://www.w3schools.com/howto/img_avatar.png',
       client_phone_number:'0606060606',
       client_email:'test@email.com',
       client_city:'tanger',

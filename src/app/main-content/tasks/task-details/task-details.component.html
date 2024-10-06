@@ -50,10 +50,31 @@
         }
         </div>
 
+        <div class="technician">
+            <div class="profile">
+                <img class="skeleton" src="{{ task_details()?.technician_image_path }}" alt="">
+                <div class="profile-text">
+                    <span>{{ task_details()?.technician }}</span>
+                    <span> technician </span>
+                </div>
+            </div>
+
+        <div class="contacts">
+            <div class="contacts-row">
+                <i class="fa-solid fa-envelope"></i>
+                <span> {{ task_details()?.technician_email }} </span>
+            </div>
+            <div class="contacts-row">
+                <i class="fa-solid fa-mobile-screen-button"></i>
+                <span> {{ task_details()?.technician_phone_number }} </span>
+            </div>
+        </div>
+        </div>
+
         <div class="products">
             @for (product of task_details()?.products; track product.id) {
                 <div class="product">
-                    {{ product.name }} ({{ product.reference }})
+                    {{ product.name }} ({{ product.reference }}) &nbsp;&nbsp;&nbsp;&nbsp; x{{ product.quantity }}
                 </div>
             }
         </div>
