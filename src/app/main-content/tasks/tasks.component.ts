@@ -6,11 +6,12 @@ import { Task } from './task.model';
 import { TaskComponent } from './task/task.component';
 import { TaskDetailsComponent } from "./task-details/task-details.component";
 import { DateRangePickerComponent } from "../../shared/date-range-picker/date-range-picker.component";
+import { SkeletonRowListComponent } from '../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent, DateRangePickerComponent],
+  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent, DateRangePickerComponent, SkeletonRowListComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
@@ -35,24 +36,34 @@ export class TasksComponent {
   @ViewChild('combo_status') combo_status!: ElementRef;
 
   is_date_filter_open = signal(false);
+  is_loading = signal(false);
+  is_error = signal(false);
 
   ngOnInit(){
-
-    // this.tasks_service.all().subscribe({
-    //   next:(respond_data)=>{
-    //     this.all_tasks.set(respond_data);
-    //     this.total_tasks.set(respond_data.length);
-    //     this.filter_tasks();
-    //   },
-    //   error:(err)=>{
-    //     this.toasts_service.add(err.message, "danger");
-    //   },
-    // });
-
-    this.all_tasks.set(this.tasks_service.all());
-
+    this.refresh_tasks();
     this.reset_pagination();
-   }
+  }
+
+   refresh_tasks(){
+    
+    this.is_loading.set(true);
+    this.is_error.set(false);
+
+    this.tasks_service.all().subscribe({
+      next:(respond_data)=>{
+        this.all_tasks.set(respond_data);
+        this.tasks_service.set_tasks = respond_data;
+        this.total_tasks.set(respond_data.length);
+        this.filter_tasks();
+        this.is_loading.set(false);
+      },
+      error:(err)=>{
+        console.error(err);
+        this.is_loading.set(false);
+        this.is_error.set(true);
+      },
+    })
+  } 
 
   get tasks(): Task[] {
     return this.all_tasks().slice(this.start_index(), this.end_index());

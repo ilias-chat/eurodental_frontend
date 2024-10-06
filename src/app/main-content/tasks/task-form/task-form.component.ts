@@ -53,7 +53,7 @@ export class TaskFormComponent {
       client_id:0,
       client:'',
       client_image_path:'',
-      task_date: this.format_date_to_yyyy_mm_dd(new Date()),
+      task_date: undefined,
     }
   }
 

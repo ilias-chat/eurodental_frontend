@@ -28,6 +28,18 @@
     </div>
 
     <div class="list-body">
+
+        @if(is_loading()){
+            @for (item of [1,2,3,4,5]; track $index) {
+                <app-skeleton-row-list></app-skeleton-row-list>
+            }
+        }
+
+        @if(is_error()){
+            <p>Error occurred while loading the data.</p>
+            <button class="primary-button" (click)="refresh_tasks()">refresh</button>
+        }
+
         @for(task of tasks; track task.id){
             <app-task [task] = "task" [selected]="selected_tasks_ids().includes(task.id)" 
             (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"
