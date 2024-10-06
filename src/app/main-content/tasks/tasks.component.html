@@ -17,6 +17,10 @@
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           
+        <button class="filter icon-button primary-button" (click)="on_calendar_btn_click()">
+            <i class="fa-regular fa-calendar"></i>
+        </button>
+
         <button class="primary-button button-with-icon" (click)="on_add_task()">
             <i class="fa-solid fa-plus"></i>
             <span> new task </span>
@@ -30,6 +34,13 @@
             (show_details)="on_show_details(task.id)"></app-task>
         }
         <app-task-details [task_id]="3"></app-task-details>
+        <div class="date-filter-container" [class.show-date-filter]="is_date_filter_open()">
+            <button class="close-btn icon-button icon-button-danger" (click)="on_close_date_filter_container_click()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <app-date-range-picker></app-date-range-picker>
+            <button class="apply-btn primary-button">apply</button>
+        </div>
     </div>
 
     <div class="list-footer">

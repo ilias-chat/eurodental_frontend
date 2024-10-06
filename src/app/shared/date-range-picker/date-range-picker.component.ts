@@ -27,14 +27,14 @@ export class DateRangePickerComponent {
   ngAfterViewInit(){
     this.current_month = new Date().getMonth();
     this.current_year = new Date().getFullYear();
-    this.current_day = new Date().getDay() -1;
+    this.current_day = new Date().getDate();
     this.selected_range.start = new Date(this.current_year, this.current_month, this.current_day);
     this.selected_range.end = new Date(this.current_year, this.current_month, this.current_day);
-
+    
     this.calendar_month = this.current_month;
     this.calendar_year = this.current_year;
 
-    this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} - ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
+    this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} to ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
 
     this.render_calendar();
   }
@@ -104,11 +104,11 @@ export class DateRangePickerComponent {
 
       this.render_calendar();
   
-      this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} - ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
+      this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} to ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
   }
   
   format_date(date:Date) {
-      return date ? `${('0' + date.getDate()).slice(-2)}-${('0' + (date.getMonth() + 1)).slice(-2)}-${date.getFullYear()}` : '';
+      return date ? `${('0' + date.getDate()).slice(-2)} ${('0' + (this.month_names[date.getMonth()])).slice(1,4)} ${date.getFullYear()}` : '';
   }
   
   change_month(direction:number) {

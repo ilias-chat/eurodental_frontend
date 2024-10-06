@@ -34,6 +34,8 @@ export class TasksComponent {
   @ViewChild('technician_search_input') technician_search_input!: ElementRef;
   @ViewChild('combo_status') combo_status!: ElementRef;
 
+  is_date_filter_open = signal(false);
+
   ngOnInit(){
 
     // this.tasks_service.all().subscribe({
@@ -186,5 +188,13 @@ export class TasksComponent {
 
   on_show_details(task_id:number){
     this.task_details_component.open_task_details(task_id);
+  }
+
+  on_calendar_btn_click(){
+    this.is_date_filter_open.set(true);
+  }
+
+  on_close_date_filter_container_click(){
+    this.is_date_filter_open.set(false);
   }
 }
