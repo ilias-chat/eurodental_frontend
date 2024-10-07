@@ -10,5 +10,7 @@ export interface Task {
     client_id:number,
     client:string,
     client_image:string,
-    task_date:Date|undefined,
+    task_date:string,
+    created_by:number,
+    observation:string,
 }

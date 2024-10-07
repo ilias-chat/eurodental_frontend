@@ -11,20 +11,19 @@ export class TasksService {
     all_tasks = this.tasks.asReadonly();
 
     private http_task = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+    private api_url = 'http://35.180.66.24/tasks/';
 
   constructor(){
-    // this.all().subscribe({
-    //   next:(respond_data)=>{
-    //     this.tasks.set(respond_data);
-    //   }
-    // });
-
-    //this.tasks.set(this.all());
   }
 
-  all():Observable<Task[]>{
-    return this.http_task.get<Task[]>('http://35.180.66.24/tasks');
+  all(params:{start_date:string, end_date:string}):Observable<Task[]>{
+    let url = this.api_url
+    if(params.start_date !== '' && params.end_date !== ''){
+      url += '?date_range_start=' + params.start_date + '&date_range_end=' + params.end_date;
+    }else if(params.start_date !== ''){
+      url += "?exact_date=" + params.start_date; 
+    }
+    return this.http_task.get<Task[]>(url);
   }
 
   filter(technician:string, client:string, status:string){
@@ -61,11 +60,11 @@ export class TasksService {
   }
 
   add(task:Task):Observable<Object>{
-    return this.http_task.post(this.api_url + '/tasks', task);
+    return this.http_task.post(this.api_url, task);
   }
 
   edit(task:Task):Observable<Object>{
-    return this.http_task.put(this.api_url+'/tasks/'+task.id, task);
+    return this.http_task.put(this.api_url + task.id, task);
   }
 
   

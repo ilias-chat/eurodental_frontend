@@ -27,18 +27,18 @@ export class TechnitiansComboboxComponent {
 
   technicians = signal<Technician[]>([
     {
-      id:1,
-      full_name:'technitian01',
-      image_path:'',
-    },
-    {
-      id:2,
-      full_name:'technitian02',
-      image_path:'',
-    },
-    {
       id:3,
-      full_name:'technitian03',
+      full_name:'ahmed bakkali',
+      image_path:'',
+    },
+    {
+      id:8,
+      full_name:'test 2 test',
+      image_path:'',
+    },
+    {
+      id:9,
+      full_name:'test 1	test',
       image_path:'',
     },
   ]);
@@ -56,10 +56,6 @@ export class TechnitiansComboboxComponent {
   hide_options() {
     this.options_list.nativeElement.classList.add('hidden');
   };
-
-  hide_options_on_input_blue(){
-    //if()
-  }
 
   // Select an option and display it in the input
   select_option(event:Event) {

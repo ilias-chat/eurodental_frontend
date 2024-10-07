@@ -33,25 +33,29 @@
             @for (item of [1,2,3,4,5]; track $index) {
                 <app-skeleton-row-list></app-skeleton-row-list>
             }
+        }@else{
+            @for(task of tasks; track task.id){
+                <app-task [task] = "task" [selected]="selected_tasks_ids().includes(task.id)" 
+                (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"
+                (show_details)="on_show_details(task.id)"></app-task>
+            }
         }
 
         @if(is_error()){
             <p>Error occurred while loading the data.</p>
-            <button class="primary-button" (click)="refresh_tasks()">refresh</button>
+            <button class="primary-button" (click)="refresh_tasks({start_date:'',end_date:''})">refresh</button>
         }
 
-        @for(task of tasks; track task.id){
-            <app-task [task] = "task" [selected]="selected_tasks_ids().includes(task.id)" 
-            (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"
-            (show_details)="on_show_details(task.id)"></app-task>
-        }
         <app-task-details [task_id]="3"></app-task-details>
         <div class="date-filter-container" [class.show-date-filter]="is_date_filter_open()">
+            <!-- <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
+                <div class="progress-bar"></div>
+            </div> -->
             <button class="close-btn icon-button icon-button-danger" (click)="on_close_date_filter_container_click()">
                 <i class="fa-solid fa-xmark"></i>
             </button>
             <app-date-range-picker></app-date-range-picker>
-            <button class="apply-btn primary-button">apply</button>
+            <button class="apply-btn primary-button" (click)="on_apply_btn_click()">apply</button>
         </div>
     </div>
 

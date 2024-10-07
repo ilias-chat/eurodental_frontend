@@ -36,9 +36,7 @@ export class TaskFormComponent {
   }
 
   on_save_btn_click(){
-    console.log(this.selected_task);
-
-    //this.submit.emit({ ...this.selected_task});
+    this.submit.emit({ ...this.selected_task});
   }
 
   reset_selected_task(){
@@ -58,7 +56,9 @@ export class TaskFormComponent {
       client_id:0,
       client:'',
       client_image:'',
-      task_date: undefined,
+      task_date: this.format_date_to_yyyy_mm_dd(new Date()),
+      created_by:0,
+      observation:'',
     }
   }
 
@@ -93,7 +93,7 @@ export class TaskFormComponent {
   }
 
   on_clients_combo_change(client:{id:number,full_name:string, image_path:string}){
-    this.selected_task.technician_id = client.id;
+    this.selected_task.client_id = client.id;
     this.selected_task.client = client.full_name;
     this.selected_task.client_image = client.image_path;
   }

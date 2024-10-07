@@ -20,6 +20,8 @@ export class TasksComponent {
   private tasks_service = inject(TasksService);
   @ViewChild(TaskFormComponent) task_form_component!:TaskFormComponent;
   @ViewChild(TaskDetailsComponent) task_details_component!:TaskDetailsComponent;
+  @ViewChild(DateRangePickerComponent) range_picher_component!:DateRangePickerComponent;
+
   all_tasks = signal<Task[]>([]);
   selected_tasks_ids = signal<number[]>([]);
 
@@ -40,16 +42,16 @@ export class TasksComponent {
   is_error = signal(false);
 
   ngOnInit(){
-    this.refresh_tasks();
+    this.refresh_tasks({start_date:'', end_date:''});
     this.reset_pagination();
   }
 
-   refresh_tasks(){
+   refresh_tasks(params:{start_date:string, end_date:string}){
     
     this.is_loading.set(true);
     this.is_error.set(false);
 
-    this.tasks_service.all().subscribe({
+    this.tasks_service.all({start_date:params.start_date, end_date:params.end_date}).subscribe({
       next:(respond_data)=>{
         this.all_tasks.set(respond_data);
         this.tasks_service.set_tasks = respond_data;
@@ -137,7 +139,9 @@ export class TasksComponent {
 
   on_form_submit(task:Task){
     this.task_form_component.show_progressbar();
+    task.created_by = 4;
     if(task.id === 0){
+      task.status = 'In Progress';
       this.tasks_service.add(task)
       .subscribe({
         next:(respond_data)=>{
@@ -149,14 +153,14 @@ export class TasksComponent {
           this.task_form_component.hide_progressbar();
         },
         error:(err)=>{
-          this.toasts_service.add(err.message, "danger");
+          //this.toasts_service.add(err.message, "danger");
           this.task_form_component.hide_progressbar();
+          console.log(err);
         },
       });     
     } else {
       this.tasks_service.edit(task).subscribe({
         next:(res)=>{
-          console.log(res);
           this.toasts_service.add('Changes have been saved successfully','success');
           this.tasks_service.edit_task = task;
           this.filter_tasks();
@@ -164,9 +168,9 @@ export class TasksComponent {
           this.task_form_component.hide_progressbar();
         },
         error:(err)=>{
-          this.toasts_service.add(err.message,'danger');
+          //this.toasts_service.add(err.message,'danger');
           this.task_form_component.hide_progressbar();
-          //console.log('edid error:',err);
+          console.log(err);
         },
       });
     }
@@ -207,5 +211,22 @@ export class TasksComponent {
 
   on_close_date_filter_container_click(){
     this.is_date_filter_open.set(false);
+  }
+
+  on_apply_btn_click(){
+    this.refresh_tasks({
+      start_date:this.format_date_to_yyyy_mm_dd(this.range_picher_component.selected_range.start),
+      end_date:this.format_date_to_yyyy_mm_dd(this.range_picher_component.selected_range.end),
+    })
+  }
+
+  format_date_to_yyyy_mm_dd(date: Date|undefined): string {
+
+    if(date === undefined) return '';
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+    const year = date.getFullYear();
+  
+    return `${year}-${month}-${day}`;
   }
 }
