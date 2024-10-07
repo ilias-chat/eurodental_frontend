@@ -5,7 +5,14 @@
     display: flex;
     align-items: center;
     gap: .5rem;
-    padding-left: 4.2rem;
+    /* padding-left: 4.2rem; */
+}
+
+.checkbox{
+    height: 22px;
+    width: 22px;
+    border-radius: 4px;
+    margin-right: 1.3rem;
 }
 
 .skeleton-img{

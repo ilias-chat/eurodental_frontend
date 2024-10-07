@@ -24,7 +24,6 @@ export class CategoriesComponent {
 
   categories: Signal<Category[]> = this.categoris_service.categories;
   sub_categories: Signal<Sub_category[]> = this.sub_categoris_service.sub_categories;
-  //subcategories_by_cat = signal<Sub_category[]>([]);
 
   selected_category = signal<Category>({id:0, category:''});
   selected_subcategory:Sub_category = {id:0, category_id:0, sub_category:''};
@@ -64,7 +63,7 @@ export class CategoriesComponent {
 
   close_category_form(){
     this.is_category_form_open.set(false);
-    this.selected_category.set({id:0, category:''});
+    //this.selected_category.set({id:0, category:''});
   }
 
   close_sub_category_form(){
@@ -97,7 +96,6 @@ export class CategoriesComponent {
       this.http_client.post(this.api_url+'/categories',{category:this.selected_category().category}).subscribe({
         next:(respond_data)=>{
           this.selected_category().id = (respond_data as Category).id;
-          //this.categories.set([...this.categories(), this.selected_category])
           this.categoris_service.add_category = this.selected_category();
           this.close_category_form();
           this.Toasts_service.add('category has been created successfully', 'success');
@@ -139,7 +137,6 @@ export class CategoriesComponent {
           this.selected_subcategory.id = (respond_data as Sub_category).id;
           this.selected_subcategory.category_id = (respond_data as Sub_category).category_id;
           this.sub_categoris_service.add_sub_category = this.selected_subcategory;
-          //this.subcategories_by_cat.set([...this.subcategories_by_cat(), this.selected_subcategory]);
           this.close_sub_category_form();
           this.Toasts_service.add('sub-category has been created successfully', 'success');
           this.is_progresbar_open.set(false);
@@ -158,7 +155,6 @@ export class CategoriesComponent {
         next:(respond_data)=>{
           this.sub_categoris_service.edit_sub_category = this.selected_subcategory
           this.close_sub_category_form();
-          this.filter_subcategories_by_cat();
           this.Toasts_service.add('changes have been saved successfully', 'success');
           this.is_progresbar_open.set(false);
         },
@@ -174,15 +170,7 @@ export class CategoriesComponent {
   on_category_click(cat:Category){
     this.selected_category.set({...cat});
     this.is_category_form_open.set(false);
-    this.filter_subcategories_by_cat();
   }
-
-  filter_subcategories_by_cat(){
-    // this.subcategories_by_cat.set(this.sub_categories().filter((sub_cat)=>{
-    //   return sub_cat.category_id === this.selected_category().id
-    // }))
-  }
-
   
   public get sub_categories_by_category() : Sub_category[] {
     return this.sub_categories().filter((cat)=>{

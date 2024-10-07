@@ -51,14 +51,14 @@ export class ProductFormComponent {
       form_data.append('id_category', this.selected_product.id_category.toString());
       form_data.append('id_sub_category', this.selected_product.id_sub_category.toString());
       form_data.append('id_brand', this.selected_product.id_brand.toString());
-      form_data.append('price', this.selected_product.price.toString());
-      form_data.append('stock_quantity', this.selected_product.stock_quantity.toString());
-      form_data.append('has_warranty', this.selected_product.has_warranty.toString());
-      form_data.append('warranty_duration_months', this.selected_product.warranty_duration_months.toString());
+      form_data.append('price', this.selected_product.price?.toString());
+      form_data.append('stock_quantity', this.selected_product.stock_quantity?.toString());
+      form_data.append('has_warranty', this.selected_product.has_warranty?.toString());
+      form_data.append('warranty_duration_months', this.selected_product.warranty_duration_months?.toString());
       form_data.append('reference', this.selected_product.reference);
-      if(img_input?.files){
+      if(img_input?.files && img_input?.files[0]){
         form_data.append('image', img_input.files[0]);
-      }
+      } 
   
       this.submit.emit({form_data:form_data, product:this.selected_product});
   }
@@ -69,11 +69,11 @@ export class ProductFormComponent {
       product_name: '',
       reference:'',
       image_path:'',
-      brand:'',
+      brand_name:'',
       id_category:0,
-      category:'',
+      category_name:'',
       id_sub_category:0,
-      sub_category:'',
+      sub_category_name:'',
       id_brand:0,
       price:0,
       stock_quantity:0,
@@ -86,6 +86,7 @@ export class ProductFormComponent {
 
   init_form(product:Product){
     this.selected_product = { ...product };
+    this.selected_category_id.set(this.selected_product.id_category);
   }
 
   on_img_input_change(event:Event){
@@ -118,8 +119,18 @@ export class ProductFormComponent {
     })
   }
 
-  on_combo_category_change(){
+  on_combo_category_change(select_element:HTMLSelectElement){
     this.selected_category_id.set(this.selected_product.id_category);
+    
+    this.selected_product.category_name = select_element.options[select_element.selectedIndex].innerHTML;
+  }
+
+  on_combo_sub_category_change(select_element:HTMLSelectElement){
+    this.selected_product.sub_category_name = select_element.options[select_element.selectedIndex].innerHTML;
+  }
+
+  on_combo_brand_change(select_element:HTMLSelectElement){
+    this.selected_product.brand_name = select_element.options[select_element.selectedIndex].innerHTML;
   }
 
   show_progressbar(){

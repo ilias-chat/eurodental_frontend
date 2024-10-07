@@ -54,7 +54,7 @@ export class ClientFormComponent {
     form_data.append('description', this.selected_client.description);
     form_data.append('city', this.selected_client.city);
     form_data.append('address', this.selected_client.address);
-    if(img_input?.files){
+    if(img_input?.files && img_input?.files[0]){
       form_data.append('image', img_input.files[0]);
     }
 

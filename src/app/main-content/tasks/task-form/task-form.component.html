@@ -44,12 +44,7 @@
 
             <div class="form-group">
                 <label for="technician">Technician</label>
-                <select name="technician">
-                    <option value=""></option>
-                    <option value="12">technician 01</option>
-                    <option value="34">technician 02</option>
-                    <option value="77">technician 03</option>
-                </select>
+                <app-technitians-combobox [value]="selected_task.technician" (change)="on_technicians_combo_change($event)"></app-technitians-combobox>
             </div>
         </div>
 

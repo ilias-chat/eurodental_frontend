@@ -1,0 +1,12 @@
+<div class="combobox">
+    <input #combobox_input type="text" readonly (click)="toggle_options()" [value]="value">
+    <i class="fa-solid fa-angle-down" (click)="toggle_options()"></i>
+    <div #options_list class="options hidden">
+        <input type="text" placeholder="Search..." [(ngModel)]="search_input_value">
+        @for (technician of get_technicians; track technician.id) {
+            <div class="option" [attr.data-technician_id]="technician.id" 
+            (click)="select_option($event)">{{ technician.full_name }}</div>
+        }
+    </div>
+</div>
+  

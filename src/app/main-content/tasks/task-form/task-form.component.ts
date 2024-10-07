@@ -1,11 +1,13 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, input } from '@angular/core';
 import { Task } from '../task.model';
 import { FormsModule } from '@angular/forms';
+import { TechnitiansComboboxComponent } from "./technitians-combobox/technitians-combobox.component";
+
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, TechnitiansComboboxComponent],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.css'
 })
@@ -33,7 +35,9 @@ export class TaskFormComponent {
   }
 
   on_save_btn_click(){
-    this.submit.emit({ ...this.selected_task});
+    console.log(this.selected_task);
+
+    //this.submit.emit({ ...this.selected_task});
   }
 
   reset_selected_task(){
@@ -49,10 +53,10 @@ export class TaskFormComponent {
       status:'',
       technician_id:0,
       technician:'',
-      technician_image_path:'',
+      technician_image:'',
       client_id:0,
       client:'',
-      client_image_path:'',
+      client_image:'',
       task_date: undefined,
     }
   }
@@ -80,4 +84,12 @@ export class TaskFormComponent {
   
     return `${year}-${month}-${day}`;
   }
+
+  on_technicians_combo_change(technician:{id:number,full_name:string, image_path:string}){
+    this.selected_task.technician_id = technician.id;
+    this.selected_task.technician = technician.full_name;
+    this.selected_task.technician_image = technician.image_path;
+  }
 }
+
+ 

@@ -11,8 +11,8 @@
             <span class="product-name">
                 {{product.product_name}}
             </span>
-            <span class="product-city">
-                {{ product.brand }}
+            <span class="product-reference">
+                #{{ product.reference }}
             </span>
         </div>
     </div>
@@ -20,16 +20,20 @@
         <div class="line">
             <!-- <i class="fa-solid fa-envelope"></i> -->
             <b> categorie: </b>
-            <span>{{ product.category }} </span>
+            <span>{{ product.category_name }} </span>
         </div>
         <div class="line">
             <!-- <i class="fa-solid fa-mobile-screen-button"></i> -->
             <b> sub-categorie:</b>
-            <span> {{ product.sub_category }} </span>
+            <span> {{ product.sub_category_name }} </span>
         </div>
     </div>
     <div class="price">
         <span>{{ product.price }} DH</span>
+    </div>
+    <div class="stock" [class.badge-danger]="product.stock_quantity<11">
+        <i class="fa-solid fa-boxes-stacked"></i>
+        <span> {{ product.stock_quantity }}</span>
     </div>
     <div class="btns">
         <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>

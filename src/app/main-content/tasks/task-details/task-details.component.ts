@@ -42,7 +42,7 @@ export class TaskDetailsComponent {
   @Input({required:true}) task_id:number = 0;
   task_details = signal<Task_details|undefined>(undefined);
 
-  is_open = signal(true);
+  is_open = signal(false);
 
   on_close_btn_click(){
     this.is_open.set(false);

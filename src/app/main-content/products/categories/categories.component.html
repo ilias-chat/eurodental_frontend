@@ -13,6 +13,9 @@
                 <div class="progress-bar"></div>
             </div>
 
+            <h3>categories</h3>
+            <h3>sub-categories</h3>
+
             <div class="categories">
                 @for (cat of categories(); track cat.id) {
                     <div class="category" [class.selected]="selected_category().id === cat.id">

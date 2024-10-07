@@ -6,9 +6,9 @@ export interface Task {
     status:string,
     technician_id:number,
     technician:string,
-    technician_image_path:string,
+    technician_image:string,
     client_id:number,
     client:string,
-    client_image_path:string,
+    client_image:string,
     task_date:Date|undefined,
 }

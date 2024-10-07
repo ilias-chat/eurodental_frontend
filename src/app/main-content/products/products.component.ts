@@ -61,7 +61,6 @@ export class ProductsComponent {
         this.is_loading.set(false);
       },
       error:(err)=>{
-        console.error(err);
         this.is_loading.set(false);
         this.is_error.set(true);
       },
