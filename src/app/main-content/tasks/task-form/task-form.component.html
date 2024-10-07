@@ -34,12 +34,7 @@
         <div> 
             <div class="form-group">
                 <label for="client">Client</label>
-                <select name="client">
-                    <option value=""></option>
-                    <option value="12">client 01</option>
-                    <option value="34">client 02</option>
-                    <option value="77">client 03</option>
-                </select>
+                <app-clients-combobox [value]="selected_task.client" (change)="on_clients_combo_change($event)"></app-clients-combobox>
             </div>
 
             <div class="form-group">

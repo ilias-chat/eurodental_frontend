@@ -1,0 +1,58 @@
+.combobox {
+    position: relative;
+    width: 100%;
+    color: var(--text-color);
+    margin-bottom: 20px;
+  }
+  
+  .combobox>input {
+    width: 100%;
+    cursor: auto;
+    padding: 0.375rem 0.75rem;
+  }
+  
+  .options {
+    display: block;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    border: 1px solid var(--secondary-text-color);
+    border-radius: 4px;
+    background-color: var(--third-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    max-height: 150px;
+    overflow-y: auto;
+    z-index: 10;
+    color: var(--text-color);
+  }
+
+  .hidden{
+    display: none;
+  }
+
+  .options>input{
+    width: calc(100% - .8rem);
+    margin: .4rem;
+    position: sticky;
+    top: .4rem;
+  }
+  
+  .option {
+    padding: 8px;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .option:hover {
+    background-color: var(--main-color-01);
+  }
+
+.combobox>i {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 8px;
+    color: black;
+}
+  

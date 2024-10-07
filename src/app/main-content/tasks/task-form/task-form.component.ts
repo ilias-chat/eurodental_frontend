@@ -1,13 +1,14 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Task } from '../task.model';
 import { FormsModule } from '@angular/forms';
 import { TechnitiansComboboxComponent } from "./technitians-combobox/technitians-combobox.component";
+import { ClientsComboboxComponent } from './clients-combobox/clients-combobox.component';
 
 
 @Component({
   selector: 'app-task-form',
   standalone: true,
-  imports: [FormsModule, TechnitiansComboboxComponent],
+  imports: [FormsModule, TechnitiansComboboxComponent, ClientsComboboxComponent],
   templateUrl: './task-form.component.html',
   styleUrl: './task-form.component.css'
 })
@@ -89,6 +90,12 @@ export class TaskFormComponent {
     this.selected_task.technician_id = technician.id;
     this.selected_task.technician = technician.full_name;
     this.selected_task.technician_image = technician.image_path;
+  }
+
+  on_clients_combo_change(client:{id:number,full_name:string, image_path:string}){
+    this.selected_task.technician_id = client.id;
+    this.selected_task.client = client.full_name;
+    this.selected_task.client_image = client.image_path;
   }
 }
 

@@ -53,14 +53,18 @@ export class TechnitiansComboboxComponent {
     this.options_list.nativeElement.classList.toggle('hidden');
   };
 
-  hise_options() {
+  hide_options() {
     this.options_list.nativeElement.classList.add('hidden');
   };
+
+  hide_options_on_input_blue(){
+    //if()
+  }
 
   // Select an option and display it in the input
   select_option(event:Event) {
     this.combobox_input.nativeElement.value = (event.target as HTMLDivElement).innerHTML;
-    this.hise_options();
+    this.hide_options();
     this.search_input_value.set('');
 
     const technician_id = (event.target as HTMLDivElement).getAttribute('data-technician_id');

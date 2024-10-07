@@ -4,10 +4,9 @@
     <i class="fa-solid fa-angle-down" (click)="toggle_options()"></i>
     <div #options_list class="options hidden">
         <input type="text" placeholder="Search..." [(ngModel)]="search_input_value">
-        @for (technician of get_technicians; track technician.id) {
-            <div class="option" [attr.data-technician_id]="technician.id" 
-            (click)="select_option($event)">{{ technician.full_name }}</div>
+        @for (client of get_clients; track client.id) {
+            <div class="option" [attr.data-client_id]="client.id" 
+            (click)="select_option($event)">{{ client.full_name }}</div>
         }
     </div>
 </div>
-  
