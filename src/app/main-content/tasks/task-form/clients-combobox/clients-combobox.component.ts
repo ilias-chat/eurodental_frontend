@@ -40,7 +40,6 @@ export class ClientsComboboxComponent {
   }
 
   public get get_clients() :Client[] {
-    console.log(this.value);
     return this.clients().filter((tech)=>{
       return tech.full_name.toLowerCase().includes(this.search_input_value().toLowerCase());
     });
