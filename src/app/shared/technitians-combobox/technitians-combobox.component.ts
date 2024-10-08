@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, signal } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 interface Technician{
@@ -15,6 +16,9 @@ interface Technician{
   styleUrl: './technitians-combobox.component.css'
 })
 export class TechnitiansComboboxComponent {
+
+  private http = inject(HttpClient);
+  private api_url = 'http://35.180.66.24/users/?profile_name=technicien';
   
   @Input({required:true}) value:string = '';
 
@@ -25,28 +29,27 @@ export class TechnitiansComboboxComponent {
 
   search_input_value = signal<string>('');
 
-  technicians = signal<Technician[]>([
-    {
-      id:3,
-      full_name:'ahmed bakkali',
-      image_path:'',
-    },
-    {
-      id:8,
-      full_name:'test 2 test',
-      image_path:'',
-    },
-    {
-      id:9,
-      full_name:'test 1	test',
-      image_path:'',
-    },
-  ]);
+  technicians = signal<Technician[]>([]);
+
+  ngOnInit(){
+    this.get_all_technicians();
+  }
 
   public get get_technicians() :Technician[] {
     return this.technicians().filter((tech)=>{
       return tech.full_name.toLowerCase().includes(this.search_input_value().toLowerCase());
     });
+  }
+
+  get_all_technicians(){
+    this.http.get<Technician[]>(this.api_url).subscribe({
+      next:(respond_data)=>{
+        this.technicians.set(respond_data);
+      },
+      error:(err)=>{
+        console.error(err);
+      },
+    })
   }
     
   toggle_options() {

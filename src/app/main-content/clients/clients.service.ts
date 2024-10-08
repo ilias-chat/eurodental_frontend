@@ -12,11 +12,6 @@ export class ClientsService {
 
   private http_client = inject(HttpClient);
   private api_url = 'http://35.180.66.24';
-
-  constructor(){    
-
-  }
-
   
   public set set_clients(clients:Client[]) {
     this.clients.set(clients);
@@ -49,7 +44,6 @@ export class ClientsService {
   }
 
   edit(client:FormData, client_id:number):Observable<Object>{
-    console.log(this.api_url+'/clients/'+client_id, client);
     return this.http_client.put(this.api_url+'/clients/'+client_id, client);
   }
   

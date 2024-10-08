@@ -1,7 +1,7 @@
 import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
 import { Task } from '../task.model';
 import { FormsModule } from '@angular/forms';
-import { TechnitiansComboboxComponent } from "./technitians-combobox/technitians-combobox.component";
+import { TechnitiansComboboxComponent } from "../../../shared/technitians-combobox/technitians-combobox.component";
 import { ClientsComboboxComponent } from './clients-combobox/clients-combobox.component';
 
 
@@ -24,7 +24,6 @@ export class TaskFormComponent {
   on_close(){
     this.close_dialog();
     this.reset_selected_task();
-    //this.task_form.nativeElement.reset();
   }
 
   open_dialog(){

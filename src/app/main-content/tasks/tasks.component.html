@@ -1,4 +1,8 @@
 <app-task-form (submit)="on_form_submit($event)"></app-task-form>
+@if(is_assign_form_open()){
+    <app-reassign-form [tasks_ids]="selected_tasks_ids" 
+    (close)="on_assign_form_close()" (save)="on_assign_form_save()"></app-reassign-form>
+}
 
 <div class="tasks-container">
     <div class="list-header">
@@ -13,7 +17,7 @@
             <option value=""></option>
             <option value="Completed">Completed</option>
             <option value="In Progress">In Progress</option>
-            <option value="Open">Open</option>
+            <option value="Unassigned">Unassigned</option>
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           
@@ -64,7 +68,7 @@
 
         <div class="options" [class.hidden]="selected_tasks_ids().length == 0">
             <span>({{ selected_tasks_ids().length }}) selected</span>
-            <button class="icon-button icon-button-primary"><i class="fa-solid fa-pen"></i></button>
+            <a (click)="show_reassing_from()">assign to</a>
             <button class="icon-button icon-button-primary"><i class="fa-solid fa-trash-can"></i></button>
             <button class="icon-button icon-button-danger" (click)="on_list_options_close_btn_click()"><i class="fa-solid fa-xmark"></i></button>
         </div>

@@ -1,0 +1,27 @@
+<div class="backdrop">
+    <div class="dialog">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                Assign tasks 
+            </span>
+            <button class="icon-button icon-button-danger" (click)="on_close_btn_click()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="dialog-body">
+            <div class="progress-bar-container" [class.hidden]="!is_progresbar_open()">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="form-group">
+                <label for="technician">Select a technician</label>
+                <app-technitians-combobox value="" name="technician" 
+                (change)="on_combo_technicians_change($event)"></app-technitians-combobox>
+            </div>
+            <p>
+                this window well assign the ({{ (tasks_ids().length) }}) 
+                selected tasles to the technician above 
+            </p>
+            <button class="primary-button" (click)="on_save_btn_click()">Save</button>
+        </div>
+    </div>
+</div>

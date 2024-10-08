@@ -7,14 +7,11 @@ import { Observable } from "rxjs";
     providedIn:'root'
 })
 export class TasksService {
-    private tasks = signal<Task[]>([]);
-    all_tasks = this.tasks.asReadonly();
+  private tasks = signal<Task[]>([]);
+  all_tasks = this.tasks.asReadonly();
 
-    private http_task = inject(HttpClient);
-    private api_url = 'http://35.180.66.24/tasks/';
-
-  constructor(){
-  }
+  private http_task = inject(HttpClient);
+  private api_url = 'http://35.180.66.24/tasks/';
 
   all(params:{start_date:string, end_date:string}):Observable<Task[]>{
     let url = this.api_url
@@ -66,7 +63,6 @@ export class TasksService {
   edit(task:Task):Observable<Object>{
     return this.http_task.put(this.api_url + task.id, task);
   }
-
   
   public set add_task(task:Task) {
     this.tasks.set([...this.tasks(), task]);

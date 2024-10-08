@@ -7,11 +7,12 @@ import { TaskComponent } from './task/task.component';
 import { TaskDetailsComponent } from "./task-details/task-details.component";
 import { DateRangePickerComponent } from "../../shared/date-range-picker/date-range-picker.component";
 import { SkeletonRowListComponent } from '../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
+import { ReassignFormComponent } from "./reassign-form/reassign-form.component";
 
 @Component({
   selector: 'app-tasks',
   standalone: true,
-  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent, DateRangePickerComponent, SkeletonRowListComponent],
+  imports: [TaskFormComponent, TaskComponent, TaskDetailsComponent, DateRangePickerComponent, SkeletonRowListComponent, ReassignFormComponent],
   templateUrl: './tasks.component.html',
   styleUrl: './tasks.component.css'
 })
@@ -37,12 +38,13 @@ export class TasksComponent {
   @ViewChild('technician_search_input') technician_search_input!: ElementRef;
   @ViewChild('combo_status') combo_status!: ElementRef;
 
+  is_assign_form_open = signal(false);
   is_date_filter_open = signal(false);
   is_loading = signal(false);
   is_error = signal(false);
 
   ngOnInit(){
-    this.refresh_tasks({start_date:'', end_date:''});
+    this.refresh_tasks({start_date:this.format_date_to_yyyy_mm_dd(new Date()), end_date:''});
     this.reset_pagination();
   }
 
@@ -218,6 +220,20 @@ export class TasksComponent {
       start_date:this.format_date_to_yyyy_mm_dd(this.range_picher_component.selected_range.start),
       end_date:this.format_date_to_yyyy_mm_dd(this.range_picher_component.selected_range.end),
     })
+  }
+
+  show_reassing_from(){
+    //this.reassign_form_component.show();
+    this.is_assign_form_open.set(true);
+  }
+
+  on_assign_form_save(){
+    this.is_assign_form_open.set(false);
+    this.selected_tasks_ids.set([]);
+  }
+
+  on_assign_form_close(){
+    this.is_assign_form_open.set(false);
   }
 
   format_date_to_yyyy_mm_dd(date: Date|undefined): string {
