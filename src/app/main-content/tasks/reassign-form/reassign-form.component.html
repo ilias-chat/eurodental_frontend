@@ -14,12 +14,12 @@
             </div>
             <div class="form-group">
                 <label for="technician">Select a technician</label>
-                <app-technitians-combobox value="" name="technician" 
+                <app-technitians-combobox [is_valid]="true" value="" name="technician" 
                 (change)="on_combo_technicians_change($event)"></app-technitians-combobox>
             </div>
             <p>
                 this window well assign the ({{ (tasks_ids().length) }}) 
-                selected tasles to the technician above 
+                selected tasks to the technician above 
             </p>
             <button class="primary-button" (click)="on_save_btn_click()">Save</button>
         </div>

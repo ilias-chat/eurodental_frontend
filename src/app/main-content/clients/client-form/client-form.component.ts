@@ -10,30 +10,25 @@ import { Client } from '../client.model';
   styleUrl: './client-form.component.css'
 })
 export class ClientFormComponent {
+
+  invalid_inputs = signal<string[]>([]);
   
-  selected_client:Client = {
-    id: 0,
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone_number: '',
-    fixed_phone_number: '',
-    city: '',
-    address: '',
-    image_path: '',
-    description: '',
-  };
+  selected_client:Client = this.get_empty_client();
+
   @ViewChild('dialog') client_dialog!:ElementRef<HTMLDialogElement>;
   @ViewChild('form') client_form!:ElementRef<HTMLFormElement>;
   
   @Output() submit = new EventEmitter<{form_data:FormData, client:Client}>();
 
   is_progressbar_open = signal(false);
+  error_message = signal('');
 
   on_close(){
     this.close_dialog();
     this.reset_selected_client();
     this.client_form.nativeElement.reset();
+    this.clear_error_massage();
+    this.invalid_inputs.set([]);
   }
 
   open_dialog(){
@@ -45,6 +40,23 @@ export class ClientFormComponent {
   }
 
   on_save_btn_click(img_input:HTMLInputElement){
+    this.error_message.set('');
+    this.invalid_inputs.set([]);
+
+    console.log("name: "+this.selected_client.first_name)
+    if(!this.selected_client.first_name)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'first_name']);
+    if(!this.selected_client.last_name)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'last_name']);
+    if(!this.selected_client.email)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'email']);
+    if(!this.selected_client.city)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'city']);
+
+    if(this.invalid_inputs().length > 0){
+      //this.error_message.set('Fill in all the requered inputs');
+      return;
+    }
     const form_data = new FormData();
     form_data.append('first_name', this.selected_client.first_name);
     form_data.append('last_name', this.selected_client.last_name);
@@ -110,5 +122,24 @@ export class ClientFormComponent {
 
   hide_progressbar(){
     this.is_progressbar_open.set(false);
+  }
+
+  get_empty_client(){
+    return {
+      id: 0,
+      first_name: '',
+      last_name: '',
+      email: '',
+      phone_number: '',
+      fixed_phone_number: '',
+      city: '',
+      address: '',
+      image_path: '',
+      description: '',
+    }; 
+  }
+
+  clear_error_massage(){
+    this.error_message.set('');
   }
 }

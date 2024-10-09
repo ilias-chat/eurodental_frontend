@@ -51,7 +51,7 @@
 
 .options>span{
     color: var(--text-color);
-    padding-right: .5rem;
+    padding-right: 1rem;
 }
 
 .new{

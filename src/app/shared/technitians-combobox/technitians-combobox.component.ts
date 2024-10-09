@@ -21,6 +21,7 @@ export class TechnitiansComboboxComponent {
   private api_url = 'http://35.180.66.24/users/?profile_name=technicien';
   
   @Input({required:true}) value:string = '';
+  @Input() is_valid:boolean = false;
 
   @ViewChild('combobox_input') combobox_input!:ElementRef;
   @ViewChild('options_list') options_list!:ElementRef;
@@ -63,6 +64,7 @@ export class TechnitiansComboboxComponent {
   // Select an option and display it in the input
   select_option(event:Event) {
     this.combobox_input.nativeElement.value = (event.target as HTMLDivElement).innerHTML;
+    this.is_valid = false;
     this.hide_options();
     this.search_input_value.set('');
 

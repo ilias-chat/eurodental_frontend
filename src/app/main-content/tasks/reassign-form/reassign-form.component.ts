@@ -23,12 +23,17 @@ export class ReassignFormComponent {
   }
 
   on_save_btn_click(){
+    if(this.technician_id === 0){
+      return;
+    }
+
     this.show_progresbar();
     console.log(this.technician_id, this.tasks_ids());
     this.save.emit();
   }
 
   on_close_btn_click(){
+    this.technician_id = 0;
     this.close.emit();
   }
 

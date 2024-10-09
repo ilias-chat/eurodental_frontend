@@ -68,8 +68,11 @@
 
         <div class="options" [class.hidden]="selected_tasks_ids().length == 0">
             <span>({{ selected_tasks_ids().length }}) selected</span>
+
             <a (click)="show_reassing_from()">assign to</a>
+            <b>|</b>
             <button class="icon-button icon-button-primary"><i class="fa-solid fa-trash-can"></i></button>
+           
             <button class="icon-button icon-button-danger" (click)="on_list_options_close_btn_click()"><i class="fa-solid fa-xmark"></i></button>
         </div>
 

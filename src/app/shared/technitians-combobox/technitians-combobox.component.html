@@ -1,6 +1,7 @@
 <div class="combobox">
     <input #combobox_input type="text" readonly [value]="value"
-    (click)="toggle_options()">
+    (click)="toggle_options()" [class.invalid-input]="!is_valid"
+    [class.invalid-icon]="!is_valid">
     <i class="fa-solid fa-angle-down" (click)="toggle_options()"></i>
     <div #options_list class="options hidden">
         <input type="text" placeholder="Search..." [(ngModel)]="search_input_value">

@@ -1,4 +1,4 @@
-<dialog #dialog>
+<dialog #dialog open>
     <div class="dialog-header">
         <span class="dialog-title">
             add new client
@@ -28,20 +28,23 @@
             </div>
 
             <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name" required [(ngModel)]="selected_client.first_name">
+            <label for="first_name">First Name *</label>
+            <input type="text" id="first_name" name="first_name" required [(ngModel)]="selected_client.first_name"
+            [class.invalid-input]="invalid_inputs().includes('first_name')">
             </div>
         
             <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name" required [(ngModel)]="selected_client.last_name">
+            <label for="last_name">Last Name *</label>
+            <input type="text" id="last_name" name="last_name" required [(ngModel)]="selected_client.last_name"
+            [class.invalid-input]="invalid_inputs().includes('last_name')">
             </div>  
         </div>
 
         <div> 
             <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" id="email" name="email" required [(ngModel)]="selected_client.email">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required [(ngModel)]="selected_client.email"
+            [class.invalid-input]="invalid_inputs().includes('email')">
             </div>
         
             <div class="form-group">
@@ -55,8 +58,9 @@
             </div>      
 
             <div class="form-group">
-                <label for="city">City</label>
-                <input type="text" id="city" name="city" required [(ngModel)]="selected_client.city">
+                <label for="city">City *</label>
+                <input type="text" id="city" name="city" required [(ngModel)]="selected_client.city"
+                [class.invalid-input]="invalid_inputs().includes('city')">
             </div>
 
             <div class="form-group">
@@ -69,6 +73,11 @@
 
     </form>
     <div class="dialog-footer">
+        <div class="error" [class.hidden]="error_message() === ''">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span> {{ error_message() }} </span>
+            <button (click)="clear_error_massage()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
         <button type="submit" class="primary-button" (click)="on_save_btn_click(img_input)">Save</button>
     </div>
   </dialog>

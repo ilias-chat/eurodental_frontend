@@ -147,9 +147,9 @@ export class ClientsComponent {
           this.client_form_component.hide_progressbar();
         },
         error:(err)=>{
-          this.toasts_service.add(err.message, "danger");
           this.client_form_component.hide_progressbar();
-          console.log('add error:',err);
+          this.client_form_component.error_message.set(err.message);
+          console.log(err);
         },
       });     
     } else {
@@ -162,8 +162,8 @@ export class ClientsComponent {
           this.client_form_component.hide_progressbar();
         },
         error:(err)=>{
-          this.toasts_service.add(err.message,'danger');
           this.client_form_component.hide_progressbar();
+          this.client_form_component.error_message.set(err.message);
           console.log('edid error:',err);
         },
       });
