@@ -14,13 +14,15 @@
         <div>
 
             <div class="form-group">
-            <label for="task_name">Task Name</label>
-            <input class="invalid-icon invalid-input" type="text" name="task_name" [(ngModel)]="selected_task.task_name">
+            <label for="task_name">Task Name *</label>
+            <input type="text" name="task_name" [(ngModel)]="selected_task.task_name"
+            [class.invalid-input]="invalid_inputs().includes('task_name')">
             </div> 
 
             <div class="form-group">
-                <label for="task_date">Task date</label>
-                <input type="date" name="task_date" [(ngModel)]="selected_task.task_date">
+                <label for="task_date">Task date *</label>
+                <input type="date" name="task_date" [(ngModel)]="selected_task.task_date"
+                [class.invalid-input]="invalid_inputs().includes('task_date')">
             </div>
 
             <div class="form-group">
@@ -33,8 +35,9 @@
 
         <div> 
             <div class="form-group">
-                <label for="client">Client</label>
-                <app-clients-combobox [value]="selected_task.client" (change)="on_clients_combo_change($event)"></app-clients-combobox>
+                <label for="client">Client *</label>
+                <app-clients-combobox [value]="selected_task.client" (change)="on_clients_combo_change($event)"
+                [is_valid]="!invalid_inputs().includes('client')"></app-clients-combobox>
             </div>
 
             <div class="form-group">
@@ -45,6 +48,11 @@
 
     </form>
     <div class="dialog-footer">
+        <div class="error" [class.hidden]="error_message() === ''">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span> {{ error_message() }} </span>
+            <button (click)="clear_error_message()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
         <button type="submit" class="primary-button" (click)="on_save_btn_click()">Save</button>
     </div>
   </dialog>

@@ -143,7 +143,12 @@ export class TasksComponent {
     this.task_form_component.show_progressbar();
     task.created_by = 4;
     if(task.id === 0){
-      task.status = 'In Progress';
+      if(!task.technician_id){
+        task.status = 'In Progress';
+      }else{
+        task.status = 'Unassigned';
+      }
+      
       this.tasks_service.add(task)
       .subscribe({
         next:(respond_data)=>{
@@ -155,8 +160,8 @@ export class TasksComponent {
           this.task_form_component.hide_progressbar();
         },
         error:(err)=>{
-          //this.toasts_service.add(err.message, "danger");
           this.task_form_component.hide_progressbar();
+          this.task_form_component.error_message.set(err.message);
           console.log(err);
         },
       });     
@@ -170,8 +175,8 @@ export class TasksComponent {
           this.task_form_component.hide_progressbar();
         },
         error:(err)=>{
-          //this.toasts_service.add(err.message,'danger');
           this.task_form_component.hide_progressbar();
+          this.task_form_component.error_message.set(err.message);
           console.log(err);
         },
       });

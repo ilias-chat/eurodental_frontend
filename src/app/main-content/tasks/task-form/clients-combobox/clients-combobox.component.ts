@@ -27,6 +27,8 @@ export class ClientsComboboxComponent {
 
   clients = signal<Client[]>([]);
 
+  @Input() is_valid:boolean = true;
+
   private cilents_service = inject(ClientsService);
 
   ngOnInit(){

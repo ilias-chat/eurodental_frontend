@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Output, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Output, signal, ViewChild } from '@angular/core';
 import { Task } from '../task.model';
 import { FormsModule } from '@angular/forms';
 import { TechnitiansComboboxComponent } from "../../../shared/technitians-combobox/technitians-combobox.component";
@@ -13,6 +13,9 @@ import { ClientsComboboxComponent } from './clients-combobox/clients-combobox.co
   styleUrl: './task-form.component.css'
 })
 export class TaskFormComponent {
+
+  error_message = signal('');
+  invalid_inputs = signal<string[]>([])
   selected_task:Task = this.get_empty_task();
   @ViewChild('dialog') task_dialog!:ElementRef<HTMLDialogElement>;
   @ViewChild('form') task_form!:ElementRef<HTMLFormElement>;
@@ -35,6 +38,19 @@ export class TaskFormComponent {
   }
 
   on_save_btn_click(){
+
+    this.error_message.set('');
+    this.invalid_inputs.set([]);
+
+    if(!this.selected_task.task_name)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'task_name']);
+    if(!this.selected_task.task_date)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'task_date']);
+    if(!this.selected_task.client_id)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'client']);
+
+    if(this.invalid_inputs().length > 0) return;
+
     this.submit.emit({ ...this.selected_task});
   }
 
@@ -95,6 +111,10 @@ export class TaskFormComponent {
     this.selected_task.client_id = client.id;
     this.selected_task.client = client.full_name;
     this.selected_task.client_image = client.image_path;
+  }
+
+  clear_error_message(){
+    this.error_message.set('');
   }
 }
 
