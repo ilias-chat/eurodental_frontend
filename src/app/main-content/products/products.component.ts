@@ -133,7 +133,7 @@ export class ProductsComponent {
   }
 
   on_form_submit(product_form_data:{form_data:FormData, product:Product}){
-    console.log(product_form_data.product);
+    
     this.product_form_component.show_progressbar();
 
     if(product_form_data.product.id === 0){
@@ -148,9 +148,9 @@ export class ProductsComponent {
           this.product_form_component.hide_progressbar();
         },
         error:(err)=>{
-          this.toasts_service.add(err.message, "danger");
           this.product_form_component.hide_progressbar();
-          console.log('add error:',err);
+          this.product_form_component.error_message.set(err.message);
+          console.log(err);
         },
       });     
     } else {
@@ -163,8 +163,8 @@ export class ProductsComponent {
           this.product_form_component.hide_progressbar();
         },
         error:(err)=>{
-          this.toasts_service.add(err.message,'danger');
           this.product_form_component.hide_progressbar();
+          this.product_form_component.error_message.set(err.message);
           console.error(err);
         },
       });
@@ -178,7 +178,6 @@ export class ProductsComponent {
 
   on_product_selected_change(param_id:number){
 
-    console.log(param_id);
     if (this.selected_products_ids().includes(param_id)) {
       this.selected_products_ids.set(
         this.selected_products_ids().filter(id => id !== param_id)

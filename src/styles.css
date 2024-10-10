@@ -194,6 +194,10 @@ dialog{
     gap: 1rem;
 }
 
+.dialog-footer>button{
+  margin-top: auto;
+}
+
 .dialog-title{
     font-size: 1.5rem;
     font-weight: bold;
@@ -231,7 +235,6 @@ select:focus {
 
 .invalid-input {
   border: 1px solid var(--danger-color-darker); 
-  color: var(--danger-color-darker);
 }
 
 .invalid-input:focus {
@@ -298,7 +301,6 @@ select {
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    background-color: brown;
   }
   
   /* Hide the browser's default checkbox */

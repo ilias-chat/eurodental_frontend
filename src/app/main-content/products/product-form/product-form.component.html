@@ -17,30 +17,39 @@
                 <label class="image-selector" for="image-upload" style="margin-bottom: 20px;"
                 (drop)="on_img_selector_drop($event, img_input)"
                 (dragover)="on_img_selector_dragover($event)">
-                    <img class="image-view" src="{{ selected_product.image_path }}" alt=""
-                    [class.hidden] = "selected_product.image_path == ''">
-                    <div class="upload-text" [class.hidden] = "selected_product.image_path != ''">
-                        <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
-                        <p>Click here or drag and drop <br> to upload image</p>
-                    </div>
+                    @if(!selected_product.image_path){
+                        
+                        <div class="upload-text">
+                            <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
+                            <p>Click here or drag and drop <br> to upload image</p>
+                        </div>
+                    }@else {
+                        <img class="image-view" src="{{ selected_product.image_path }}" alt=""
+                        >
+                    }
+                    
+                    
                     <input #img_input type="file" id="image-upload" accept="image/*" (change)="on_img_input_change($event)" hidden>
                 </label>
             </div>
 
             <div class="form-group">
-                <label for="product_name">Name</label>
-                <input type="text" name="product_name" required [(ngModel)]="selected_product.product_name">
+                <label for="product_name">Name *</label>
+                <input type="text" name="product_name" required [(ngModel)]="selected_product.product_name"
+                [class.invalid-input]="invalid_inputs().includes('product_name')">
             </div>
 
             <div class="form-group">
-                <label for="reference">Reference</label>
-                <input type="text" name="reference" required [(ngModel)]="selected_product.reference">
+                <label for="reference">Reference *</label>
+                <input type="text" name="reference" required [(ngModel)]="selected_product.reference"
+                [class.invalid-input]="invalid_inputs().includes('reference')">
             </div>
 
             
             <div class="form-group">
-                <label for="brand">Brand</label>
-                <select name="brand" [(ngModel)]="selected_product.id_brand" #combo_brand (change)="on_combo_brand_change(combo_brand)">
+                <label for="brand">Brand *</label>
+                <select name="brand" [(ngModel)]="selected_product.id_brand" #combo_brand (change)="on_combo_brand_change(combo_brand)"
+                [class.invalid-input]="invalid_inputs().includes('brand_id')">
                     <option value=""></option>
                     @for(brand of brands(); track brand.id){
                         <option value="{{brand.id}}">{{brand.brand}}</option>
@@ -51,8 +60,9 @@
 
         <div> 
             <div class="form-group">
-                <label for="categorie">Categorie</label>
-                <select name="categorie" [(ngModel)]="selected_product.id_category" #combo_category (change)="on_combo_category_change(combo_category)">
+                <label for="categorie">Categorie *</label>
+                <select name="categorie" [(ngModel)]="selected_product.id_category" #combo_category (change)="on_combo_category_change(combo_category)"
+                [class.invalid-input]="invalid_inputs().includes('category_id')">
                     <option value=""></option>
                     @for(category of categories(); track category.id){
                         <option value="{{category.id}}">{{category.category}}</option>
@@ -61,8 +71,9 @@
             </div>
 
             <div class="form-group">
-                <label for="sub_categorie">Sub-categorie</label>
-                <select name="sub_categorie" [(ngModel)]="selected_product.id_sub_category" #combo_sub_category (change)="on_combo_sub_category_change(combo_sub_category)">
+                <label for="sub_categorie">Sub-categorie *</label>
+                <select name="sub_categorie" [(ngModel)]="selected_product.id_sub_category" #combo_sub_category (change)="on_combo_sub_category_change(combo_sub_category)"
+                [class.invalid-input]="invalid_inputs().includes('sub_category_id')">
                     <option value=""></option>
                     @for(sub_category of sub_categories_by_category; track sub_category.id){
                         <option value="{{sub_category.id}}">{{sub_category.sub_category}}</option>
@@ -71,17 +82,19 @@
             </div>
 
             <div class="form-group">
-                <label for="stock_quantity">Stock's quantity</label>
-                <input type="number" id="stock_quantity" name="stock_quantity" required [(ngModel)]="selected_product.stock_quantity">
+                <label for="stock_quantity">Stock's quantity *</label>
+                <input type="number" id="stock_quantity" name="stock_quantity" required [(ngModel)]="selected_product.stock_quantity"
+                [class.invalid-input]="invalid_inputs().includes('stock_quantity')">
             </div>
 
             <div class="form-group">
-                <label for="price">Price</label>
-                <input type="number" step=".1" id="price" name="price" required [(ngModel)]="selected_product.price">
+                <label for="price">Price *</label>
+                <input type="number" step=".1" id="price" name="price" required [(ngModel)]="selected_product.price"
+                [class.invalid-input]="invalid_inputs().includes('price')">
             </div>
 
             <div class="form-group">
-                <label for="has_warranty">Has warranty</label>
+                <label for="has_warranty">Has warranty </label>
                 <label class="checkbox-container">
                     <input type="checkbox" name="has_warranty" [(ngModel)]="selected_product.has_warranty">
                     <span class="checkmark"></span>
@@ -91,7 +104,8 @@
             <div class="form-group">
                 <label for="warranty_duration_months">Warranty duration by months</label>
                 <input type="number" name="warranty_duration_months" required 
-                [(ngModel)]="selected_product.warranty_duration_months" [disabled]="!selected_product.has_warranty">
+                [(ngModel)]="selected_product.warranty_duration_months" [disabled]="!selected_product.has_warranty"
+                [class.invalid-input]="invalid_inputs().includes('warranty_duration_months')">
             </div>
 
             <div class="form-group">
@@ -103,6 +117,11 @@
 
     </form>
     <div class="dialog-footer">
-        <button type="submit" class="primary-button" (click)="on_save_btn_click(img_input)">Save</button>
+        <div class="error" [class.hidden]="error_message() === ''">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span> {{ error_message() }} </span>
+            <button (click)="clear_error_message()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <button type="button" class="primary-button" (click)="on_save_btn_click(img_input)">Save</button>
     </div>
   </dialog>

@@ -1,4 +1,4 @@
-<dialog #dialog open>
+<dialog #dialog>
     <div class="dialog-header">
         <span class="dialog-title">
             add new client
@@ -17,12 +17,14 @@
                 <label class="image-selector" for="image-upload" style="margin-bottom: 20px;"
                 (drop)="on_img_selector_drop($event, img_input)"
                 (dragover)="on_img_selector_dragover($event)">
-                    <img class="image-view" src="{{ selected_client.image_path }}" alt=""
-                    [class.hidden] = "selected_client.image_path == ''">
-                    <div class="upload-text" [class.hidden] = "selected_client.image_path != ''">
-                        <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
-                        <p>Click here or drag and drop <br> to upload image</p>
-                    </div>
+                    @if(!selected_client.image_path){
+                        <div class="upload-text">
+                            <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
+                            <p>Click here or drag and drop <br> to upload image</p>
+                        </div>
+                    }@else {
+                        <img class="image-view" src="{{ selected_client.image_path }}" alt="">
+                    }
                     <input #img_input type="file" id="image-upload" accept="image/*" (change)="on_img_input_change($event)" hidden>
                 </label>
             </div>

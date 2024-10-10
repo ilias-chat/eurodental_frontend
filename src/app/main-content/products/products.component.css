@@ -1,6 +1,7 @@
 .products-container{
     display: flex;
     flex-direction: column;
+    height: 100%;
 }
 
 .list-header{
@@ -17,6 +18,10 @@
 
 .search-input{
     width: 300px;
+}
+
+.list-body{
+    height: 100%;
 }
 
 .list-footer{
