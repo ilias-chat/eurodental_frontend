@@ -15,9 +15,9 @@
 
             <div class="brands">
                 @for (cat of brands(); track cat.id) {
-                    <div class="brand" [class.selected]="selected_brand.id === cat.id">
-                        @if (is_brand_form_open() && selected_brand.id === cat.id) {
-                            <input type="text" [(ngModel)]="selected_brand.brand">
+                    <div class="brand" [class.selected]="selected_brand().id === cat.id">
+                        @if (is_brand_form_open() && selected_brand().id === cat.id) {
+                            <input type="text" [(ngModel)]="selected_brand().brand">
                             <button class="icon-button primary-button"
                             (click)="on_save_brand_btn_click()">
                                 <i class="fa-solid fa-floppy-disk"></i>
@@ -37,8 +37,8 @@
             </div>
             
             <div class="brands-footer">
-                @if (is_brand_form_open() && selected_brand.id === 0) {
-                    <input type="text" [(ngModel)]="selected_brand.brand">
+                @if (is_brand_form_open() && selected_brand().id === 0) {
+                    <input type="text" [(ngModel)]="selected_brand().brand">
                     <button class="icon-button primary-button"
                     (click)="on_save_brand_btn_click()">
                         <i class="fa-solid fa-floppy-disk"></i>

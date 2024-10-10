@@ -20,7 +20,8 @@
                 @for (cat of categories(); track cat.id) {
                     <div class="category" [class.selected]="selected_category().id === cat.id">
                         @if (is_category_form_open() && selected_category().id === cat.id) {
-                            <input type="text" [(ngModel)]="selected_category().category">
+                            <input type="text" [(ngModel)]="selected_category().category"
+                            [class.invalid-input]="!is_category_input_valid()">
                             <button class="icon-button primary-button"
                             (click)="on_save_category_btn_click()">
                                 <i class="fa-solid fa-floppy-disk"></i>
@@ -41,8 +42,9 @@
             <div class="sub-categories">
                 @for (cat of sub_categories_by_category; track cat.id) {
                     <div class="sub-category">
-                        @if (is_sub_category_form_open() && selected_subcategory.id === cat.id) {
-                            <input type="text" [(ngModel)]="selected_subcategory.sub_category">
+                        @if (is_sub_category_form_open() && selected_subcategory().id === cat.id) {
+                            <input type="text" [(ngModel)]="selected_subcategory().sub_category"
+                            [class.invalid-input]="!is_sub_category_input_valid()">
                             <button class="icon-button primary-button"
                                 (click)="on_save_sub_category_btn_click()">
                                 <i class="fa-solid fa-floppy-disk"></i>
@@ -63,7 +65,8 @@
             
             <div class="categories-footer">
                 @if (is_category_form_open() && selected_category().id === 0) {
-                    <input type="text" [(ngModel)]="selected_category().category">
+                    <input type="text" [(ngModel)]="selected_category().category"
+                    [class.invalid-input]="!is_category_input_valid()">
                     <button class="icon-button primary-button"
                     (click)="on_save_category_btn_click()">
                         <i class="fa-solid fa-floppy-disk"></i>
@@ -83,8 +86,9 @@
             </div>
     
             <div class="sub-categories-footer">
-                @if (is_sub_category_form_open() && selected_subcategory.id === 0) {
-                    <input type="text" [(ngModel)]="selected_subcategory.sub_category">
+                @if (is_sub_category_form_open() && selected_subcategory().id === 0) {
+                    <input type="text" [(ngModel)]="selected_subcategory().sub_category"
+                    [class.invalid-input]="!is_sub_category_input_valid()">
                     <button class="icon-button primary-button"
                     (click)="on_save_sub_category_btn_click()">
                         <i class="fa-solid fa-floppy-disk"></i>

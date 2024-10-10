@@ -26,16 +26,18 @@ export class CategoriesComponent {
   sub_categories: Signal<Sub_category[]> = this.sub_categoris_service.sub_categories;
 
   selected_category = signal<Category>({id:0, category:''});
-  selected_subcategory:Sub_category = {id:0, category_id:0, sub_category:''};
+  selected_subcategory = signal<Sub_category>({id:0, category_id:0, sub_category:''});
 
   is_category_form_open = signal<boolean>(false);
   is_sub_category_form_open = signal<boolean>(false);
+
+  is_category_input_valid = signal(true);
+  is_sub_category_input_valid = signal(true);
 
   is_progresbar_open = signal<boolean>(false);
 
   on_close(){
     this.close_dialog();
-    //this.subcategories_by_cat.set([]);
   }
 
   open_dialog(){
@@ -47,7 +49,9 @@ export class CategoriesComponent {
     this.is_category_form_open.set(false);
     this.selected_category.set({id:0, category:''});
     this.is_sub_category_form_open.set(false);
-    this.selected_subcategory = {id:0, category_id:0, sub_category:''};
+    this.is_category_input_valid.set(true);
+    this.is_sub_category_input_valid.set(true);
+    this.selected_subcategory.set({id:0, category_id:0, sub_category:''});
   }
 
   on_new_category_btn_click(){
@@ -58,17 +62,18 @@ export class CategoriesComponent {
 
   on_new_sub_category_btn_click(){
     this.is_sub_category_form_open.set(true);
-    this.selected_subcategory = {id:0, category_id:0, sub_category:''};
+    this.selected_subcategory.set({id:0, category_id:0, sub_category:''});
   }
 
   close_category_form(){
     this.is_category_form_open.set(false);
-    //this.selected_category.set({id:0, category:''});
+    this.is_category_input_valid.set(true);
   }
 
   close_sub_category_form(){
     this.is_sub_category_form_open.set(false);
-    this.selected_subcategory = {id:0, sub_category:'', category_id:0};
+    this.is_sub_category_input_valid.set(true);
+    this.selected_subcategory.set({id:0, sub_category:'', category_id:0});
   }
 
   on_close_category_form_btn_click(){
@@ -85,11 +90,19 @@ export class CategoriesComponent {
   }
 
   on_edit_sub_category_btn_click(sub_category:Sub_category){
-    this.selected_subcategory = {...sub_category};
+    this.selected_subcategory.set({...sub_category});
     this.is_sub_category_form_open.set(true);
   }
 
   on_save_category_btn_click(){
+
+    if(!this.selected_category().category){
+      this.is_category_input_valid.set(false);
+      return
+    }else{
+      this.is_category_input_valid.set(true);
+    }
+
     this.is_progresbar_open.set(true);
 
     if (this.selected_category().id === 0) {
@@ -126,17 +139,24 @@ export class CategoriesComponent {
 
   on_save_sub_category_btn_click(){
 
+    if(!this.selected_subcategory().sub_category){
+      this.is_sub_category_input_valid.set(false);
+      return
+    }else{
+      this.is_sub_category_input_valid.set(true);
+    }
+
     this.is_progresbar_open.set(true);
 
-    if (this.selected_subcategory.id === 0) {
+    if (this.selected_subcategory().id === 0) {
       this.http_client.post(
         this.api_url+'/sub_categories',
-        {sub_category:this.selected_subcategory.sub_category, category_id:this.selected_category().id}
+        {sub_category:this.selected_subcategory().sub_category, category_id:this.selected_category().id}
         ).subscribe({
         next:(respond_data)=>{
-          this.selected_subcategory.id = (respond_data as Sub_category).id;
-          this.selected_subcategory.category_id = (respond_data as Sub_category).category_id;
-          this.sub_categoris_service.add_sub_category = this.selected_subcategory;
+          this.selected_subcategory().id = (respond_data as Sub_category).id;
+          this.selected_subcategory().category_id = (respond_data as Sub_category).category_id;
+          this.sub_categoris_service.add_sub_category = this.selected_subcategory();
           this.close_sub_category_form();
           this.Toasts_service.add('sub-category has been created successfully', 'success');
           this.is_progresbar_open.set(false);
@@ -149,11 +169,11 @@ export class CategoriesComponent {
       });
     }else{
       this.http_client.put(
-        this.api_url+'/sub_categories/'+this.selected_subcategory.id, 
-        {sub_category:this.selected_subcategory.sub_category}
+        this.api_url+'/sub_categories/'+this.selected_subcategory().id, 
+        {sub_category:this.selected_subcategory().sub_category}
         ).subscribe({
         next:(respond_data)=>{
-          this.sub_categoris_service.edit_sub_category = this.selected_subcategory
+          this.sub_categoris_service.edit_sub_category = this.selected_subcategory()
           this.close_sub_category_form();
           this.Toasts_service.add('changes have been saved successfully', 'success');
           this.is_progresbar_open.set(false);
