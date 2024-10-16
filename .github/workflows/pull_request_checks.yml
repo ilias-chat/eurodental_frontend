@@ -21,11 +21,11 @@ jobs:
             - name: Install dependencies 
               run: npm install
 
-            #- name: Install Chrome
-            #  run: sudo apt-get install -y google-chrome-stable
+            - name: Install Chrome
+              run: sudo apt-get install -y google-chrome-stable
 
-            #- name: Run tests
-            #  run: npm test -- --watch=false --no-progress
+            - name: Run tests
+              run: npm test -- --watch=false --no-progress --browsers:ChromeHeadless
 
             - name: Lint the code 
               run: npm run lint
