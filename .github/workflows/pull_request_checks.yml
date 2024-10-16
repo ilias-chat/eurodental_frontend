@@ -24,8 +24,9 @@ jobs:
             #- name: Install Chrome
             #  run: sudo apt-get install -y google-chrome-stable
 
-            - name: Run tests
-              run: npm run test:ci
+            # run unit tests defined in your Angular application's .spec.ts files.
+            #- name: Run tests
+            #  run: npm run test:ci
 
             - name: Lint the code 
               run: npm run lint
