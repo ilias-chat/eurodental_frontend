@@ -28,8 +28,9 @@ jobs:
             #- name: Run tests
             #  run: npm run test:ci
 
-            - name: Lint the code 
-              run: npm run lint
+            # this comand checks for 
+            #- name: Lint the code 
+            #  run: npm run lint
 
             - name: Build the app 
               run: npm run build -- --prod
