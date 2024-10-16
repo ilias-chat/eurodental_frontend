@@ -1,0 +1,61 @@
+<app-user-form (submit)="on_form_submit($event)"></app-user-form>
+
+<div class="users-container">
+    <div class="list-header">
+        <input #search_input type="text" class="search-input" 
+        placeholder="Search by name" (keyup)="on_search_input_keyup()">
+        <select #combo_city class="combo-city" (change)="on_combo_city_change()">
+            <option value=""></option>
+            <option value="Tanger">Tanger</option>
+            <option value="Casa">Casa</option>
+            <option value="Rabat">Rabat</option>
+            <option value="Fes">Fes</option>
+        </select>
+        <a (click)="on_reset_filter_click()">reset filter</a>
+          
+        <button class="primary-button button-with-icon" (click)="on_add_user()">
+            <i class="fa-solid fa-plus"></i>
+            <span> new user </span>
+        </button>
+    </div>
+    <div class="list-body">
+        @if(is_loading()){
+            @for (item of [1,2,3,4,5]; track $index) {
+                <app-skeleton-row-list></app-skeleton-row-list>
+            }
+        }
+
+        @if(is_error()){
+            <p>Error occurred while loading the data.</p>
+            <button class="primary-button" (click)="refresh_users()">refresh</button>
+        }
+
+        @for(user of users; track user.id){
+            <app-user [user] = "user" [selected]="selected_users_ids().includes(user.id)" 
+            (edit)="on_user_edit($event)" (selected_change)="on_user_selected_change(user.id)"></app-user>
+        }
+    </div>
+
+    <div class="list-footer">
+        <span class="total">total users: {{ total_users() }}</span>
+
+        <div class="options" [class.hidden]="selected_users_ids().length == 0">
+            <span>({{ selected_users_ids().length }}) selected</span>
+            <button class="icon-button icon-button-primary"><i class="fa-solid fa-pen"></i></button>
+            <button class="icon-button icon-button-primary"><i class="fa-solid fa-trash-can"></i></button>
+            <button class="icon-button icon-button-danger" (click)="on_list_options_close_btn_click()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+
+        <button class="primary-button icon-button" (click)="on_previous_btn_clicked()"
+        [disabled]="current_page() === 1">
+            <i class="fa-solid fa-angle-left"></i>
+        </button>
+        page {{ current_page() }}/{{ total_pages() }}
+        <button class="primary-button icon-button" (click)="on_next_btn_clicked()"
+        [disabled]="current_page() === total_pages()">
+            <i class="fa-solid fa-angle-right"></i>
+        </button>
+    </div>
+</div>
+
+

@@ -1,0 +1,23 @@
+form{
+    border: 1px solid var(--secondary-text-color);
+    border-radius: 1rem;
+    padding: 1rem 2rem;
+    padding-bottom: 2rem;
+    position: absolute;
+    right: 50%;
+    top: 40%;
+    transform: translate(50%, -50%);
+    width: 500px;
+    background-color: var(--secondary-background-color);
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;
+}
+
+.form-group label {
+display: block;
+margin-bottom: 5px;
+}
+
+.form-group input {
+margin-bottom: 20px;
+padding: .75rem 1rem;
+}

@@ -4,8 +4,7 @@
     </button>
     <div class="logo">Logo</div>
     <div class="buttons">
-      <button class="button" routerLink="/" routerLinkActive="active" 
-      [routerLinkActiveOptions]="{ exact: true }">
+      <button class="button" routerLink="/dashboard" routerLinkActive="active">
         <i class="icon fa-solid fa-house"></i> <span class="label">Home</span>  
       </button>
       <button class="button" routerLink="/invoices" routerLinkActive="active">
@@ -20,8 +19,8 @@
       <button class="button" routerLink="/tasks" routerLinkActive="active">
         <i class="fa-solid fa-list-check"></i><span class="label"> Tasks</span>
       </button>
-      <button class="button">
-        <i class="icon fa-solid fa-gear"></i> <span class="label">Sittings</span> 
+      <button class="button" routerLink="/users" routerLinkActive="active">
+        <i class="fa-solid fa-users"></i> <span class="label">Users</span> 
       </button>
       <button class="button">
         <i class="icon fa-solid fa-right-from-bracket"></i> <span class="label"> Log out</span>

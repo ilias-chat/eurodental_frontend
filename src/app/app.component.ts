@@ -5,11 +5,12 @@ import { MainContentComponent } from "./main-content/main-content.component";
 import { NavComponent } from "./nav/nav.component";
 import { ToastsContainerComponent } from "./shared/toasts-container/toasts-container.component";
 import { NotificationsComponent } from "./shared/notifications/notifications.component";
+import { LoginComponent } from './authentification/login/login.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, SideMenuComponent, MainContentComponent, NavComponent, ToastsContainerComponent, NotificationsComponent],
+  imports: [SideMenuComponent, MainContentComponent, NavComponent, ToastsContainerComponent, NotificationsComponent, LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })

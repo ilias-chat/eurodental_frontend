@@ -176,7 +176,6 @@ export class ProductsComponent {
     this.product_form_component.open_dialog();
   }
 
-  // test
   on_product_selected_change(param_id:number){
 
     if (this.selected_products_ids().includes(param_id)) {
