@@ -25,7 +25,7 @@ jobs:
               run: sudo apt-get install -y google-chrome-stable
 
             - name: Run tests
-              run: npm test:ci
+              run: npm run test:ci
 
             - name: Lint the code 
               run: npm run lint
