@@ -20,12 +20,27 @@ jobs:
         # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Checkout the code
+      uses: actions/checkout@v4
+      
+    - name: Set up Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
-    - run: npm ci
-    - run: npm run build --if-present
+
+    - name: Install dependencies 
+      run: npm ci
+
+    # run unit tests defined in your Angular application's .spec.ts files.
+    #- name: Run tests
+    #  run: npm run test:ci
+
+    # This command checks for syntax errors, unused imports...
+    #- name: Lint the code 
+    #  run: npm run lint
+
+    - name: Build the app 
+      run: npm run build --if-present
+      
     - run: npm test
