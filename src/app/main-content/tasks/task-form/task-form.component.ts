@@ -27,6 +27,7 @@ export class TaskFormComponent {
   on_close(){
     this.close_dialog();
     this.reset_selected_task();
+    this.clear_error_message();
   }
 
   open_dialog(){
