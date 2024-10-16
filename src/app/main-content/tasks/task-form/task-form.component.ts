@@ -115,7 +115,6 @@ export class TaskFormComponent {
 
   clear_error_message(){
     this.error_message.set('');
-    //test
   }
 }
 
