@@ -43,4 +43,4 @@ jobs:
     - name: Build the app 
       run: npm run build --if-present
       
-    - run: npm test
+    - run: npm test:ci
