@@ -43,6 +43,7 @@ jobs:
     - name: Build the app 
       run: npm run build --if-present
 
+    - run: npm install puppeteer --save-dev
     
     - name: Test the app 
       run: npm test
