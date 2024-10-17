@@ -7,4 +7,6 @@ export interface User{
     phone_number:string,
     city:string,
     profile:string,
+    profile_id:number,
+    address:string,
 }

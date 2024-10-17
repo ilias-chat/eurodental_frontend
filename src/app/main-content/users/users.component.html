@@ -4,12 +4,12 @@
     <div class="list-header">
         <input #search_input type="text" class="search-input" 
         placeholder="Search by name" (keyup)="on_search_input_keyup()">
-        <select #combo_city class="combo-city" (change)="on_combo_city_change()">
+        <select #combo_profile class="combo-profile" (change)="on_combo_profile_change()">
             <option value=""></option>
-            <option value="Tanger">Tanger</option>
-            <option value="Casa">Casa</option>
-            <option value="Rabat">Rabat</option>
-            <option value="Fes">Fes</option>
+            @for (profile of profiles(); track profile.id) {
+                <option value="{{ profile.id }}">{{ profile.profile_name }}</option>
+            }
+            
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           

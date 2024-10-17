@@ -1,10 +1,11 @@
-import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, Signal, signal, ViewChild } from '@angular/core';
 import { ToastsService } from '../../shared/toasts-container/toast.service';
 import { UserFormComponent } from './user-form/user-form.component';
 import { User } from './user.model';
 import { UsersService } from './users.service';
 import { SkeletonRowListComponent } from '../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { UserComponent } from './user/user.component';
+import { Profile, ProfilesService } from './profiles.service';
 
 @Component({
   selector: 'app-users',
@@ -16,9 +17,12 @@ import { UserComponent } from './user/user.component';
 export class UsersComponent {
   private toasts_service = inject(ToastsService);
   private users_service = inject(UsersService);
+  private profiles_service = inject(ProfilesService);
+
   @ViewChild(UserFormComponent) user_form_component!:UserFormComponent;
   all_users = signal<User[]>([]);
   selected_users_ids = signal<number[]>([]);
+  profiles: Signal<Profile[]> = this.profiles_service.profiles;
 
   current_page = signal<number>(1);
   lines_per_page:number = 10;
@@ -29,7 +33,7 @@ export class UsersComponent {
   end_index = signal<number>(this.lines_per_page);
 
   @ViewChild('search_input') search_input!: ElementRef;
-  @ViewChild('combo_city') combo_city!: ElementRef;
+  @ViewChild('combo_profile') combo_profile!: ElementRef;
 
   is_loading = signal(false);
   is_error = signal(false);
@@ -37,7 +41,6 @@ export class UsersComponent {
   ngOnInit(){
 
     this.refresh_users();
-
     this.reset_pagination();
   }
 
@@ -92,14 +95,14 @@ export class UsersComponent {
     this.filter_users();
   }
 
-  on_combo_city_change(){
+  on_combo_profile_change(){
     this.filter_users();
   }
 
   filter_users(){
     const search_input_value = this.search_input.nativeElement.value;
-    const city_combo_value = this.combo_city.nativeElement.value;
-    this.all_users.set(this.users_service.filter(search_input_value,city_combo_value));
+    const profile_combo_value = this.combo_profile.nativeElement.value;
+    this.all_users.set(this.users_service.filter(search_input_value,profile_combo_value));
     this.current_page.set(1);
     this.start_index.set(0);
     this.end_index.set(this.lines_per_page);
@@ -123,7 +126,7 @@ export class UsersComponent {
 
   reset_filter(){
     this.search_input.nativeElement.value = '';
-    this.combo_city.nativeElement.value = '';
+    this.combo_profile.nativeElement.value = '';
     this.all_users.set(this.users_service.filter('',''));
     this.current_page.set(1);
     this.start_index.set(0);

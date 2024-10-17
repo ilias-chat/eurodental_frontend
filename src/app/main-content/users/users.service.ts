@@ -25,7 +25,7 @@ export class UsersService {
     if(name != '' && profile != ''){
       return this.users().filter((user)=>{
         return (user.first_name.toLowerCase().includes(name) || user.last_name.toLowerCase().includes(name))
-          && user.profile.toLowerCase() === profile.toLowerCase();
+          && user.profile_id === Number(profile);
       });
     } else if (name != ''){
       return this.users().filter((user)=>{
@@ -33,13 +33,15 @@ export class UsersService {
       });
     } else if (profile != ''){
       return this.users().filter((user)=>{
-        return user.profile.toLowerCase() === profile.toLowerCase();
+        return user.profile_id === Number(profile);
       });
     }
     else return this.users();
   }
 
   add(user:FormData):Observable<Object>{
+    user.append('password', this.generatePassword());
+    console.log(user.get('password'))
     return this.http.post(this.api_url + '/users', user);
   }
 
@@ -62,5 +64,15 @@ export class UsersService {
     ); 
   }
   
-
+  private generatePassword() {
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+    let password = '';
+  
+    for (let i = 0; i < 8; i++) {
+      const randomIndex = Math.floor(Math.random() * characters.length);
+      password += characters[randomIndex];
+    }
+  
+    return password;
+  }
 }

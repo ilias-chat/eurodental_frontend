@@ -1,6 +1,7 @@
-import { Component, ElementRef, EventEmitter, Output, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, EventEmitter, inject, Output, Signal, signal, ViewChild } from '@angular/core';
 import { User } from '../user.model';
 import { FormsModule } from '@angular/forms';
+import { Profile, ProfilesService } from '../profiles.service';
 
 @Component({
   selector: 'app-user-form',
@@ -18,6 +19,9 @@ export class UserFormComponent {
   @ViewChild('form') user_form!:ElementRef<HTMLFormElement>;
   
   @Output() submit = new EventEmitter<{form_data:FormData, user:User}>();
+
+  private profiles_service = inject(ProfilesService);
+  profiles: Signal<Profile[]> = this.profiles_service.profiles;
 
   is_progressbar_open = signal(false);
   error_message = signal('');
@@ -42,15 +46,14 @@ export class UserFormComponent {
     this.error_message.set('');
     this.invalid_inputs.set([]);
 
-    console.log("name: "+this.selected_user.first_name)
     if(!this.selected_user.first_name)
       this.invalid_inputs.set([...this.invalid_inputs(), 'first_name']);
     if(!this.selected_user.last_name)
       this.invalid_inputs.set([...this.invalid_inputs(), 'last_name']);
     if(!this.selected_user.email)
       this.invalid_inputs.set([...this.invalid_inputs(), 'email']);
-    if(!this.selected_user.city)
-      this.invalid_inputs.set([...this.invalid_inputs(), 'city']);
+    if(!this.selected_user.profile_id)
+      this.invalid_inputs.set([...this.invalid_inputs(), 'profile_id']);
 
     if(this.invalid_inputs().length > 0){
       //this.error_message.set('Fill in all the requered inputs');
@@ -61,7 +64,7 @@ export class UserFormComponent {
     form_data.append('last_name', this.selected_user.last_name);
     form_data.append('email', this.selected_user.email);
     form_data.append('phone_number', this.selected_user.phone_number);
-    form_data.append('city', this.selected_user.city);
+    form_data.append('profile_id', this.selected_user.profile_id.toString());
     if(img_input?.files && img_input?.files[0]){
       form_data.append('image', img_input.files[0]);
     }
@@ -119,6 +122,8 @@ export class UserFormComponent {
       city: '',
       image_path: '',
       profile: '',
+      profile_id: 0,
+      address: '',
     }; 
   }
 
