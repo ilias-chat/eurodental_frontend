@@ -43,13 +43,6 @@ jobs:
     - name: Build the app 
       run: npm run build --if-present
 
-    - name: Set up xvfb
-      run: |
-        sudo apt-get update
-        sudo apt-get install xvfb
-        Xvfb :99 & 
-        export DISPLAY=:99
-        ng test --no-watch --no-progress --browsers=ChromeHeadless
-
-      
-    #- run: npm test
+    
+    - name: Test the app 
+      run: npm test
