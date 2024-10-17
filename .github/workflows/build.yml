@@ -50,6 +50,9 @@ jobs:
         Xvfb :99 & 
         export DISPLAY=:99
 
+    - name: Install Angular CLI
+      run: npm install -g @angular/cli
+
     - name: Run tests in headless Chrome
       run: |
         export CHROME_BIN=$(which google-chrome)
