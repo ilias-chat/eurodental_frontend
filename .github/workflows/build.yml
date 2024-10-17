@@ -42,22 +42,6 @@ jobs:
 
     - name: Build the app 
       run: npm run build --if-present
-
-    - name: Set up xvfb
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y xvfb
-        Xvfb :99 & 
-        export DISPLAY=:99
-
-    - name: Install Angular CLI
-      run: npm install -g @angular/cli
-
-    - name: Run tests in headless Chrome
-      run: |
-        export CHROME_BIN=$(which google-chrome)
-        export DISPLAY=:99
-        ng test --no-watch --no-progress --browsers=ChromeHeadless
     
-    #- name: Test the app 
-     # run: npm test
+    - name: Test the app 
+      run: npm test
