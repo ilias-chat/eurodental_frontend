@@ -3,12 +3,12 @@ import { ClientsComponent } from './main-content/clients/clients.component';
 import { InvoicesComponent } from './main-content/invoices/invoices.component';
 import { HomeComponent } from './main-content/home/home.component';
 import { ProductsComponent } from './main-content/products/products.component';
-import { TaskComponent } from './main-content/tasks/task/task.component';
 import { TasksComponent } from './main-content/tasks/tasks.component';
+import { UsersComponent } from './main-content/users/users.component';
 
 export const routes: Routes = [
     {
-        path:'',
+        path:'dashboard',
         component: HomeComponent,
     },
     {
@@ -26,5 +26,9 @@ export const routes: Routes = [
     {
         path:'tasks',
         component: TasksComponent,
+    },
+    {
+        path:'users',
+        component: UsersComponent,
     },
 ];

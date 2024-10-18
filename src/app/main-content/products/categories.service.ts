@@ -14,7 +14,7 @@ export class CategoriesService{
     categories = signal<Category[]>([]);
 
     private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+    private api_url = 'http://35.180.66.24/api/v1';
 
     constructor(){
         this.all().subscribe({
@@ -28,7 +28,7 @@ export class CategoriesService{
     }
 
     all():Observable<Category[]>{
-        return this.http_client.get<Category[]>('http://35.180.66.24/categories');
+        return this.http_client.get<Category[]>(this.api_url + '/categories');
     }
 
     add(category:Category):Observable<Object>{

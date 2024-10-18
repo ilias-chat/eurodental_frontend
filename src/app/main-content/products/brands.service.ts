@@ -14,7 +14,7 @@ export class BrandsService{
     brands = signal<Brand[]>([]);
 
     private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+    private api_url = 'http://35.180.66.24/api/v1';
 
     constructor(){
         this.all().subscribe({
@@ -28,7 +28,7 @@ export class BrandsService{
     }
 
     all():Observable<Brand[]>{
-        return this.http_client.get<Brand[]>('http://35.180.66.24/brands');
+        return this.http_client.get<Brand[]>(this.api_url + '/brands');
     }
 
     add(brand:Brand):Observable<Object>{

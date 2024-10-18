@@ -1,0 +1,91 @@
+<dialog #dialog>
+    <div class="dialog-header">
+        <span class="dialog-title">
+            add new user
+        </span>
+        <button id="colse-dialog" class="icon-button icon-button-danger" (click)="on_close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <form class="dialog-form" #form>
+        <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
+            <div class="progress-bar"></div>
+        </div>
+        <div>
+            <div class="form-group">
+                <label for="image_path">Picture</label>
+                <label class="image-selector" for="image-upload" style="margin-bottom: 20px;"
+                (drop)="on_img_selector_drop($event, img_input)"
+                (dragover)="on_img_selector_dragover($event)">
+                    @if(!selected_user.image_path){
+                        <div class="upload-text">
+                            <img src="../../../../assets/imgs/cloud-computing_x64.png" alt="">
+                            <p>Click here or drag and drop <br> to upload image</p>
+                        </div>
+                    }@else {
+                        <img class="image-view" src="{{ selected_user.image_path }}" alt="">
+                    }
+                    <input #img_input type="file" id="image-upload" accept="image/*" (change)="on_img_input_change($event)" hidden>
+                </label>
+            </div>
+
+            <div class="form-group">
+            <label for="first_name">First Name *</label>
+            <input type="text" id="first_name" name="first_name" required [(ngModel)]="selected_user.first_name"
+            [class.invalid-input]="invalid_inputs().includes('first_name')">
+            </div>
+        
+            <div class="form-group">
+            <label for="last_name">Last Name *</label>
+            <input type="text" id="last_name" name="last_name" required [(ngModel)]="selected_user.last_name"
+            [class.invalid-input]="invalid_inputs().includes('last_name')">
+            </div>  
+        </div>
+
+        <div> 
+
+            <div class="form-group">
+                <label for="profile">Profile *</label>
+                <select name="profile" [(ngModel)]="selected_user.profile_id"
+                [class.invalid-input]="invalid_inputs().includes('profile_id')">
+                    <option value=""></option>
+                    @for (profile of profiles(); track profile.id) {
+                        <option value="{{ profile.id }}">{{ profile.profile_name }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="form-group">
+            <label for="email">Email *</label>
+            <input type="email" id="email" name="email" required [(ngModel)]="selected_user.email"
+            [class.invalid-input]="invalid_inputs().includes('email')">
+            </div>
+        
+            <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input type="tel" id="phone_number" name="phone_number" required [(ngModel)]="selected_user.phone_number">
+            </div>      
+
+            <div class="form-group">
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required [(ngModel)]="selected_user.city">
+            </div>
+
+            <div class="form-group">
+                <label for="adresse">Address</label>
+                <textarea id="adresse" name="adresse" required [(ngModel)]="selected_user.address">
+                </textarea>
+            </div>
+  
+        </div>
+
+    </form>
+    <div class="dialog-footer">
+        <div class="error" [class.hidden]="error_message() === ''">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span> {{ error_message() }} </span>
+            <button (click)="clear_error_massage()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <button type="submit" class="primary-button" (click)="on_save_btn_click(img_input)">Save</button>
+    </div>
+  </dialog>

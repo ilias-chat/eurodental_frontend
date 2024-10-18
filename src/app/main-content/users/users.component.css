@@ -1,4 +1,4 @@
-.clients-container{
+.users-container{
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -16,7 +16,7 @@
     margin-left: auto;
 }
 
-.combo-city{
+.combo-profile{
     width: 200px;
 }
 

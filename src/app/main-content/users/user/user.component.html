@@ -1,0 +1,42 @@
+
+
+<div class="user-card">
+    <label class="checkbox-container">
+        <input type="checkbox" [checked]="selected" (change)="on_checkbox_change()">
+        <span class="checkmark"></span>
+    </label>
+    <div class="card-header">
+        <!-- @if(client.image_path.length < 3){
+            <img src="../../../../assets/imgs/profile-user.png" alt="" class="client-img">
+        }@else{ -->
+            <img src="{{user.image_path}}" alt="" class="user-img">
+        <!-- } -->
+        <div class="text">
+            <span class="user-name">
+                {{user.first_name}} {{user.last_name}}
+            </span>
+            <span class="user-city">
+                {{ user.profile }}
+            </span>
+        </div>
+    </div>
+    <div class="contacts">
+        <div class="user-email">
+            <i class="fa-solid fa-envelope"></i>
+            <span> {{ user.email }} </span>
+        </div>
+        <div class="user-phone">
+            <i class="fa-solid fa-mobile-screen-button"></i>
+            <span> {{ user.phone_number }} </span>
+        </div>
+    </div>
+    <div class="btns">
+        <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+        <button class="icon-button icon-button-primary"><i class="fa-solid fa-up-right-from-square"></i></button>
+    </div>
+    </div>
+ 
+ 
+
+
+  

@@ -21,7 +21,7 @@ export class TasksComponent {
   private tasks_service = inject(TasksService);
   @ViewChild(TaskFormComponent) task_form_component!:TaskFormComponent;
   @ViewChild(TaskDetailsComponent) task_details_component!:TaskDetailsComponent;
-  @ViewChild(DateRangePickerComponent) range_picher_component!:DateRangePickerComponent;
+  @ViewChild(DateRangePickerComponent) range_picker_component!:DateRangePickerComponent;
 
   all_tasks = signal<Task[]>([]);
   selected_tasks_ids = signal<number[]>([]);
@@ -222,9 +222,10 @@ export class TasksComponent {
 
   on_apply_btn_click(){
     this.refresh_tasks({
-      start_date:this.format_date_to_yyyy_mm_dd(this.range_picher_component.selected_range.start),
-      end_date:this.format_date_to_yyyy_mm_dd(this.range_picher_component.selected_range.end),
-    })
+      start_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range.start),
+      end_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range.end),
+    });
+    this.is_date_filter_open.set(false);
   }
 
   show_reassing_from(){
