@@ -1,12 +1,27 @@
 <form>
+    @if(is_loading()){
+        <div class="progress-bar-container">
+            <div class="progress-bar"></div>
+        </div>
+    } 
+
     <h2>Wellcome</h2>
     <div class="form-group">
         <label for="email">Email</label>
-        <input type="text" name="email">
+        <input #email_input type="text" name="email" 
+        [class.invalid-input]="email_error() !== ''" (keyup)="reset_email_error()">
+        @if(email_error() !== ''){
+            <label class="error-label">{{email_error()}}</label>
+        }
     </div>
     <div class="form-group">
         <label for="password">Password</label>
-        <input type="password" name="password">
+        <input #password_input type="password" name="password" 
+        [class.invalid-input]="password_error() !== ''" (keyup)="reset_password_error()">
+        @if(password_error() !== ''){
+            <label class="error-label">{{password_error()}}</label>
+        }
     </div>
-    <button class="primary-button">Log in</button>
+    <button type="button" class="primary-button login-btn"
+    (click)="on_login_btn_click()">Log in</button>
 </form>
