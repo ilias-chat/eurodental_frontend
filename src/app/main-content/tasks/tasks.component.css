@@ -51,21 +51,49 @@
     border-radius: 1rem;
     padding: 1rem;
     box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-    width: 500px;
+    width: 350px;
     display: flex;
     justify-content: start;
     align-items: center;
-    gap: .3rem;
+    gap: .1rem;
 }
 
 .options>button:last-child{
     margin-left: auto;
 }
 
+.options>button{
+    position: relative;
+}
+
+.options>button>span{
+    position: absolute;
+    width: max-content;
+    height: auto;
+    top: -80%;
+    right: 50%;
+    transform: translateX(50%);
+    padding: .3rem .5rem;
+    border-radius: .3rem;
+    border: 1px solid var(--secondary-text-color);
+    background-color: var(--third-color);
+    font-size: small;
+    opacity: 0;
+    transition: .1s linear .2s;
+}
+
+.options>button:hover>span{
+    opacity: 1;
+    color: var(--text-color);
+}
+
 .options>span{
     color: var(--text-color);
-    padding-right: .5rem;
     margin-right: auto;
+}
+
+.options>b{
+    opacity: .3;
 }
 
 .new{

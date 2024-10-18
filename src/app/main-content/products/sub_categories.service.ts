@@ -15,7 +15,7 @@ export class SubCategoriesService{
     sub_categories = signal<Sub_category[]>([]);
 
     private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+    private api_url = 'http://35.180.66.24/api/v1';
 
     constructor(){
         this.all().subscribe({
@@ -29,7 +29,7 @@ export class SubCategoriesService{
     }
 
     all():Observable<Sub_category[]>{
-        return this.http_client.get<Sub_category[]>('http://35.180.66.24/sub_categories');
+        return this.http_client.get<Sub_category[]>(this.api_url + '/sub_categories');
     }
 
     add(sub_category:Sub_category):Observable<Object>{

@@ -11,14 +11,14 @@ export class ProductsService{
     all_products = this.products.asReadonly();
 
     private http = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+    private api_url = 'http://35.180.66.24/api/v1';
     
     public set set_products(products:Product[]) {
       this.products.set(products);
     }
 
     all():Observable<Product[]>{
-      return this.http.get<Product[]>('http://35.180.66.24/products');
+      return this.http.get<Product[]>(this.api_url + '/products');
     }
   
     filter(name:string, id_brand:number){

@@ -59,9 +59,38 @@
     margin-left: auto;
 }
 
+.options>button{
+    position: relative;
+}
+
+.options>button>span{
+    position: absolute;
+    width: max-content;
+    height: auto;
+    top: -80%;
+    right: 50%;
+    transform: translateX(50%);
+    padding: .3rem .5rem;
+    border-radius: .3rem;
+    border: 1px solid var(--secondary-text-color);
+    background-color: var(--third-color);
+    font-size: small;
+    opacity: 0;
+    transition: .1s linear .2s;
+}
+
+.options>button:hover>span{
+    opacity: 1;
+    color: var(--text-color);
+}
+
 .options>span{
     color: var(--text-color);
-    padding-right: .5rem;
+    margin-right: auto;
+}
+
+.options>b{
+    opacity: .3;
 }
 
 .new{
