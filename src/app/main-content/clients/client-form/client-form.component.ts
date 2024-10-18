@@ -43,7 +43,6 @@ export class ClientFormComponent {
     this.error_message.set('');
     this.invalid_inputs.set([]);
 
-    console.log("name: "+this.selected_client.first_name)
     if(!this.selected_client.first_name)
       this.invalid_inputs.set([...this.invalid_inputs(), 'first_name']);
     if(!this.selected_client.last_name)

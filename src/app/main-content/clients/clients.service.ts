@@ -2,6 +2,7 @@ import { Injectable,inject,signal } from "@angular/core";
 import { Client } from "./client.model";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { AuthentificationService } from "../../authentification/authentification.service";
 
 @Injectable({
     providedIn:'root'
@@ -11,14 +12,15 @@ export class ClientsService {
   all_clients = this.clients.asReadonly();
 
   private http_client = inject(HttpClient);
-  private api_url = 'http://35.180.66.24';
+  private authentifiction_servise = inject(AuthentificationService);
+  private api_url = this.authentifiction_servise.get_api_url + '/clients';
   
   public set set_clients(clients:Client[]) {
     this.clients.set(clients);
   }
 
   all():Observable<Client[]>{
-    return this.http_client.get<Client[]>('http://35.180.66.24/clients');
+    return this.http_client.get<Client[]>(this.api_url);
   }
 
   filter(name:string, city:string){
@@ -40,11 +42,11 @@ export class ClientsService {
   }
 
   add(client:FormData):Observable<Object>{
-    return this.http_client.post(this.api_url + '/clients', client);
+    return this.http_client.post(this.api_url, client);
   }
 
   edit(client:FormData, client_id:number):Observable<Object>{
-    return this.http_client.put(this.api_url+'/clients/'+client_id, client);
+    return this.http_client.put(this.api_url+'/'+client_id, client);
   }
   
   public set add_client(client:Client) {

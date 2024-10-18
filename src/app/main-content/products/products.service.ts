@@ -2,6 +2,7 @@ import { Injectable,inject,signal } from "@angular/core";
 import { Product } from "./product.model";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
+import { AuthentificationService } from "../../authentification/authentification.service";
 
 @Injectable({
     providedIn:'root'
@@ -11,14 +12,15 @@ export class ProductsService{
     all_products = this.products.asReadonly();
 
     private http = inject(HttpClient);
-    private api_url = 'http://35.180.66.24/api/v1';
+    private authentifiction_servise = inject(AuthentificationService);
+    private api_url = this.authentifiction_servise.get_api_url + '/products';
     
     public set set_products(products:Product[]) {
       this.products.set(products);
     }
 
     all():Observable<Product[]>{
-      return this.http.get<Product[]>(this.api_url + '/products');
+      return this.http.get<Product[]>(this.api_url);
     }
   
     filter(name:string, id_brand:number){
@@ -41,11 +43,11 @@ export class ProductsService{
     }
   
     add(product:FormData):Observable<Object>{
-      return this.http.post(this.api_url + '/products', product);
+      return this.http.post(this.api_url, product);
     }
   
     edit(product:FormData, product_id:number):Observable<Object>{
-      return this.http.put(this.api_url+'/products/'+product_id, product);
+      return this.http.put(this.api_url+'/'+product_id, product);
     }
     
     public set add_product(product:Product) {

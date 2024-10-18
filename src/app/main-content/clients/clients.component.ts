@@ -6,6 +6,7 @@ import { ClientFormComponent } from "./client-form/client-form.component";
 import { ToastsContainerComponent } from '../../shared/toasts-container/toasts-container.component';
 import { ToastsService } from '../../shared/toasts-container/toast.service';
 import { SkeletonRowListComponent } from '../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
+import { catchError, throwError } from 'rxjs';
 
 @Component({
   selector: 'app-clients',
@@ -51,12 +52,11 @@ export class ClientsComponent {
       next:(respond_data)=>{
         this.all_clients.set(respond_data);
         this.clients_service.set_clients = respond_data;
-        this.total_clients.set(respond_data.length);
+        this.total_clients.set(this.all_clients().length);
         this.filter_clients();
         this.is_loading.set(false);
       },
       error:(err)=>{
-        console.error(err);
         this.is_loading.set(false);
         this.is_error.set(true);
       },

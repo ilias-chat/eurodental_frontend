@@ -11,7 +11,7 @@ export class TasksService {
   all_tasks = this.tasks.asReadonly();
 
   private http_task = inject(HttpClient);
-  private api_url = 'http://35.180.66.24/tasks/';
+  private api_url = 'http://35.180.66.24/api/v1/tasks/';
 
   all(params:{start_date:string, end_date:string}):Observable<Task[]>{
     let url = this.api_url

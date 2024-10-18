@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
 import { Observable } from "rxjs";
+import { AuthentificationService } from "../../authentification/authentification.service";
 
 export interface Brand{
     id:number,
@@ -9,12 +10,13 @@ export interface Brand{
 
 @Injectable({
     providedIn:'root'
-})
+}) 
 export class BrandsService{
     brands = signal<Brand[]>([]);
 
     private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24/api/v1';
+    private authentifiction_servise = inject(AuthentificationService);
+    private api_url = this.authentifiction_servise.get_api_url + '/brands';
 
     constructor(){
         this.all().subscribe({
@@ -28,15 +30,15 @@ export class BrandsService{
     }
 
     all():Observable<Brand[]>{
-        return this.http_client.get<Brand[]>(this.api_url + '/brands');
+        return this.http_client.get<Brand[]>(this.api_url);
     }
 
     add(brand:Brand):Observable<Object>{
-        return this.http_client.post(this.api_url + '/brands', brand);
+        return this.http_client.post(this.api_url, brand);
     }
 
     edit(brand:Brand):Observable<Object>{
-        return this.http_client.put(this.api_url + '/brands/'+brand.id, brand);
+        return this.http_client.put(this.api_url + '/' +brand.id, brand);
     }
     
     public set add_brand(brand:Brand) {

@@ -1,27 +1,40 @@
-<form>
-    @if(is_loading()){
-        <div class="progress-bar-container">
-            <div class="progress-bar"></div>
-        </div>
-    } 
 
-    <h2>Wellcome</h2>
-    <div class="form-group">
-        <label for="email">Email</label>
-        <input #email_input type="text" name="email" 
-        [class.invalid-input]="email_error() !== ''" (keyup)="reset_email_error()">
-        @if(email_error() !== ''){
-            <label class="error-label">{{email_error()}}</label>
-        }
+<div class="login">
+    <div class='background'>
+        <h2 class="logo">
+            Application logo
+        </h2>
     </div>
-    <div class="form-group">
-        <label for="password">Password</label>
-        <input #password_input type="password" name="password" 
-        [class.invalid-input]="password_error() !== ''" (keyup)="reset_password_error()">
-        @if(password_error() !== ''){
-            <label class="error-label">{{password_error()}}</label>
-        }
-    </div>
-    <button type="button" class="primary-button login-btn"
-    (click)="on_login_btn_click()">Log in</button>
-</form>
+
+    <form>
+        @if(is_loading()){
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        } 
+    
+        <h2>Wellcome</h2>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input #email_input type="text" name="email" 
+            [class.invalid-input]="email_error() !== ''" (keyup)="reset_email_error()">
+            @if(email_error() !== ''){
+                <label class="error-label">{{email_error()}}</label>
+            }
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input #password_input type="password" name="password" 
+            [class.invalid-input]="password_error() !== ''" (keyup)="reset_password_error()">
+            @if(password_error() !== ''){
+                <label class="error-label">{{password_error()}}</label>
+            }
+        </div>
+        <div class="form-group">
+            <a href="">Forgot password?</a>
+        </div>
+        <button type="button" class="primary-button login-btn"
+        (click)="on_login_btn_click()">Log in</button>
+    </form>
+</div>
+

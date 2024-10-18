@@ -1,4 +1,5 @@
-import { Component, ElementRef, signal, ViewChild } from '@angular/core';
+import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { AuthentificationService } from '../authentification.service';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,8 @@ import { Component, ElementRef, signal, ViewChild } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  private authentification_service = inject(AuthentificationService);
 
   @ViewChild('from') from_element!:ElementRef;
   @ViewChild('email_input') email_input!:ElementRef;
@@ -28,19 +31,22 @@ export class LoginComponent {
   }
 
   on_login_btn_click(){
-    if(this.email_input.nativeElement.value === '' || 
-      this.password_input.nativeElement.value === '' ||
-      !this.is_valid_email(this.email_input.nativeElement.value)){
 
-        if(this.email_input.nativeElement.value === ''){
+    const email = this.email_input.nativeElement.value;
+    const password = this.password_input.nativeElement.value;
+    if(email === '' || 
+      password === '' ||
+      !this.is_valid_email(email)){
+
+        if(email === ''){
           this.email_error.set('enter your account email');
-        }else if(!this.is_valid_email(this.email_input.nativeElement.value)){
+        }else if(!this.is_valid_email(email)){
           this.email_error.set('enter a valid email address');
         }else{
           this.email_error.set('');
         }
 
-        if(this.password_input.nativeElement.value === ''){
+        if(password === ''){
           this.password_error.set('enter your password');
         }else{
           this.password_error.set('');
@@ -50,6 +56,17 @@ export class LoginComponent {
     }
 
     this.is_loading.set(true);
+
+    this.authentification_service.login(email, password).subscribe({
+      next:(response_data)=> {
+        console.log(response_data);
+        this.is_loading.set(false);
+      },
+      error:(response_err)=> {
+        console.error(response_err)
+        this.is_loading.set(false);
+      },
+  });
   }
 
   is_valid_email(email:string) {
