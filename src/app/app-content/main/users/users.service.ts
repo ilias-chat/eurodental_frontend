@@ -1,7 +1,8 @@
 import { Injectable,inject,signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { catchError, Observable } from "rxjs";
 import { User } from "./user.model";
+import { HttpService } from "../../../shared/http.service";
 
 @Injectable({
     providedIn:'root'
@@ -11,14 +12,17 @@ export class UsersService {
   all_users = this.users.asReadonly();
 
   private http = inject(HttpClient);
-  private api_url = 'http://35.180.66.24/api/v1' + '/users';
+  private http_service = inject(HttpService);
+  private api_url = this.http_service.api_url + '/users';
   
   public set set_users(users:User[]) {
     this.users.set(users);
   }
 
   all():Observable<User[]>{
-    return this.http.get<User[]>(this.api_url);
+    return this.http.get<User[]>(this.api_url).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
 
   filter(name:string, profile:string){
@@ -41,12 +45,15 @@ export class UsersService {
 
   add(user:FormData):Observable<Object>{
     user.append('password', this.generatePassword());
-    console.log(user.get('password'))
-    return this.http.post(this.api_url, user);
+    return this.http.post(this.api_url, user).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
 
   edit(user:FormData, user_id:number):Observable<Object>{
-    return this.http.put(this.api_url + '/' + user_id, user);
+    return this.http.put(this.api_url + '/' + user_id, user).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
   
   public set add_user(user:User) {

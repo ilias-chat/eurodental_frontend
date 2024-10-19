@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
-import { Observable } from "rxjs";
+import { catchError, Observable } from "rxjs";
+import { HttpService } from "../../../shared/http.service";
 
 export interface Profile{
     id:number,
@@ -14,7 +15,8 @@ export class ProfilesService{
     profiles = signal<Profile[]>([]);
 
     private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24/api/v1' + '/profiles';
+    private http_service = inject(HttpService);
+    private api_url = this.http_service.api_url + '/profiles';
 
     constructor(){
         this.all().subscribe({
@@ -28,15 +30,21 @@ export class ProfilesService{
     }
 
     all():Observable<Profile[]>{
-        return this.http_client.get<Profile[]>(this.api_url);
+        return this.http_client.get<Profile[]>(this.api_url).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
 
     add(profile:Profile):Observable<Object>{
-        return this.http_client.post(this.api_url, profile);
+        return this.http_client.post(this.api_url, profile).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
 
     edit(profile:Profile):Observable<Object>{
-        return this.http_client.put(this.api_url + '/'+profile.id, profile);
+        return this.http_client.put(this.api_url + '/'+profile.id, profile).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
     
     public set add_profile(profile:Profile) {

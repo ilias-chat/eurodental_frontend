@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
-import { Observable } from "rxjs";
-import { AuthentificationService } from "../../../authentification/auth.service";
+import { catchError, Observable } from "rxjs";
+import { HttpService } from "../../../shared/http.service";
 
 export interface Brand{
     id:number,
@@ -15,8 +15,9 @@ export class BrandsService{
     brands = signal<Brand[]>([]);
 
     private http_client = inject(HttpClient);
-    private authentifiction_servise = inject(AuthentificationService);
-    private api_url = this.authentifiction_servise.get_api_url + '/brands';
+    private http_service = inject(HttpService);
+
+    private api_url = this.http_service.api_url + '/brands';
 
     constructor(){
         this.all().subscribe({
@@ -30,15 +31,21 @@ export class BrandsService{
     }
 
     all():Observable<Brand[]>{
-        return this.http_client.get<Brand[]>(this.api_url);
+        return this.http_client.get<Brand[]>(this.api_url).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
 
     add(brand:Brand):Observable<Object>{
-        return this.http_client.post(this.api_url, brand);
+        return this.http_client.post(this.api_url, brand).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
 
     edit(brand:Brand):Observable<Object>{
-        return this.http_client.put(this.api_url + '/' +brand.id, brand);
+        return this.http_client.put(this.api_url + '/' +brand.id, brand).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
     
     public set add_brand(brand:Brand) {

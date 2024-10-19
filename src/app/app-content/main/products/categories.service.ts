@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
-import { Observable } from "rxjs";
-import { AuthentificationService } from "../../../authentification/auth.service";
+import { catchError, Observable } from "rxjs";
+import { HttpService } from "../../../shared/http.service";
 
 export interface Category{
     id:number,
@@ -15,8 +15,9 @@ export class CategoriesService{
     categories = signal<Category[]>([]);
 
     private http_client = inject(HttpClient);
-    private authentifiction_servise = inject(AuthentificationService);
-    private api_url = this.authentifiction_servise.get_api_url + '/categories';
+    private http_service = inject(HttpService);
+    
+    private api_url = this.http_service.api_url + '/categories';
 
     constructor(){
         this.all().subscribe({
@@ -30,15 +31,21 @@ export class CategoriesService{
     }
 
     all():Observable<Category[]>{
-        return this.http_client.get<Category[]>(this.api_url);
+        return this.http_client.get<Category[]>(this.api_url).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
 
     add(category:Category):Observable<Object>{
-        return this.http_client.post(this.api_url , category);
+        return this.http_client.post(this.api_url , category).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
 
     edit(category:Category):Observable<Object>{
-        return this.http_client.put(this.api_url + '/'+category.id, category);
+        return this.http_client.put(this.api_url + '/'+category.id, category).pipe(
+            catchError(this.http_service.handle_error)
+        );
     }
     
     public set add_category(category:Category) {

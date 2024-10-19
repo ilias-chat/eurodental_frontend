@@ -32,6 +32,9 @@
   .options>input{
     width: calc(100% - .8rem);
     margin: .4rem;
+    position: sticky;
+    top: .4rem;
+    box-shadow: .4rem 0 0 .4rem var(--third-color);
   }
   
   .option {
