@@ -34,13 +34,3 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
         })
     )
 };
-
-// @Injectable()
-// export class AuthInterceptorService implements HttpInterceptor {
-//     private authentifiction_servise = inject(AuthentificationService);
-    
-//     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-//         const headers = this.authentifiction_servise.get_headers();
-//         return next.handle(req.clone({ headers }));
-//     }
-// }
