@@ -1,0 +1,29 @@
+<div class="side-menu" [class.menu-closed]="is_menu_closed===true">
+    <button class="menu-btn" (click)="on_btn_menu_cliked($event)">
+      <i class="fa-solid fa-angles-left"></i>
+    </button>
+    <div class="logo">Logo</div>
+    <div class="buttons">
+      <button class="button" routerLink="/app/dashboard" routerLinkActive="active">
+        <i class="icon fa-solid fa-house"></i> <span class="label">Home</span>  
+      </button>
+      <button class="button" routerLink="/app/invoices" routerLinkActive="active">
+        <i class="icon fa-solid fa-file-lines"></i> <span class="label">Invoices</span> 
+      </button>
+    <button class="button" routerLink="/app/clients" routerLinkActive="active">
+        <i class="icon fa-solid fa-user-group"></i> <span class="label">Clients</span> 
+      </button>
+      <button class="button" routerLink="/app/products" routerLinkActive="active">
+        <i class="icon fa-solid fa-tags"></i> <span class="label">Products </span>
+      </button>
+      <button class="button" routerLink="/app/tasks" routerLinkActive="active">
+        <i class="fa-solid fa-list-check"></i><span class="label"> Tasks</span>
+      </button>
+      <button class="button" routerLink="/app/users" routerLinkActive="active">
+        <i class="fa-solid fa-users"></i> <span class="label">Users</span> 
+      </button>
+      <button class="button">
+        <i class="icon fa-solid fa-right-from-bracket"></i> <span class="label"> Log out</span>
+      </button>
+    </div>
+</div>
