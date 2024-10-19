@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Input, Output, ViewChild, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { HttpService } from '../http.service';
+import { catchError } from 'rxjs';
 
 interface Technician{
   id:number,
@@ -18,7 +20,8 @@ interface Technician{
 export class TechnitiansComboboxComponent {
 
   private http = inject(HttpClient);
-  private api_url = 'http://35.180.66.24/api/v1/users/?profile_name=technicien';
+  private http_service = inject(HttpService);
+  private api_url = this.http_service.api_url + '/users/?profile_name=technicien';
   
   @Input({required:true}) value:string = '';
   @Input() is_valid:boolean = false;
@@ -43,7 +46,9 @@ export class TechnitiansComboboxComponent {
   }
 
   get_all_technicians(){
-    this.http.get<Technician[]>(this.api_url).subscribe({
+    this.http.get<Technician[]>(this.api_url).pipe(
+      catchError(this.http_service.handle_error)
+    ).subscribe({
       next:(respond_data)=>{
         this.technicians.set(respond_data);
       },

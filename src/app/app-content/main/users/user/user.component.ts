@@ -15,10 +15,6 @@ export class UserComponent {
   @Input({required:true}) selected:boolean = false;
   @Output() selected_change = new EventEmitter<void>();
 
-  ngOnInit(){
-    console.log(this.user);
-  }
-
   on_edit_btn_click(){
     this.edit.emit(this.user);
   }

@@ -3,6 +3,7 @@ import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
 import { Current_user } from "./current_user.model";
+import { HttpService } from "../shared/http.service";
 
 interface AuthResponseData {
     access_token: string,
@@ -16,14 +17,10 @@ interface AuthResponseData {
 export class AuthentificationService{
     
     private http = inject(HttpClient);
+    private http_service = inject(HttpService);
     private router = inject(Router);
-    private api_url = 'http://35.180.66.24/api/v1';
 
     user = new BehaviorSubject<Current_user|null>(null);
-    
-    public get get_api_url() : string {
-        return this.api_url; 
-    }
     
 
     login(username:string, password:string):Observable<Object>{
@@ -32,11 +29,11 @@ export class AuthentificationService{
         form_data.append('username', username);
         form_data.append('password', password);
 
-        return this.http.post<AuthResponseData>(this.api_url + '/login', form_data)
+        return this.http.post<AuthResponseData>(this.http_service.api_url + '/login', form_data)
         .pipe(
-            catchError(this.handle_error), 
+            catchError(this.http_service.handle_error), 
             tap(respose_data=>{
-                const expiraton_date = new Date(new Date().getTime() + (3*60000));
+                const expiraton_date = new Date(new Date().getTime() + (30*60000));
                 const user = new Current_user(
                     0,
                     'test@email.com',
@@ -48,12 +45,6 @@ export class AuthentificationService{
                 localStorage.setItem('user_data',JSON.stringify(user));
             })
         );
-    }
-
-    private handle_error(respose_error: HttpErrorResponse){
-        let error_message = 'An unknown error occurred!';
-        console.log(33);
-        return throwError(respose_error);
     }
 
     logout(){
@@ -83,8 +74,6 @@ export class AuthentificationService{
         if(loaded_user.access_token){
             this.user.next(loaded_user);
         }
-
-        console.log(loaded_user);
     }
 
     refresh_access_token(): Observable<Object> {
@@ -98,7 +87,7 @@ export class AuthentificationService{
         }
     
         return this.http.post<AuthResponseData>(
-            this.api_url + '/refresh_token',
+            this.http_service.api_url + '/refresh_token',
             {}, // Empty body (no payload required)
             {
                 headers: new HttpHeaders({
@@ -109,10 +98,10 @@ export class AuthentificationService{
             }
         )
         .pipe(
-            catchError(this.handle_error),  // Handle any errors during token refresh
+            catchError(this.http_service.handle_error),  // Handle any errors during token refresh
             tap(response_data => {
                 // Update expiration date for the new access token
-                const expiraton_date = new Date(new Date().getTime() + (3*60000));
+                const expiraton_date = new Date(new Date().getTime() + (30*60000));
 
                 // Create new Current_user object with updated tokens and expiration
                 const updated_user = new Current_user(
@@ -125,7 +114,7 @@ export class AuthentificationService{
 
                 // Emit the updated user to the BehaviorSubject
                 this.user.next(updated_user);
-                console.log(updated_user);
+
                 // Persist the updated user data to localStorage
                 localStorage.setItem('user_data', JSON.stringify(updated_user));
             })

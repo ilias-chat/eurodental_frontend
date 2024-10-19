@@ -1,8 +1,8 @@
 import { Injectable,inject,signal } from "@angular/core";
 import { Client } from "./client.model";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { AuthentificationService } from "../../../authentification/auth.service";
+import { catchError, Observable } from "rxjs";
+import { HttpService } from "../../../shared/http.service";
 
 @Injectable({
     providedIn:'root'
@@ -12,15 +12,18 @@ export class ClientsService {
   all_clients = this.clients.asReadonly();
 
   private http_client = inject(HttpClient);
-  private authentifiction_servise = inject(AuthentificationService);
-  private api_url = this.authentifiction_servise.get_api_url + '/clients';
+  private http_service = inject(HttpService);
+  
+  private api_url = this.http_service.api_url + '/clients';
   
   public set set_clients(clients:Client[]) {
     this.clients.set(clients);
   }
 
   all():Observable<Client[]>{
-    return this.http_client.get<Client[]>(this.api_url);
+    return this.http_client.get<Client[]>(this.api_url).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
 
   filter(name:string, city:string){
@@ -42,11 +45,15 @@ export class ClientsService {
   }
 
   add(client:FormData):Observable<Object>{
-    return this.http_client.post(this.api_url, client);
+    return this.http_client.post(this.api_url, client).pipe(
+      catchError(this.http_service.handle_error)
+    );;
   }
 
   edit(client:FormData, client_id:number):Observable<Object>{
-    return this.http_client.put(this.api_url+'/'+client_id, client);
+    return this.http_client.put(this.api_url+'/'+client_id, client).pipe(
+      catchError(this.http_service.handle_error)
+    );;
   }
   
   public set add_client(client:Client) {

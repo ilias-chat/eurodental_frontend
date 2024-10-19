@@ -1,7 +1,8 @@
 import { Injectable,inject,signal } from "@angular/core";
 import { Task } from "./task.model";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
+import { catchError, Observable } from "rxjs";
+import { HttpService } from "../../../shared/http.service";
 
 @Injectable({
     providedIn:'root'
@@ -10,8 +11,9 @@ export class TasksService {
   private tasks = signal<Task[]>([]);
   all_tasks = this.tasks.asReadonly();
 
-  private http_task = inject(HttpClient);
-  private api_url = 'http://35.180.66.24/api/v1/tasks/';
+  private http = inject(HttpClient);
+  private http_service = inject(HttpService);
+  private api_url = this.http_service.api_url + '/tasks/';
 
   all(params:{start_date:string, end_date:string}):Observable<Task[]>{
     let url = this.api_url
@@ -20,7 +22,9 @@ export class TasksService {
     }else if(params.start_date !== ''){
       url += "?exact_date=" + params.start_date; 
     }
-    return this.http_task.get<Task[]>(url);
+    return this.http.get<Task[]>(url).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
 
   filter(technician:string, client:string, status:string){
@@ -57,11 +61,15 @@ export class TasksService {
   }
 
   add(task:Task):Observable<Object>{
-    return this.http_task.post(this.api_url, task);
+    return this.http.post(this.api_url, task).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
 
   edit(task:Task):Observable<Object>{
-    return this.http_task.put(this.api_url + task.id, task);
+    return this.http.put(this.api_url + task.id, task).pipe(
+      catchError(this.http_service.handle_error)
+    );
   }
   
   public set add_task(task:Task) {

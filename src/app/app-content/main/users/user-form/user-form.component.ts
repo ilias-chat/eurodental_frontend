@@ -121,6 +121,7 @@ export class UserFormComponent {
       phone_number: '',
       city: '',
       image_path: '',
+      image_id: '',
       profile: '',
       profile_id: 0,
       address: '',
