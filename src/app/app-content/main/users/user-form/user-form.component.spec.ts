@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { UserFormComponent } from './user-form.component';
+import { ProfilesService } from '../profiles.service';
 
 describe('UserFormComponent', () => {
   let component: UserFormComponent;
