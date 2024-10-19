@@ -11,14 +11,14 @@ export class UsersService {
   all_users = this.users.asReadonly();
 
   private http = inject(HttpClient);
-  private api_url = 'http://35.180.66.24';
+  private api_url = 'http://35.180.66.24/api/v1' + '/users';
   
   public set set_users(users:User[]) {
     this.users.set(users);
   }
 
   all():Observable<User[]>{
-    return this.http.get<User[]>('http://35.180.66.24/users');
+    return this.http.get<User[]>(this.api_url);
   }
 
   filter(name:string, profile:string){
@@ -42,11 +42,11 @@ export class UsersService {
   add(user:FormData):Observable<Object>{
     user.append('password', this.generatePassword());
     console.log(user.get('password'))
-    return this.http.post(this.api_url + '/users', user);
+    return this.http.post(this.api_url, user);
   }
 
   edit(user:FormData, user_id:number):Observable<Object>{
-    return this.http.put(this.api_url+'/users/'+user_id, user);
+    return this.http.put(this.api_url + '/' + user_id, user);
   }
   
   public set add_user(user:User) {

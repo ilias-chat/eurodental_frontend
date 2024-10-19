@@ -2,7 +2,7 @@ import { Injectable,inject,signal } from "@angular/core";
 import { Product } from "./product.model";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
-import { AuthentificationService } from "../../../authentification/authentification.service";
+import { AuthentificationService } from "../../../authentification/auth.service";
 
 @Injectable({
     providedIn:'root'

@@ -33,7 +33,7 @@
 .card-header{
     display: flex;
     gap: .3rem;
-    width: 200px;
+    width: 250px;
 }
 
 .text{
@@ -52,6 +52,10 @@
 .client-city{
     color: var(--text-color);
     font-size: 14px;
+}
+
+.client-city>i{
+    font-size: 12px;
 }
 
 .client-img {
