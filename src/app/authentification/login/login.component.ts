@@ -1,5 +1,6 @@
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import { AuthentificationService } from '../authentification.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,6 +12,7 @@ import { AuthentificationService } from '../authentification.service';
 export class LoginComponent {
 
   private authentification_service = inject(AuthentificationService);
+  private router = inject(Router);
 
   @ViewChild('from') from_element!:ElementRef;
   @ViewChild('email_input') email_input!:ElementRef;
@@ -59,7 +61,7 @@ export class LoginComponent {
 
     this.authentification_service.login(email, password).subscribe({
       next:(response_data)=> {
-        console.log(response_data);
+        this.router.navigate(['/app/dashboard']);
         this.is_loading.set(false);
       },
       error:(response_err)=> {

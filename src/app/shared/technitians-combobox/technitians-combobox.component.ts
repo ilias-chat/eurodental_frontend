@@ -18,7 +18,7 @@ interface Technician{
 export class TechnitiansComboboxComponent {
 
   private http = inject(HttpClient);
-  private api_url = 'http://35.180.66.24/users/?profile_name=technicien';
+  private api_url = 'http://35.180.66.24/api/v1/users/?profile_name=technicien';
   
   @Input({required:true}) value:string = '';
   @Input() is_valid:boolean = false;
