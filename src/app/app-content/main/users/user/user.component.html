@@ -9,7 +9,7 @@
         <!-- @if(client.image_path.length < 3){
             <img src="../../../../assets/imgs/profile-user.png" alt="" class="client-img">
         }@else{ -->
-            <img src="{{user.image_path}}" alt="" class="user-img">
+            <img src="{{user.image_path?user.image_path:''}}" alt="" class="user-img">
         <!-- } -->
         <div class="text">
             <span class="user-name">
