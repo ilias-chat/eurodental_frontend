@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable, inject, signal } from "@angular/core";
 import { Observable } from "rxjs";
-import { AuthentificationService } from "../../../authentification/authentification.service";
+import { AuthentificationService } from "../../../authentification/auth.service";
 
 export interface Brand{
     id:number,

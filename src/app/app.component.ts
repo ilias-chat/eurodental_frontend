@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastsContainerComponent } from "./shared/toasts-container/toasts-container.component";
 import { LoginComponent } from './authentification/login/login.component';
-import { AuthentificationService } from './authentification/authentification.service';
+import { AuthentificationService } from './authentification/auth.service';
 import { AppContentComponent } from "./app-content/app-content.component";
 
 @Component({

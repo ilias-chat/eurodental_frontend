@@ -14,7 +14,7 @@ export class ProfilesService{
     profiles = signal<Profile[]>([]);
 
     private http_client = inject(HttpClient);
-    private api_url = 'http://35.180.66.24';
+    private api_url = 'http://35.180.66.24/api/v1' + '/profiles';
 
     constructor(){
         this.all().subscribe({
@@ -28,15 +28,15 @@ export class ProfilesService{
     }
 
     all():Observable<Profile[]>{
-        return this.http_client.get<Profile[]>('http://35.180.66.24/profiles');
+        return this.http_client.get<Profile[]>(this.api_url);
     }
 
     add(profile:Profile):Observable<Object>{
-        return this.http_client.post(this.api_url + '/profiles', profile);
+        return this.http_client.post(this.api_url, profile);
     }
 
     edit(profile:Profile):Observable<Object>{
-        return this.http_client.put(this.api_url + '/profiles/'+profile.id, profile);
+        return this.http_client.put(this.api_url + '/'+profile.id, profile);
     }
     
     public set add_profile(profile:Profile) {

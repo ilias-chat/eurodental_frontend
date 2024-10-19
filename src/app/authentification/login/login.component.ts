@@ -1,5 +1,5 @@
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
-import { AuthentificationService } from '../authentification.service';
+import { AuthentificationService } from '../auth.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -65,7 +65,7 @@ export class LoginComponent {
         this.is_loading.set(false);
       },
       error:(response_err)=> {
-        console.error(response_err)
+        console.error(response_err);
         this.is_loading.set(false);
       },
   });
