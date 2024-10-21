@@ -2,6 +2,11 @@
 <app-categories></app-categories>
 <app-brands></app-brands>
 
+@if(is_add_quantity_form_open()){
+    <app-add-stock [product_refs]="selected_products_refs" 
+    (close)="on_add_quantity_form_close()" (save)="on_add_quantity_form_save($event)"></app-add-stock>
+}
+
 <div class="products-container">
     <div class="list-header">
         <input #search_input type="text" class="search-input" 
@@ -42,20 +47,20 @@
         }
 
         @for(product of products; track product.id){
-            <app-product [product] = "product" [selected]="selected_products_ids().includes(product.id)" 
-             (selected_change)="on_product_selected_change(product.id)" (edit)="on_product_edit($event)"></app-product>
+            <app-product [product] = "product" [selected]="selected_products_refs().includes(product.reference)" 
+             (selected_change)="on_product_selected_change(product.reference)" (edit)="on_product_edit($event)"></app-product>
         }
     </div>
     
     <div class="list-footer">
-        <div class="options" [class.hidden]="selected_products_ids().length == 0">
-            <span>({{ selected_products_ids().length }}) selected</span>
+        <div class="options" [class.hidden]="selected_products_refs().length == 0">
+            <span>({{ selected_products_refs().length }}) selected</span>
             <button class="icon-button icon-button-primary">
                 <i class="fa-solid fa-file-lines"></i>
                 <span>generate document</span>
             </button>
             <b>|</b>
-            <button class="icon-button icon-button-primary">
+            <button class="icon-button icon-button-primary" (click)="show_add_quantity_from()">
                 <i class="fa-solid fa-boxes-stacked"></i>
                 <span>add stock</span>
             </button>

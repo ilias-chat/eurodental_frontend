@@ -1,0 +1,22 @@
+.backdrop{
+    display: block;
+}
+
+.dialog-body{
+    position: relative;
+    padding: 1rem 2rem;
+    color: var(--text-color);
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.dialog{
+    width: 400px;
+}
+
+.dialog-body>button{
+    margin-top: auto;
+    margin-left: auto;
+    margin-bottom: 1rem;
+}

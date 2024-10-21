@@ -22,7 +22,6 @@ user_profile = signal('');
     this.auth_service.user.pipe(
       take(1),
       map(user=>{
-        console.log(user);
         this.user_name.set(user?.first_name + ' ' + user?.last_name);
         this.user_profile.set(user?.profile + '');
       })

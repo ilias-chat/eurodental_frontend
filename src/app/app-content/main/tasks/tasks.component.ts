@@ -161,7 +161,6 @@ export class TasksComponent {
         error:(err)=>{
           this.task_form_component.hide_progressbar();
           this.task_form_component.error_message.set(err.message);
-          console.log(err);
         },
       });     
     } else {
@@ -176,7 +175,6 @@ export class TasksComponent {
         error:(err)=>{
           this.task_form_component.hide_progressbar();
           this.task_form_component.error_message.set(err.message);
-          console.log(err);
         },
       });
     }

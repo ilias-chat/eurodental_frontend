@@ -1,0 +1,26 @@
+<div class="backdrop">
+    <div class="dialog">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                Assign tasks 
+            </span>
+            <button class="icon-button icon-button-danger" (click)="on_close_btn_click()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="dialog-body">
+            <div class="progress-bar-container" [class.hidden]="!is_progresbar_open()">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="form-group">
+                <label for="technician">Enter the quantity to add to the ({{ (product_refs().length) }}) selected products</label>
+                <input type="number" name="quantity" [(ngModel)]="quantity">
+            </div>
+            <!-- <p>
+                this window well add  the ({{ (product_refs().length) }}) 
+                selected tasks to the technician above 
+            </p> -->
+            <button class="primary-button" (click)="on_save_btn_click()">Save</button>
+        </div>
+    </div>
+</div>

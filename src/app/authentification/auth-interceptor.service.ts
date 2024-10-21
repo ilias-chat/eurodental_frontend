@@ -18,7 +18,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                     switchMap(response_data=>{
                         const headers = new HttpHeaders({
                             'Authorization': `Bearer ${(response_data as {access_token:string}).access_token}`,
-                            'Content-Type': 'application/json'
                         });
                         return next(req.clone({ headers }));
                     })
@@ -27,7 +26,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
             const headers = new HttpHeaders({
                 'Authorization': `Bearer ${user?.access_token}`,
-                'Content-Type': 'application/json'
             });
 
             return next(req.clone({ headers }));
