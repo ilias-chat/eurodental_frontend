@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../authentification/auth.service';
 
 @Component({
   selector: 'app-side-menu',
@@ -11,6 +12,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class SideMenuComponent {
   selected_button:number = 1;  
   is_menu_closed:boolean = false;
+
+  auth_service = inject(AuthService);
 
   onMenuButtonClicked(index:number){
     this.selected_button = index;

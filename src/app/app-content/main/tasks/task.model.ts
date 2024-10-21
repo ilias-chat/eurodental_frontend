@@ -11,6 +11,6 @@ export interface Task {
     client:string,
     client_image:string,
     task_date:string,
-    created_by:number,
+    create_by:number,
     observation:string,
 }

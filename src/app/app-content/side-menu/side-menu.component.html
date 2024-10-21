@@ -22,7 +22,7 @@
       <button class="button" routerLink="/app/users" routerLinkActive="active">
         <i class="fa-solid fa-users"></i> <span class="label">Users</span> 
       </button>
-      <button class="button">
+      <button class="button" (click)="auth_service.logout()">
         <i class="icon fa-solid fa-right-from-bracket"></i> <span class="label"> Log out</span>
       </button>
     </div>

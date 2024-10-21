@@ -8,11 +8,18 @@ import { BrandsComponent } from './brands/brands.component';
 import { Brand, BrandsService } from './brands.service';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
+import { AddStockComponent } from './add-stock/add-stock.component';
 
 @Component({
   selector: 'app-products',
   standalone: true,
-  imports: [ProductFormComponent, ProductComponent, CategoriesComponent, BrandsComponent, SkeletonRowListComponent],
+  imports: [ProductFormComponent, 
+    ProductComponent, 
+    CategoriesComponent, 
+    BrandsComponent, 
+    SkeletonRowListComponent,
+    AddStockComponent,
+  ],
   templateUrl: './products.component.html',
   styleUrl: './products.component.css'
 })
@@ -24,7 +31,7 @@ export class ProductsComponent {
   @ViewChild(BrandsComponent) brands_component!:BrandsComponent;
   @ViewChild(ProductFormComponent) product_form_component!:ProductFormComponent;
   all_products = signal<Product[]>([]);
-  selected_products_ids = signal<number[]>([]);
+  selected_products_refs = signal<string[]>([]);
 
   current_page = signal<number>(1);
   lines_per_page:number = 5;
@@ -41,6 +48,7 @@ export class ProductsComponent {
 
   is_loading = signal(false);
   is_error = signal(false);
+  is_add_quantity_form_open = signal(false);
 
   ngOnInit(){
     this.refresh_products();
@@ -150,7 +158,6 @@ export class ProductsComponent {
         error:(err)=>{
           this.product_form_component.hide_progressbar();
           this.product_form_component.error_message.set(err.message);
-          console.log(err);
         },
       });     
     } else {
@@ -165,7 +172,6 @@ export class ProductsComponent {
         error:(err)=>{
           this.product_form_component.hide_progressbar();
           this.product_form_component.error_message.set(err.message);
-          console.error(err);
         },
       });
     }
@@ -176,19 +182,19 @@ export class ProductsComponent {
     this.product_form_component.open_dialog();
   }
 
-  on_product_selected_change(param_id:number){
+  on_product_selected_change(param_ref:string){
 
-    if (this.selected_products_ids().includes(param_id)) {
-      this.selected_products_ids.set(
-        this.selected_products_ids().filter(id => id !== param_id)
+    if (this.selected_products_refs().includes(param_ref)) {
+      this.selected_products_refs.set(
+        this.selected_products_refs().filter(ref => ref !== param_ref)
       );
     }else{
-      this.selected_products_ids.set([...this.selected_products_ids(), param_id])
+      this.selected_products_refs.set([...this.selected_products_refs(), param_ref])
     }
   }
 
   on_list_options_close_btn_click(){
-    this.selected_products_ids.set([]);
+    this.selected_products_refs.set([]);
   }
 
   on_manage_categories_btn_click(){
@@ -202,5 +208,26 @@ export class ProductsComponent {
   reset_and_close_form(){
     this.product_form_component.on_close();
     this.product_form_component.reset_selected_product();
+  }
+
+  show_add_quantity_from(){
+    this.is_add_quantity_form_open.set(true);
+  }
+
+  on_add_quantity_form_save(quantity:number){
+    this.products_service.add_qunatity_to_products({products_refs: this.selected_products_refs(), quantity: quantity}).subscribe({
+      next:(res)=>{
+        this.is_add_quantity_form_open.set(false);
+        this.toasts_service.add('Changes have been saved successfully', 'success');
+        this.selected_products_refs.set([]);
+      },
+      error:(err)=>{
+        this.toasts_service.add(err.message, 'danger');
+      },
+    });
+  }
+
+  on_add_quantity_form_close(){
+    this.is_add_quantity_form_open.set(false);
   }
 }

@@ -20,11 +20,6 @@
   dialog::backdrop {
     background: rgba(255, 255, 255, 0.4);
   }
-  
-img{
-  border-radius: 50%;
-  margin-bottom: 16px;
-}
 
   .image-selector {
     position: relative;
@@ -51,9 +46,10 @@ img{
     color: var(--main-color);
   }
 
-  .upload-text>img{
+  .upload-text>i{
     padding:0;
     margin: 0;
+    font-size: 3.5rem;
   }
 
   .upload-text>p{

@@ -1,10 +1,10 @@
-import { inject, Injectable } from "@angular/core";
-import { ActivatedRouteSnapshot, CanActivate, CanActivateFn, GuardResult, MaybeAsync, Router, RouterStateSnapshot } from "@angular/router";
-import { AuthentificationService } from "./auth.service";
+import { inject } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
+import { AuthService } from "./auth.service";
 import { map, take } from "rxjs";
 
 export const Auth_guard: CanActivateFn = () => {
-    const auth_service = inject(AuthentificationService);
+    const auth_service = inject(AuthService);
     const router = inject(Router);
 
     return auth_service.user.pipe(

@@ -1,10 +1,10 @@
 import { HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthentificationService } from './auth.service';
+import { AuthService } from './auth.service';
 import { exhaustMap, switchMap, take } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const auth_service = inject(AuthentificationService);
+    const auth_service = inject(AuthService);
 
     return auth_service.user.pipe(
         take(1),
@@ -18,7 +18,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                     switchMap(response_data=>{
                         const headers = new HttpHeaders({
                             'Authorization': `Bearer ${(response_data as {access_token:string}).access_token}`,
-                            'Content-Type': 'application/json'
                         });
                         return next(req.clone({ headers }));
                     })
@@ -27,7 +26,6 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
             const headers = new HttpHeaders({
                 'Authorization': `Bearer ${user?.access_token}`,
-                'Content-Type': 'application/json'
             });
 
             return next(req.clone({ headers }));

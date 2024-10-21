@@ -138,6 +138,31 @@ button{
     cursor: not-allowed;
 }
 
+.btn-with-label{
+  position: relative;
+}
+
+.btn-with-label>label{
+  position: absolute;
+  width: max-content;
+  height: auto;
+  top: -80%;
+  right: 50%;
+  transform: translateX(50%);
+  padding: .3rem .5rem;
+  border-radius: .3rem;
+  border: 1px solid var(--secondary-text-color);
+  background-color: var(--third-color);
+  font-size: small;
+  opacity: 0;
+  transition: .1s linear .2s;
+}
+
+.btn-with-label:hover>label{
+  opacity: 1;
+  color: var(--text-color);
+}
+
 a{
     text-decoration: none;
     color: var(--main-color);

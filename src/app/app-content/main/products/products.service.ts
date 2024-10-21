@@ -1,6 +1,6 @@
 import { Injectable,inject,signal } from "@angular/core";
 import { Product } from "./product.model";
-import { catchError, Observable } from "rxjs";
+import { catchError, map, Observable, tap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { HttpService } from "../../../shared/http.service";
 
@@ -53,6 +53,27 @@ export class ProductsService{
     edit(product:FormData, product_id:number):Observable<Object>{
       return this.http.put(this.api_url+'/'+product_id, product).pipe(
         catchError(this.http_service.handle_error)
+      );
+    }
+
+    add_qunatity_to_products(data:{products_refs:string[], quantity:number}):Observable<Object>{
+      
+      const products = data.products_refs.map((ref)=>{
+        return {reference: ref, stock_quantity: data.quantity}
+      });
+
+      return this.http.put(this.api_url+'/quantity', products).pipe(
+        catchError(this.http_service.handle_error),
+        tap(()=>{
+          this.products().map((product)=>{
+            if(data.products_refs.includes(product.reference)){
+              if(product.stock_quantity)
+                product.stock_quantity += data.quantity;
+              else 
+                product.stock_quantity = data.quantity;
+            }
+          });
+        })
       );
     }
     

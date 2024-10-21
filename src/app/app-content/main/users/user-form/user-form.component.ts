@@ -64,6 +64,8 @@ export class UserFormComponent {
     form_data.append('last_name', this.selected_user.last_name);
     form_data.append('email', this.selected_user.email);
     form_data.append('phone_number', this.selected_user.phone_number);
+    form_data.append('city', this.selected_user.city);
+    form_data.append('address', this.selected_user.address);
     form_data.append('profile_id', this.selected_user.profile_id.toString());
     if(img_input?.files && img_input?.files[0]){
       form_data.append('image', img_input.files[0]);

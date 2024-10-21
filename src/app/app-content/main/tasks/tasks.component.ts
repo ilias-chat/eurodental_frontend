@@ -141,15 +141,13 @@ export class TasksComponent {
 
   on_form_submit(task:Task){
     this.task_form_component.show_progressbar();
-    task.created_by = 4;
     if(task.id === 0){
       if(task.technician_id){
         task.status = 'In Progress';
       }else{
         task.status = 'Unassigned';
       }
-      task.created_by = 11
-      console.log(task);
+      task.create_by = 11;
       this.tasks_service.add(task)
       .subscribe({
         next:(respond_data)=>{
@@ -163,7 +161,6 @@ export class TasksComponent {
         error:(err)=>{
           this.task_form_component.hide_progressbar();
           this.task_form_component.error_message.set(err.message);
-          console.log(err);
         },
       });     
     } else {
@@ -178,7 +175,6 @@ export class TasksComponent {
         error:(err)=>{
           this.task_form_component.hide_progressbar();
           this.task_form_component.error_message.set(err.message);
-          console.log(err);
         },
       });
     }
