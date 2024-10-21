@@ -230,9 +230,22 @@ export class TasksComponent {
     this.is_assign_form_open.set(true);
   }
 
-  on_assign_form_save(){
-    this.is_assign_form_open.set(false);
-    this.selected_tasks_ids.set([]);
+  on_assign_form_save(technician:{id:number,full_name:string,image_path:string}){
+
+    this.tasks_service.assign_tasks_to_technician(
+      {task_ids: this.selected_tasks_ids(), technician_id: technician.id},
+      technician
+    ).subscribe({
+      next:(res_data)=>{
+        this.is_assign_form_open.set(false);
+        this.selected_tasks_ids.set([]);
+        this.toasts_service.add('Changes have been saved successfully', 'success');
+      },
+      error:(err)=>{
+        this.toasts_service.add(err.message, 'danger');
+      },
+    })
+    
   }
 
   on_assign_form_close(){

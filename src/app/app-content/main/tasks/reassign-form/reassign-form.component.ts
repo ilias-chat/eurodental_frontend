@@ -11,7 +11,7 @@ import { TechnitiansComboboxComponent } from '../../../../shared/technitians-com
 export class ReassignFormComponent {
   is_progresbar_open = signal<boolean>(false);
 
-  technician_id:number = 0
+  technician:{id:number, full_name:string, image_path:string}|null = null;
 
   @Input({required:true}) tasks_ids = signal<number[]>([]);
 
@@ -19,21 +19,20 @@ export class ReassignFormComponent {
   @Output() save = new EventEmitter();
 
   on_combo_technicians_change(technician:{id:number, full_name:string, image_path:string}){
-    this.technician_id = technician.id;
+    this.technician = technician;
   }
 
   on_save_btn_click(){
-    if(this.technician_id === 0){
+    if(!this.technician){
       return;
     }
 
     this.show_progresbar();
-    console.log(this.technician_id, this.tasks_ids());
-    this.save.emit();
+    this.save.emit(this.technician);
   }
 
   on_close_btn_click(){
-    this.technician_id = 0;
+    this.technician = null;
     this.close.emit();
   }
 
