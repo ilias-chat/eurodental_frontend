@@ -1,43 +1,46 @@
-name: Deploy web app to AWS EC2
+name: Deploy Angular App to EC2
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches: [ "master" ]
+    branches:
+      - master
 
 jobs:
-  deploy:
+  pack:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4.2.0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20.x' 
-
-      - name: Install Dependencies
+      - name: Install dependencies
         run: npm install
 
-      - name: Build Angular Application
+      - name: Build Angular app
         run: npm run build --prod
 
-      - name: Upload Artifacts
+      - name: Zip the project
+        run: |
+          zip -r euro_dental_build.zip ./dist/eurodental_frontend
+
+      - name: Upload a Build Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: build
-          path: dist/eurodental_frontend
+          name: euro_dental_build
+          path: euro_dental_build.zip
 
-#      - name: Download Private Key
-#        env:
-#          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  
-#        run: |
-#          echo "$SSH_PRIVATE_KEY" > ~/ssh_key
-#          chmod 600 ~/ssh_key
+  deploy:
+    needs: pack
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download Project Zip
+        uses: actions/download-artifact@v4
+        with:
+          name: euro_dental_build
+
+      - name: Unzip project
+        run: |
+          unzip euro_dental_build.zip
+          rm -f euro_dental_build.zip
 
       - name: Install SSH key
         uses: shimataro/ssh-key-action@v2
@@ -46,26 +49,13 @@ jobs:
           name: id_rsa
           known_hosts: '${{ secrets.EC2_HOST }}'
 
-#      - name: Deploy to EC2 via SSH
-#        env:
-#          EC2_HOST: ${{ secrets.EC2_HOST }}  
-#          EC2_USER: ubuntu                   
-#        run: |
-#          scp -i ~/ssh_key -r dist/eurodental_frontend $EC2_USER@35.180.66.24:/home/ubuntu/app/eurodental_frontend
-#          ssh -i ~/ssh_key $EC2_USER@$EC2_HOST << 'EOF'
-#            cd /home/ubuntu/app/eurodental_frontend/browser
-#            sudo systemctl restart nginx
-#            sudo systemctl status nginx
-#          EOF
-#############################################################################
-      - name: Copy built Angular app to EC2 instance
+      - name: Copy app to EC2 instance
         run: |
-          scp -i ~/.ssh/id_rsa -r dist/eurodental_frontend ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app/eurodental_frontend
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./dist/eurodental_frontend/ ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app/eurodental_frontend/
 
-      - name: Restart NGINX on EC2
+      - name: Restart NGINX service
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
-            cd /home/${{ secrets.USERNAME }}/app/eurodental_frontend/browser
             sudo systemctl restart nginx
             sudo systemctl status nginx
           EOF
