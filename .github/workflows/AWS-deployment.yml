@@ -32,21 +32,40 @@ jobs:
           name: build
           path: dist/eurodental_frontend
 
-      - name: Download Private Key
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  
-        run: |
-          echo "$SSH_PRIVATE_KEY" > ~/ssh_key
-          chmod 600 ~/ssh_key
+#      - name: Download Private Key
+#        env:
+#          SSH_PRIVATE_KEY: ${{ secrets.EC2_SSH_PRIVATE_KEY }}  
+#        run: |
+#          echo "$SSH_PRIVATE_KEY" > ~/ssh_key
+#          chmod 600 ~/ssh_key
 
-      - name: Deploy to EC2 via SSH
-        env:
-          EC2_HOST: ${{ secrets.EC2_HOST }}  
-          EC2_USER: ubuntu                   
+      - name: Install SSH key
+        uses: shimataro/ssh-key-action@v2
+        with:
+          key: '${{ secrets.EC2_SSH_PRIVATE_KEY }}'
+          name: id_rsa
+          known_hosts: '${{ secrets.EC2_HOST }}'
+
+#      - name: Deploy to EC2 via SSH
+#        env:
+#          EC2_HOST: ${{ secrets.EC2_HOST }}  
+#          EC2_USER: ubuntu                   
+#        run: |
+#          scp -i ~/ssh_key -r dist/eurodental_frontend $EC2_USER@35.180.66.24:/home/ubuntu/app/eurodental_frontend
+#          ssh -i ~/ssh_key $EC2_USER@$EC2_HOST << 'EOF'
+#            cd /home/ubuntu/app/eurodental_frontend/browser
+#            sudo systemctl restart nginx
+#            sudo systemctl status nginx
+#          EOF
+#############################################################################
+      - name: Copy built Angular app to EC2 instance
         run: |
-          scp -i ~/ssh_key -r dist/eurodental_frontend $EC2_USER@35.180.66.24:/home/ubuntu/app/eurodental_frontend
-          ssh -i ~/ssh_key $EC2_USER@$EC2_HOST << 'EOF'
-            cd /home/ubuntu/app/eurodental_frontend/browser
+          scp -i ~/.ssh/id_rsa -r dist/eurodental_frontend ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app/eurodental_frontend
+
+      - name: Restart NGINX on EC2
+        run: |
+          ssh -o StrictHostKeyChecking=no ubuntu@${{ secrets.EC2_HOST }} << 'EOF'
+            cd /home/${{ secrets.USERNAME }}/app/eurodental_frontend/browser
             sudo systemctl restart nginx
             sudo systemctl status nginx
           EOF
