@@ -72,7 +72,7 @@ export class TaskFormComponent {
       client:'',
       client_image:'',
       task_date: this.format_date_to_yyyy_mm_dd(new Date()),
-      created_by:0,
+      create_by:0,
       observation:'',
     }
   }

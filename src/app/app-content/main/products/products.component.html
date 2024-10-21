@@ -14,12 +14,14 @@
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           
-        <button class="edit icon-button primary-button" (click)="on_manage_brands_btn_click()">
+        <button class="edit icon-button primary-button btn-with-label" (click)="on_manage_brands_btn_click()">
             <i class="fa-solid fa-tags"></i>
+            <label>manage brands</label>
         </button>
 
-        <button class="icon-button primary-button" (click)="on_manage_categories_btn_click()">
+        <button class="icon-button primary-button btn-with-label" (click)="on_manage_categories_btn_click()">
             <i class="icon fa-solid fa-gear"></i>
+            <label>manage categories</label>
         </button>
 
         <button class="primary-button button-with-icon" (click)="on_add_product()">

@@ -1,5 +1,5 @@
 .calendar {
-    width: 350px;
+    width: 360px;
     margin: 20px auto;
     border: 1px solid var(--secondary-text-color);
     color: var(--text-color);
@@ -63,6 +63,11 @@
     color: var(--third-color);
     border-radius: 0;
     box-shadow: var(--secondary-background-color) 0 -.3rem 0 0rem inset, var(--secondary-background-color) 0 .3rem 0 0rem inset;
+}
+
+.calender-footer {
+    padding: 1rem;
+    border-top: 1px solid var(--secondary-text-color);
 }
 
 #date-range {

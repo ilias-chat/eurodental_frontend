@@ -1,10 +1,10 @@
 import { HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { AuthentificationService } from './auth.service';
+import { AuthService } from './auth.service';
 import { exhaustMap, switchMap, take } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
-    const auth_service = inject(AuthentificationService);
+    const auth_service = inject(AuthService);
 
     return auth_service.user.pipe(
         take(1),

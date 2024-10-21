@@ -69,7 +69,7 @@ export class TechnitiansComboboxComponent {
   // Select an option and display it in the input
   select_option(event:Event) {
     this.combobox_input.nativeElement.value = (event.target as HTMLDivElement).innerHTML;
-    this.is_valid = false;
+    this.is_valid = true;
     this.hide_options();
     this.search_input_value.set('');
 

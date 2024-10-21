@@ -6,15 +6,21 @@ import { Current_user } from "./current_user.model";
 import { HttpService } from "../shared/http.service";
 
 interface AuthResponseData {
-    access_token: string,
-    refresh_token: string
+    id: number,
+    email: string,
+    first_name: string,
+    last_name: string,
+    profile: string,
+    profile_id: number,
+    access_token:string,
+    refresh_token:string,
 }
 
 @Injectable({
     providedIn:'root'
 })
 
-export class AuthentificationService{
+export class AuthService{
     
     private http = inject(HttpClient);
     private http_service = inject(HttpService);
@@ -32,14 +38,18 @@ export class AuthentificationService{
         return this.http.post<AuthResponseData>(this.http_service.api_url + '/login', form_data)
         .pipe(
             catchError(this.http_service.handle_error), 
-            tap(respose_data=>{
+            tap(response_data=>{
                 const expiraton_date = new Date(new Date().getTime() + (30*60000));
                 const user = new Current_user(
-                    0,
-                    'test@email.com',
-                    respose_data.access_token,
+                    response_data.id,
+                    response_data.email,
+                    response_data.first_name,
+                    response_data.last_name,
+                    response_data.profile,
+                    response_data.profile_id,
+                    response_data.access_token,
                     expiraton_date,
-                    respose_data.refresh_token,
+                    response_data.refresh_token,
                 );
                 this.user.next(user);
                 localStorage.setItem('user_data',JSON.stringify(user));
@@ -57,6 +67,10 @@ export class AuthentificationService{
         const user_data:{
             id: number,
             email: string,
+            first_name: string,
+            last_name: string,
+            profile: string,
+            profile_id: number,
             _access_token:string,
             _access_token_expiration_date: string,
             _refresh_token:string
@@ -65,7 +79,12 @@ export class AuthentificationService{
         if(!user_data) return;
 
         const loaded_user = new Current_user(
-            user_data.id,user_data.email,
+            user_data.id,
+            user_data.email,
+            user_data.first_name,
+            user_data.last_name,
+            user_data.profile,
+            user_data.profile_id,
             user_data._access_token,
             new Date(user_data._access_token_expiration_date),
             user_data._refresh_token
@@ -105,8 +124,12 @@ export class AuthentificationService{
 
                 // Create new Current_user object with updated tokens and expiration
                 const updated_user = new Current_user(
-                    current_user.id,
-                    current_user.email,
+                    response_data.id,
+                    response_data.email,
+                    response_data.first_name,
+                    response_data.last_name,
+                    response_data.profile,
+                    response_data.profile_id,
                     response_data.access_token,
                     expiraton_date,
                     response_data.refresh_token || current_user.refresh_token // Use the new refresh token if provided, otherwise keep the old one

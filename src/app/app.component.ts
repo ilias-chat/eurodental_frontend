@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ToastsContainerComponent } from "./shared/toasts-container/toasts-container.component";
 import { LoginComponent } from './authentification/login/login.component';
-import { AuthentificationService } from './authentification/auth.service';
+import { AuthService } from './authentification/auth.service';
 import { AppContentComponent } from "./app-content/app-content.component";
 
 @Component({
@@ -15,10 +15,10 @@ import { AppContentComponent } from "./app-content/app-content.component";
 export class AppComponent {
   title = 'eurodental_frontend';
 
-  authentification_service = inject(AuthentificationService);
+  auth_service = inject(AuthService);
   
   ngOnInit(){
-    this.authentification_service.auto_login();
+    this.auth_service.auto_login();
   }
 
 }

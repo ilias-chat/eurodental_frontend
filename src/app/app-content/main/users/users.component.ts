@@ -137,6 +137,8 @@ export class UsersComponent {
 
     this.user_form_component.show_progressbar();
 
+    console.log(user_form_data.form_data);
+
     if(user_form_data.user.id === 0){
       this.users_service.add(user_form_data.form_data)
       .subscribe({

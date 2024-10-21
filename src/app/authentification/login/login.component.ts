@@ -1,6 +1,7 @@
 import { Component, ElementRef, inject, signal, ViewChild } from '@angular/core';
-import { AuthentificationService } from '../auth.service';
+import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { ToastsService } from '../../shared/toasts-container/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,8 @@ import { Router } from '@angular/router';
 })
 export class LoginComponent {
 
-  private authentification_service = inject(AuthentificationService);
+  private auth_service = inject(AuthService);
+  private toasts_service = inject(ToastsService);
   private router = inject(Router);
 
   @ViewChild('from') from_element!:ElementRef;
@@ -59,13 +61,13 @@ export class LoginComponent {
 
     this.is_loading.set(true);
 
-    this.authentification_service.login(email, password).subscribe({
+    this.auth_service.login(email, password).subscribe({
       next:(response_data)=> {
         this.router.navigate(['/app/dashboard']);
         this.is_loading.set(false);
       },
       error:(response_err)=> {
-        console.error(response_err);
+        this.toasts_service.add(response_err.message, 'danger');
         this.is_loading.set(false);
       },
   });
