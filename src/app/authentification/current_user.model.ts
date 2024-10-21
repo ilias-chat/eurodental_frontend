@@ -4,6 +4,7 @@ export class Current_user{
         public email: string,
         public first_name: string,
         public last_name: string,
+        public image_path:string,
         public profile: string,
         public profile_id: number,
         private _access_token:string,

@@ -1,6 +1,6 @@
 import { Injectable,inject,signal } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import { catchError, Observable } from "rxjs";
+import { catchError, Observable, tap } from "rxjs";
 import { User } from "./user.model";
 import { HttpService } from "../../../shared/http.service";
 
@@ -53,6 +53,19 @@ export class UsersService {
   edit(user:FormData, user_id:number):Observable<Object>{
     return this.http.put(this.api_url + '/' + user_id, user).pipe(
       catchError(this.http_service.handle_error)
+    );
+  }
+
+  block_users(data:{user_ids:number[]}):Observable<Object>{
+    return this.http.post(this.api_url + '/block_users', data).pipe(
+      catchError(this.http_service.handle_error),
+      tap(()=>{
+        this.users().map((user)=>{
+          if(data.user_ids.includes(user.id)){
+            user.is_blocked = true;
+          }
+        });
+      })
     );
   }
   
