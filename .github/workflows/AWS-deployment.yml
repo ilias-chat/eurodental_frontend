@@ -44,7 +44,7 @@ jobs:
           EC2_HOST: ${{ secrets.EC2_HOST }}  
           EC2_USER: ubuntu                   
         run: |
-          scp -i ~/ssh_key -r dist/eurodental_frontend $EC2_USER@$EC2_HOST:/home/ubuntu/app/eurodental_frontend
+          scp -i ~/ssh_key -r dist/eurodental_frontend $EC2_USER@35.180.66.24:/home/ubuntu/app/eurodental_frontend
           ssh -i ~/ssh_key $EC2_USER@$EC2_HOST << 'EOF'
             cd /home/ubuntu/app/eurodental_frontend/browser
             sudo systemctl restart nginx
