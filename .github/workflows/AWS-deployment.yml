@@ -58,7 +58,7 @@ jobs:
 
       - name: Copy app to EC2 instance
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./dist/eurodental_frontend/ ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/app/eurodental_frontend/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./dist/eurodental_frontend/ ubuntu@35.180.66.24:/home/ubuntu/app/eurodental_frontend/
 
       - name: Restart NGINX service
         run: |
