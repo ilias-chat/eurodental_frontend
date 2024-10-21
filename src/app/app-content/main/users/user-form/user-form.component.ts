@@ -127,6 +127,7 @@ export class UserFormComponent {
       profile: '',
       profile_id: 0,
       address: '',
+      is_blocked: false,
     }; 
   }
 

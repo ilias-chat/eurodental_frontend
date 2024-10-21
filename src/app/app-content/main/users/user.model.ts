@@ -10,4 +10,5 @@ export interface User{
     profile:string,
     profile_id:number,
     address:string,
+    is_blocked:boolean
 }

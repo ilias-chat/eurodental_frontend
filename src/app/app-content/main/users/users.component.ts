@@ -6,11 +6,12 @@ import { UserComponent } from './user/user.component';
 import { Profile, ProfilesService } from './profiles.service';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
+import { ConfirmComponent } from '../../../shared/confirm/confirm.component';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [UserFormComponent, SkeletonRowListComponent, UserComponent],
+  imports: [UserFormComponent, SkeletonRowListComponent, UserComponent, ConfirmComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -20,6 +21,7 @@ export class UsersComponent {
   private profiles_service = inject(ProfilesService);
 
   @ViewChild(UserFormComponent) user_form_component!:UserFormComponent;
+  @ViewChild(ConfirmComponent) confirm_component!:ConfirmComponent;
   all_users = signal<User[]>([]);
   selected_users_ids = signal<number[]>([]);
   profiles: Signal<Profile[]> = this.profiles_service.profiles;
@@ -137,8 +139,6 @@ export class UsersComponent {
 
     this.user_form_component.show_progressbar();
 
-    console.log(user_form_data.form_data);
-
     if(user_form_data.user.id === 0){
       this.users_service.add(user_form_data.form_data)
       .subscribe({
@@ -197,5 +197,25 @@ export class UsersComponent {
   reset_and_close_form(){
     this.user_form_component.on_close();
     this.user_form_component.reset_selected_user();
+  }
+
+  confirm_blocking_users(){
+    this.confirm_component.message.set('Are you sure you want to block this users? Once blocked, they will not be able to connect to the app.');
+    this.confirm_component.show();
+  }
+
+  block_users(){
+
+    this.users_service.block_users({user_ids:this.selected_users_ids()}).subscribe({
+      next:(res)=>{
+        this.toasts_service.add('Changes have been saved successfully', 'success');
+        this.selected_users_ids.set([]);
+        this.confirm_component.hide();
+      },
+      error:(err)=>{
+        this.confirm_component.hide_progress_bar();
+        this.toasts_service.add(err.message, 'danger');
+      },
+    });
   }
 }

@@ -1,0 +1,16 @@
+<div class="backdrop" [class.show]="is_open()">
+    <div class="dialog">
+        <div class="dialog-body">
+            <div class="progress-bar-container" [class.hidden]="!is_progress_bar_open()">
+                <div class="progress-bar"></div>
+            </div>
+            <p>
+                {{ message() }}
+            </p>
+            <div class="btns">
+                <button class="icon-button icon-button-danger" (click)="hide()"> No </button>
+                <button class="primary-button icon-button" (click)="on_ok_button_click()">Yes</button>
+            </div>
+        </div>
+    </div>
+</div>

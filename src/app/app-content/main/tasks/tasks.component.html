@@ -1,7 +1,7 @@
 <app-task-form (submit)="on_form_submit($event)"></app-task-form>
 @if(is_assign_form_open()){
     <app-reassign-form [tasks_ids]="selected_tasks_ids" 
-    (close)="on_assign_form_close()" (save)="on_assign_form_save()"></app-reassign-form>
+    (close)="on_assign_form_close()" (save)="on_assign_form_save($event)"></app-reassign-form>
 }
 
 <div class="tasks-container">

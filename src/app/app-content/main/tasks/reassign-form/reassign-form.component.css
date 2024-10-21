@@ -15,6 +15,10 @@
     width: 400px;
 }
 
+.dialog-title{
+    font-size: larger;
+}
+
 .dialog-body>button{
     margin-top: auto;
     margin-left: auto;

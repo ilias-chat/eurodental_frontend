@@ -1,4 +1,5 @@
 <app-user-form (submit)="on_form_submit($event)"></app-user-form>
+<app-confirm (confirm)="block_users()"></app-confirm>
 
 <div class="users-container">
     <div class="list-header">
@@ -46,7 +47,7 @@
                 <span>send email</span>
             </button>
             <b>|</b>
-            <button class="icon-button icon-button-primary">
+            <button class="icon-button icon-button-primary" (click)="confirm_blocking_users()">
                 <i class="fa-solid fa-user-slash"></i>
                 <span>block users</span>
             </button>
