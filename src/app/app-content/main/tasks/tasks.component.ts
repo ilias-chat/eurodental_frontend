@@ -220,8 +220,8 @@ export class TasksComponent {
 
   on_apply_btn_click(){
     this.refresh_tasks({
-      start_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range.start),
-      end_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range.end),
+      start_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range().start),
+      end_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range().end),
     });
     this.is_date_filter_open.set(false);
   }

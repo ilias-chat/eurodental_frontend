@@ -12,14 +12,13 @@ export class DateRangePickerComponent {
   current_month!:number;
   current_year!:number;
   current_day!:number;
-  selected_range:{ start:Date|undefined, end:Date|undefined } = {start:undefined, end: undefined};
+  //selected_range:{ start:Date|undefined, end:Date|undefined } = {start:undefined, end: undefined};
+  selected_range = signal<{ start:Date|undefined, end:Date|undefined }>({start:undefined, end: undefined});
 
   calendar_month!:number;
   calendar_year!:number;
   
   month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
-  date_range = signal('');
 
   @ViewChild('days') days_element!: ElementRef;
   @ViewChild('month_label') month_label_element!: ElementRef;
@@ -28,13 +27,13 @@ export class DateRangePickerComponent {
     this.current_month = new Date().getMonth();
     this.current_year = new Date().getFullYear();
     this.current_day = new Date().getDate();
-    this.selected_range.start = new Date(this.current_year, this.current_month, this.current_day);
-    this.selected_range.end = new Date(this.current_year, this.current_month, this.current_day);
+    this.selected_range().start = new Date(this.current_year, this.current_month, this.current_day);
+    this.selected_range().end = new Date(this.current_year, this.current_month, this.current_day);
     
     this.calendar_month = this.current_month;
     this.calendar_year = this.current_year;
 
-    this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} to ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
+    //this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} to ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
 
     this.render_calendar();
   }
@@ -71,16 +70,16 @@ export class DateRangePickerComponent {
   
   is_selected(day:number, month:number, year:number) {
       const date = new Date(year, month, day);
-      if (this.selected_range.start !== undefined && this.selected_range.end !== undefined) {
-          return date.getTime() === this.selected_range.start.getTime() || date.getTime() === this.selected_range.end.getTime();
+      if (this.selected_range().start !== undefined && this.selected_range().end !== undefined) {
+          return date.getTime() === this.selected_range().start!.getTime() || date.getTime() === this.selected_range().end!.getTime();
       }
-      return date.getTime() === this.selected_range.start?.getTime();
+      return date.getTime() === this.selected_range().start!.getTime();
   }
   
   is_in_range(day:number, month:number, year:number) {
       const date = new Date(year, month, day);
-      if (this.selected_range.start !== undefined && this.selected_range.end !== undefined) {
-          return date.getTime() > this.selected_range.start.getTime() && date.getTime() < this.selected_range.end.getTime();
+      if (this.selected_range().start !== undefined && this.selected_range().end !== undefined) {
+          return date.getTime() > this.selected_range().start!.getTime() && date.getTime() < this.selected_range().end!.getTime();
       }
       return false;
   }
@@ -92,19 +91,19 @@ export class DateRangePickerComponent {
 
     const selected_date = new Date(year, month, day);
   
-      if (!this.selected_range.start || this.selected_range.end) {
-          this.selected_range.start = selected_date;
-          this.selected_range.end = undefined;
-      } else if (selected_date.getTime() < this.selected_range.start.getTime()) {
-          this.selected_range.end = this.selected_range.start;
-          this.selected_range.start = selected_date;
+      if (!this.selected_range().start || this.selected_range().end) {
+          this.selected_range().start = selected_date;
+          this.selected_range().end = undefined;
+      } else if (selected_date.getTime() < this.selected_range().start!.getTime()) {
+          this.selected_range().end = this.selected_range().start;
+          this.selected_range().start = selected_date;
       } else {
-          this.selected_range.end = selected_date;
+          this.selected_range().end = selected_date;
       }
 
       this.render_calendar();
   
-      this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} to ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
+      //this.date_range.set(`Selected Range: ${this.format_date(this.selected_range.start)} to ${this.selected_range.end ? this.format_date(this.selected_range.end) : ''}`);
   }
   
   format_date(date:Date) {
