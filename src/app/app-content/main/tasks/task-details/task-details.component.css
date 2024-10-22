@@ -3,7 +3,7 @@
     top: 0;
     right: 0;
     height: 99%;
-    width: 400px;
+    width: 700px;
     border-radius: .5rem;
     background-color: var(--background-color);
     border: 1px solid var(--secondary-text-color);
@@ -11,11 +11,22 @@
     color: var(--text-color);
     display: none;
     box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    transition: 1;
 }
 
 .show{
     display: block;
+    animation: showing .3s;
 }
+
+@keyframes showing {
+    0% {
+        transform: translateX(105%);
+    }
+    100% {
+        transform: translateX(0);
+    }
+  }
 
 .header{
     width: 100%;
@@ -34,9 +45,20 @@
 
 .body{
     padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto 1fr;
+    grid-template-areas: 
+            'task task'
+            'client products';
+    gap: 1rem;
+}
+
+.div-right{
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    grid-area: client;
 }
 
 .technician,
@@ -90,12 +112,22 @@ img{
 
 .task{
     display: flex;
+    flex-direction: row;
     gap: .3rem;
-    align-items: center;
+    align-items: start;
+    grid-area: task;
 }
 
-.task span:last-child{
-    margin-left: auto;
+.title{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.sub-title{
+    font-weight: lighter;
+    font-size: medium;
 }
 
 .products{
@@ -106,9 +138,39 @@ img{
     border-radius: .5rem;
     overflow: hidden;
     background-color: var(--secondary-background-color);
+    grid-area: products;
+    height: fit-content;
 }
 
 .product{
     border-bottom: 1px solid var(--secondary-text-color);
     padding: .5rem 1rem;
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.reference{
+    color: var(--main-color);
+}
+
+.column{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+.column:first-child{
+    width: 150px;
+}
+
+.price{
+    background-color: var(--secondary-color);
+    color: var(--secondary-background-color);
+    margin-left: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding: .4rem;
+    border-radius: .4rem;
+    height: 1.6rem;
 }

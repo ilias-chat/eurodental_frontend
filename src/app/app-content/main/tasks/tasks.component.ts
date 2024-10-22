@@ -210,6 +210,7 @@ export class TasksComponent {
   }
 
   on_calendar_btn_click(){
+    this.task_details_component.on_close_btn_click();
     this.is_date_filter_open.set(true);
   }
 

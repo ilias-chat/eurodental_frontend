@@ -5,6 +5,7 @@
 .dialog{
  width: 500px;
 }
+
 .btns{
     display: flex;
     flex-direction: row;
