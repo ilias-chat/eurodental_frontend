@@ -56,9 +56,14 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > ~/ssh_key.pem
           chmod 400 ~/ssh_key.pem
 
+      - name: Check SSH Key
+        run: |
+          ls -l ~/ssh_key.pem
+
+
       - name: Copy app to EC2 instance
         run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ssh_key.pem"  ./dist/eurodental_frontend/ ubuntu@35.180.66.24:/home/ubuntu/app/eurodental_frontend/
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no -i ~/ssh_key.pem"  ./dist/eurodental_frontend/ ubuntu@35.180.66.24:/home/ubuntu/app/eurodental_frontend/ --verbose
 
       - name: Restart NGINX service
         run: |
