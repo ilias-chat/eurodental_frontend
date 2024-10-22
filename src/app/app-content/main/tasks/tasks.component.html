@@ -21,8 +21,9 @@
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
           
-        <button class="filter icon-button primary-button" (click)="on_calendar_btn_click()">
+        <button class="filter icon-button primary-button btn-with-label" (click)="on_calendar_btn_click()">
             <i class="fa-regular fa-calendar"></i>
+            <label>filter by date</label>
         </button>
 
         <button class="primary-button button-with-icon" (click)="on_add_task()">
@@ -51,7 +52,7 @@
         }
 
         <app-task-details [task_id]="3"></app-task-details>
-        
+
         <div class="date-filter-container" [class.show-date-filter]="is_date_filter_open()">
             <button class="close-btn icon-button icon-button-danger" (click)="on_close_date_filter_container_click()">
                 <i class="fa-solid fa-xmark"></i>
