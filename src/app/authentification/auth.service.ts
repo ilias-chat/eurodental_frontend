@@ -14,7 +14,9 @@ interface AuthResponseData {
     profile: string,
     profile_id: number,
     access_token:string,
+    access_token_expire_menutes:number,
     refresh_token:string,
+    refresh_token_expire_menutes:number,
 }
 
 @Injectable({
@@ -40,7 +42,9 @@ export class AuthService{
         .pipe(
             catchError(this.http_service.handle_error), 
             tap(response_data=>{
-                const expiraton_date = new Date(new Date().getTime() + (30*60000));
+                const access_token_expiraton_date = new Date(new Date().getTime() + (response_data.access_token_expire_menutes*60000));
+                const refresh_token_expiraton_date = new Date(new Date().getTime() + (response_data.refresh_token_expire_menutes*60000));
+
                 const user = new Current_user(
                     response_data.id,
                     response_data.email,
@@ -50,8 +54,9 @@ export class AuthService{
                     response_data.profile,
                     response_data.profile_id,
                     response_data.access_token,
-                    expiraton_date,
+                    access_token_expiraton_date,
                     response_data.refresh_token,
+                    refresh_token_expiraton_date,
                 );
                 this.user.next(user);
                 localStorage.setItem('user_data',JSON.stringify(user));
@@ -75,8 +80,9 @@ export class AuthService{
             profile: string,
             profile_id: number,
             _access_token:string,
-            _access_token_expiration_date: string,
+            _access_token_expires_in: string,
             _refresh_token:string
+            _refresh_token_expires_in: string,
         } = JSON.parse(localStorage.getItem('user_data')!);
 
         if(!user_data) return;
@@ -90,8 +96,9 @@ export class AuthService{
             user_data.profile,
             user_data.profile_id,
             user_data._access_token,
-            new Date(user_data._access_token_expiration_date),
-            user_data._refresh_token
+            new Date(user_data._access_token_expires_in),
+            user_data._refresh_token,
+            new Date(user_data._refresh_token_expires_in),
         );
 
         if(loaded_user.access_token){
@@ -114,19 +121,19 @@ export class AuthService{
             {}, // Empty body (no payload required)
             {
                 headers: new HttpHeaders({
-                    'Authorization': `Bearer ${current_user.refresh_token}`, // Use refresh token in headers if needed
+                    'Authorization': `Bearer ${current_user.refresh_token}`,
                     'Content-Type': 'application/json',
-                    'accept': 'application/json' // Accept header as specified in the FastAPI docs
+                    'accept': 'application/json' 
                 })
             }
         )
         .pipe(
-            catchError(this.http_service.handle_error),  // Handle any errors during token refresh
+            catchError(this.http_service.handle_error),  
             tap(response_data => {
                 // Update expiration date for the new access token
-                const expiraton_date = new Date(new Date().getTime() + (30*60000));
+                const access_token_expiraton_date = new Date(new Date().getTime() + (response_data.access_token_expire_menutes*60000));
+                const refresh_token_expiraton_date = new Date(new Date().getTime() + (response_data.refresh_token_expire_menutes*60000));
 
-                // Create new Current_user object with updated tokens and expiration
                 const updated_user = new Current_user(
                     response_data.id,
                     response_data.email,
@@ -136,8 +143,9 @@ export class AuthService{
                     response_data.profile,
                     response_data.profile_id,
                     response_data.access_token,
-                    expiraton_date,
-                    response_data.refresh_token || current_user.refresh_token // Use the new refresh token if provided, otherwise keep the old one
+                    access_token_expiraton_date,
+                    response_data.refresh_token || current_user.refresh_token, // Use the new refresh token if provided, otherwise keep the old one
+                    refresh_token_expiraton_date,
                 );
 
                 // Emit the updated user to the BehaviorSubject

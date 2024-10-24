@@ -22,7 +22,7 @@ export class ClientsComponent {
   selected_clients_ids = signal<number[]>([]);
 
   current_page = signal<number>(1);
-  lines_per_page:number = 10;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_clients = signal<number>(0);
 

@@ -6,11 +6,9 @@
         <span class="checkmark"></span>
     </label>
     <div class="card-header">
-        <!-- @if(client.image_path.length < 3){
-            <img src="../../../../assets/imgs/profile-user.png" alt="" class="client-img">
-        }@else{ -->
-            <img src="{{ 'http://35.180.66.24/api/v1/images/'+user.image_id}}" alt="" class="user-img">
-        <!-- } -->
+
+        <img src="{{ 'http://35.180.66.24/api/v1/images/'+user.image_id}}" alt="" class="user-img">
+
         <div class="text">
             <span class="user-name">
                 {{user.first_name}} {{user.last_name}}
@@ -30,6 +28,11 @@
             <span> {{ user.phone_number }} </span>
         </div>
     </div>
+    @if(user.is_blocked){
+        <div class="badge-danger">
+            blocked
+        </div>
+    }
     <div class="btns">
         <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
         <button class="icon-button icon-button-primary"><i class="fa-solid fa-up-right-from-square"></i></button>

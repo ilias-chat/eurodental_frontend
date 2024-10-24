@@ -19,6 +19,7 @@ import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row
 export class TasksComponent {
   private toasts_service = inject(ToastsService);
   private tasks_service = inject(TasksService);
+  @ViewChild(ReassignFormComponent) reassign_form_component!:ReassignFormComponent;
   @ViewChild(TaskFormComponent) task_form_component!:TaskFormComponent;
   @ViewChild(TaskDetailsComponent) task_details_component!:TaskDetailsComponent;
   @ViewChild(DateRangePickerComponent) range_picker_component!:DateRangePickerComponent;
@@ -27,7 +28,7 @@ export class TasksComponent {
   selected_tasks_ids = signal<number[]>([]);
 
   current_page = signal<number>(1);
-  lines_per_page:number = 10;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_tasks = signal<number>(0);
 
@@ -147,7 +148,6 @@ export class TasksComponent {
       }else{
         task.status = 'Unassigned';
       }
-      task.create_by = 11;
       this.tasks_service.add(task)
       .subscribe({
         next:(respond_data)=>{
@@ -233,6 +233,19 @@ export class TasksComponent {
 
   on_assign_form_save(technician:{id:number,full_name:string,image_path:string}){
 
+    let completed_tasks_count = 0;
+    this.all_tasks().forEach(task => {
+      if (this.selected_tasks_ids().includes(task.id) && task.status === 'Completed'){
+        completed_tasks_count++;
+      }
+    });
+
+    if(completed_tasks_count>0){
+      this.toasts_service.add(`(${completed_tasks_count}) of the selected tasks are already completed.`,'danger');
+      this.reassign_form_component.hide_progresbar();
+      return;
+    }
+
     this.tasks_service.assign_tasks_to_technician(
       {task_ids: this.selected_tasks_ids(), technician_id: technician.id},
       technician
@@ -241,9 +254,11 @@ export class TasksComponent {
         this.is_assign_form_open.set(false);
         this.selected_tasks_ids.set([]);
         this.toasts_service.add('Changes have been saved successfully', 'success');
+        this.reassign_form_component.hide_progresbar();
       },
       error:(err)=>{
         this.toasts_service.add(err.message, 'danger');
+        this.reassign_form_component.hide_progresbar();
       },
     })
     

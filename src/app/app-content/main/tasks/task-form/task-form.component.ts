@@ -27,6 +27,7 @@ export class TaskFormComponent {
   on_close(){
     this.close_dialog();
     this.reset_selected_task();
+    this.invalid_inputs.set([]);
   }
 
   open_dialog(){
@@ -65,7 +66,7 @@ export class TaskFormComponent {
       task_type:'',
       description:'',
       status:'',
-      technician_id:0,
+      technician_id:null,
       technician:'',
       technician_image:'',
       client_id:0,

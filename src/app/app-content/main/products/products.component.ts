@@ -34,7 +34,7 @@ export class ProductsComponent {
   selected_products_refs = signal<string[]>([]);
 
   current_page = signal<number>(1);
-  lines_per_page:number = 5;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_products = signal<number>(0);
 
@@ -141,7 +141,7 @@ export class ProductsComponent {
   }
 
   on_form_submit(product_form_data:{form_data:FormData, product:Product}){
-    
+  
     this.product_form_component.show_progressbar();
 
     if(product_form_data.product.id === 0){

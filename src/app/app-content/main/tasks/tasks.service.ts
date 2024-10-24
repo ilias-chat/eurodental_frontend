@@ -84,6 +84,7 @@ export class TasksService {
             task.technician_id = technician.id;
             task.technician = technician.full_name;
             task.technician_image = technician.image_path;
+            task.status = "In Progress"
           }
         });
       })

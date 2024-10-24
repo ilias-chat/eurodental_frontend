@@ -4,7 +4,7 @@ export interface Task {
     task_type:string,
     description:string,
     status:string,
-    technician_id:number,
+    technician_id:number|null,
     technician:string,
     technician_image:string,
     client_id:number,

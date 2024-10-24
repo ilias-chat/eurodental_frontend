@@ -1,7 +1,7 @@
 import { HttpHeaders, HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { AuthService } from './auth.service';
-import { exhaustMap, switchMap, take } from 'rxjs';
+import { catchError, exhaustMap, switchMap, take } from 'rxjs';
 
 export const authInterceptor: HttpInterceptorFn = (req, next) => {
     const auth_service = inject(AuthService);
@@ -13,7 +13,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
                 return next(req);
             }
 
-            if(!user.expires_in || new Date() > user.expires_in){
+            if(!user.access_token_expires_in || new Date() > user.access_token_expires_in){
                 return auth_service.refresh_access_token().pipe(
                     switchMap(response_data=>{
                         const headers = new HttpHeaders({

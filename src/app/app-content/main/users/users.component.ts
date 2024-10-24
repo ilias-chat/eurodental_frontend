@@ -7,11 +7,12 @@ import { Profile, ProfilesService } from './profiles.service';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { ConfirmComponent } from '../../../shared/confirm/confirm.component';
+import { ProfilesComponent } from './profiles/profiles.component';
 
 @Component({
   selector: 'app-users',
   standalone: true,
-  imports: [UserFormComponent, SkeletonRowListComponent, UserComponent, ConfirmComponent],
+  imports: [UserFormComponent, SkeletonRowListComponent, UserComponent, ConfirmComponent, ProfilesComponent],
   templateUrl: './users.component.html',
   styleUrl: './users.component.css'
 })
@@ -20,6 +21,7 @@ export class UsersComponent {
   private users_service = inject(UsersService);
   private profiles_service = inject(ProfilesService);
 
+  @ViewChild(ProfilesComponent) profiles_component!:ProfilesComponent;
   @ViewChild(UserFormComponent) user_form_component!:UserFormComponent;
   @ViewChild(ConfirmComponent) confirm_component!:ConfirmComponent;
   all_users = signal<User[]>([]);
@@ -27,7 +29,7 @@ export class UsersComponent {
   profiles: Signal<Profile[]> = this.profiles_service.profiles;
 
   current_page = signal<number>(1);
-  lines_per_page:number = 10;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_users = signal<number>(0);
 
@@ -200,22 +202,33 @@ export class UsersComponent {
   }
 
   confirm_blocking_users(){
-    this.confirm_component.message.set('Are you sure you want to block this users? Once blocked, they will not be able to connect to the app.');
+    this.confirm_component.message.set('Are you sure you want to block the selected users? Once blocked, they will not be able to connect to the app.');
+    this.confirm_component.confirm_function = ()=>{this.block_users(true)};
     this.confirm_component.show();
   }
 
-  block_users(){
+  confirm_unblocking_users(){
+    this.confirm_component.message.set('Are you sure you want to unblock the selected users? Unblocking them, will give them access to the app.');
+    this.confirm_component.confirm_function = ()=>{this.block_users(false)};
+    this.confirm_component.show();
+  }
 
-    this.users_service.block_users({user_ids:this.selected_users_ids()}).subscribe({
+  block_users(block:boolean){
+    this.users_service.block_users({user_ids:this.selected_users_ids(), block:block}).subscribe({
       next:(res)=>{
         this.toasts_service.add('Changes have been saved successfully', 'success');
         this.selected_users_ids.set([]);
+        this.confirm_component.hide_progress_bar();
         this.confirm_component.hide();
       },
       error:(err)=>{
-        this.confirm_component.hide_progress_bar();
         this.toasts_service.add(err.message, 'danger');
+        this.confirm_component.hide_progress_bar();
       },
     });
+  }
+
+  open_profiles_component(){
+    this.profiles_component.open()
   }
 }

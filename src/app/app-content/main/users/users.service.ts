@@ -56,13 +56,13 @@ export class UsersService {
     );
   }
 
-  block_users(data:{user_ids:number[]}):Observable<Object>{
+  block_users(data:{user_ids:number[], block:boolean}):Observable<Object>{
     return this.http.post(this.api_url + '/block_users', data).pipe(
       catchError(this.http_service.handle_error),
       tap(()=>{
         this.users().map((user)=>{
           if(data.user_ids.includes(user.id)){
-            user.is_blocked = true;
+            user.is_blocked = data.block;
           }
         });
       })

@@ -1,3 +1,5 @@
+import { Profile } from "../app-content/main/users/profiles.service";
+
 export class Current_user{
     constructor(
         public id: number,
@@ -8,8 +10,9 @@ export class Current_user{
         public profile: string,
         public profile_id: number,
         private _access_token:string,
-        private _access_token_expiration_date: Date,
+        private _access_token_expires_in: Date,
         private _refresh_token:string,
+        private _refresh_token_expires_in: Date,
     ) {}
 
     
@@ -25,8 +28,12 @@ export class Current_user{
         return this._refresh_token;
     }
 
-    public get expires_in() {
-        return this._access_token_expiration_date;
+    public get access_token_expires_in() {
+        return this._access_token_expires_in;
+    }
+
+    public get refresh_token_expires_in() {
+        return this._refresh_token_expires_in;
     }
     
 }
