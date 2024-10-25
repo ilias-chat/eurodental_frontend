@@ -8,6 +8,7 @@ import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { ConfirmComponent } from '../../../shared/confirm/confirm.component';
 import { ProfilesComponent } from './profiles/profiles.component';
+import { AuthService } from '../../../authentification/auth.service';
 
 @Component({
   selector: 'app-users',
@@ -17,6 +18,7 @@ import { ProfilesComponent } from './profiles/profiles.component';
   styleUrl: './users.component.css'
 })
 export class UsersComponent {
+  auth_service = inject(AuthService);
   private toasts_service = inject(ToastsService);
   private users_service = inject(UsersService);
   private profiles_service = inject(ProfilesService);

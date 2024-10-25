@@ -14,16 +14,19 @@
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>
 
-        <button class="edit icon-button primary-button btn-with-label right"
-        (click)="open_profiles_component()">
-            <i class="fa-solid fa-address-card"></i>
-            <label>manage profiles</label>
-        </button>
-       
-        <button class="primary-button button-with-icon" (click)="on_add_user()">
-            <i class="fa-solid fa-plus"></i>
-            <span> new user </span>
-        </button>
+        @if (auth_service.rights?.users_write) {
+            <button class="edit icon-button primary-button btn-with-label right"
+            (click)="open_profiles_component()">
+                <i class="fa-solid fa-address-card"></i>
+                <label>manage profiles</label>
+            </button>
+           
+            <button class="primary-button button-with-icon" (click)="on_add_user()">
+                <i class="fa-solid fa-plus"></i>
+                <span> new user </span>
+            </button>
+        }
+
     </div>
     <div class="list-body">
 
@@ -46,25 +49,27 @@
 
     <div class="list-footer">
         <span class="total">total users: {{ total_users() }}</span>
-
-        <div class="options" [class.hidden]="selected_users_ids().length == 0">
-            <span>({{ selected_users_ids().length }}) selected</span>
-            <button class="icon-button icon-button-primary">
-                <i class="fa-solid fa-envelope"></i>
-                <span>send email</span>
-            </button>
-            <b>|</b>
-            <button class="icon-button icon-button-primary" (click)="confirm_blocking_users()">
-                <i class="fa-solid fa-user-slash"></i>
-                <span>block users</span>
-            </button>
-            <b>|</b>
-            <button class="icon-button icon-button-primary" (click)="confirm_unblocking_users()">
-                <i class="fa-solid fa-user-check"></i>
-                <span>unblock users</span>
-            </button>
-            <button class="icon-button icon-button-danger" (click)="on_list_options_close_btn_click()"><i class="fa-solid fa-xmark"></i></button>
-        </div>
+        @if (auth_service.rights?.users_write) {
+            <div class="options" [class.hidden]="selected_users_ids().length == 0">
+                <span>({{ selected_users_ids().length }}) selected</span>
+                <button class="icon-button icon-button-primary">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>send email</span>
+                </button>
+                <b>|</b>
+                <button class="icon-button icon-button-primary" (click)="confirm_blocking_users()">
+                    <i class="fa-solid fa-user-slash"></i>
+                    <span>block users</span>
+                </button>
+                <b>|</b>
+                <button class="icon-button icon-button-primary" (click)="confirm_unblocking_users()">
+                    <i class="fa-solid fa-user-check"></i>
+                    <span>unblock users</span>
+                </button>
+                <button class="icon-button icon-button-danger" (click)="on_list_options_close_btn_click()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+        }
+        
 
         <button class="primary-button icon-button" (click)="on_previous_btn_clicked()"
         [disabled]="current_page() === 1">

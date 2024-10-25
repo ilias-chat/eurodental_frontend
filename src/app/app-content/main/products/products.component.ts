@@ -9,6 +9,7 @@ import { Brand, BrandsService } from './brands.service';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { AddStockComponent } from './add-stock/add-stock.component';
+import { AuthService } from '../../../authentification/auth.service';
 
 @Component({
   selector: 'app-products',
@@ -24,6 +25,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
+  auth_service = inject(AuthService);
   private toasts_service = inject(ToastsService);
   private products_service = inject(ProductsService);
   private brand_service = inject(BrandsService);

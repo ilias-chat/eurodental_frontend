@@ -8,6 +8,7 @@ import { ReassignFormComponent } from "./reassign-form/reassign-form.component";
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { DateRangePickerComponent } from '../../../shared/date-range-picker/date-range-picker.component';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
+import { AuthService } from '../../../authentification/auth.service';
 
 @Component({
   selector: 'app-tasks',
@@ -17,6 +18,7 @@ import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent {
+  auth_service = inject(AuthService);
   private toasts_service = inject(ToastsService);
   private tasks_service = inject(TasksService);
   @ViewChild(ReassignFormComponent) reassign_form_component!:ReassignFormComponent;

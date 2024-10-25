@@ -1,9 +1,10 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
 import { Current_user } from "./current_user.model";
 import { HttpService } from "../shared/http.service";
+import { Profile, ProfilesService } from "../app-content/main/users/profiles.service";
 
 interface AuthResponseData {
     id: number,
@@ -30,6 +31,14 @@ export class AuthService{
     private router = inject(Router);
 
     user = new BehaviorSubject<Current_user|null>(null);
+
+    private _rights = signal<Profile | null>(null);
+
+    
+    public get rights() : Profile | null {
+        return this._rights();
+    }
+    
     
 
     login(username:string, password:string):Observable<Object>{
@@ -60,6 +69,8 @@ export class AuthService{
                 );
                 this.user.next(user);
                 localStorage.setItem('user_data',JSON.stringify(user));
+
+                this.get_user_rights(user.id);
             })
         );
     }
@@ -68,6 +79,7 @@ export class AuthService{
         this.user.next(null);
         this.router.navigate(['/login']);
         localStorage.removeItem('user_data');
+        this._rights.set(null);
     }
 
     auto_login(){
@@ -103,6 +115,7 @@ export class AuthService{
 
         if(loaded_user.access_token){
             this.user.next(loaded_user);
+            this.get_user_rights(loaded_user.id);
         }
     }
 
@@ -155,6 +168,21 @@ export class AuthService{
                 localStorage.setItem('user_data', JSON.stringify(updated_user));
             })
         );
+    }
+
+    get_user_rights(user_id:number){
+
+        this.http.get<Profile>(this.http_service.api_url + '/rights/' + user_id).pipe(
+            catchError(this.http_service.handle_error)
+        ).subscribe({
+            next:(res_data)=>{
+                this._rights.set(res_data);
+            },
+            error:(err)=>{
+                console.log(err);
+            },
+        });
+        
     }
     
 }

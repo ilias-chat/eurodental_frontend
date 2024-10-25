@@ -50,6 +50,12 @@ export class ProfilesService{
         );
     }
 
+    rights_by_user_id(id_user: number):Observable<Profile>{
+        return this.http_client.get<Profile>(this.api_url + '/rights/' + id_user).pipe(
+            catchError(this.http_service.handle_error)
+        );
+    }
+
     add(profile:{profile_name:string, id:number}):Observable<Object>{
         return this.http_client.post(this.api_url + '/profiles', profile).pipe(
             catchError(this.http_service.handle_error)

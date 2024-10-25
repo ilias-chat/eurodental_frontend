@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Task } from '../task.model';
+import { AuthService } from '../../../../authentification/auth.service';
 
 @Component({
   selector: 'app-task',
@@ -9,6 +10,7 @@ import { Task } from '../task.model';
   styleUrl: './task.component.css'
 })
 export class TaskComponent {
+  auth_service = inject(AuthService);
   @Input({required:true}) task!:Task;
   @Output() edit = new EventEmitter<Task>();
 

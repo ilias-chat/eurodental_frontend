@@ -12,7 +12,7 @@ import { ToastsService } from '../../../../shared/toasts-container/toast.service
 })
 export class ProfilesComponent {
 
-  is_open = signal(true);
+  is_open = signal(false);
   is_progressbar_open = signal(false);
   error_message = signal('');
 

@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { Product } from '../product.model';
+import { AuthService } from '../../../../authentification/auth.service';
 
 @Component({
   selector: 'app-product',
@@ -9,6 +10,7 @@ import { Product } from '../product.model';
   styleUrl: './product.component.css'
 })
 export class ProductComponent {
+  auth_service = inject(AuthService);
   @Input({required:true}) product!:Product;
   @Output() edit = new EventEmitter<Product>();
 
