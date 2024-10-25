@@ -7,21 +7,31 @@
       <button class="button" routerLink="/app/dashboard" routerLinkActive="active">
         <i class="icon fa-solid fa-house"></i> <span class="label">Home</span>  
       </button>
-      <button class="button" routerLink="/app/invoices" routerLinkActive="active">
-        <i class="icon fa-solid fa-file-lines"></i> <span class="label">Invoices</span> 
-      </button>
-    <button class="button" routerLink="/app/clients" routerLinkActive="active">
-        <i class="icon fa-solid fa-user-group"></i> <span class="label">Clients</span> 
-      </button>
-      <button class="button" routerLink="/app/products" routerLinkActive="active">
-        <i class="icon fa-solid fa-tags"></i> <span class="label">Products </span>
-      </button>
-      <button class="button" routerLink="/app/tasks" routerLinkActive="active">
-        <i class="fa-solid fa-list-check"></i><span class="label"> Tasks</span>
-      </button>
-      <button class="button" routerLink="/app/users" routerLinkActive="active">
-        <i class="fa-solid fa-users"></i> <span class="label">Users</span> 
-      </button>
+      @if (auth_service.rights?.invoices_read) {
+        <button class="button" routerLink="/app/invoices" routerLinkActive="active">
+          <i class="icon fa-solid fa-file-lines"></i> <span class="label">Invoices</span> 
+        </button>
+      }
+      @if (auth_service.rights?.clients_read) {
+        <button class="button" routerLink="/app/clients" routerLinkActive="active">
+          <i class="icon fa-solid fa-user-group"></i> <span class="label">Clients</span> 
+        </button>
+      }
+      @if (auth_service.rights?.products_read) {
+        <button class="button" routerLink="/app/products" routerLinkActive="active">
+          <i class="icon fa-solid fa-tags"></i> <span class="label">Products </span>
+        </button>
+      }
+      @if (auth_service.rights?.tasks_read) {
+        <button class="button" routerLink="/app/tasks" routerLinkActive="active">
+          <i class="fa-solid fa-list-check"></i><span class="label"> Tasks</span>
+        </button>
+      }
+      @if (auth_service.rights?.users_read) {
+        <button class="button" routerLink="/app/users" routerLinkActive="active">
+          <i class="fa-solid fa-users"></i> <span class="label">Users</span> 
+        </button>
+      }
       <button class="button" (click)="auth_service.logout()">
         <i class="icon fa-solid fa-right-from-bracket"></i> <span class="label"> Log out</span>
       </button>

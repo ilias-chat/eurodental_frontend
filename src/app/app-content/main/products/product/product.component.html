@@ -28,15 +28,22 @@
             <span> {{ product.sub_category_name }} </span>
         </div>
     </div>
+    
+    <div class="stock">
+        <span [class.badge-danger]="product.stock_quantity!<10">
+            <i class="fa-solid fa-boxes-stacked"></i>
+            {{ product.stock_quantity }}
+        </span>
+    </div>
     <div class="price">
         <span>{{ product.price }} €</span>
     </div>
-    <div class="stock" [class.badge-danger]="product.stock_quantity!<10">
-        <i class="fa-solid fa-boxes-stacked"></i>
-        <span> {{ product.stock_quantity }}</span>
-    </div>
+
     <div class="btns">
-        <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+
+        @if (auth_service.rights?.products_write) {
+            <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+        }
         <button class="icon-button icon-button-primary"><i class="fa-solid fa-up-right-from-square"></i></button>
     </div>
     </div>

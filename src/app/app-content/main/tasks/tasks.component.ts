@@ -8,6 +8,7 @@ import { ReassignFormComponent } from "./reassign-form/reassign-form.component";
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { DateRangePickerComponent } from '../../../shared/date-range-picker/date-range-picker.component';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
+import { AuthService } from '../../../authentification/auth.service';
 
 @Component({
   selector: 'app-tasks',
@@ -17,8 +18,10 @@ import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row
   styleUrl: './tasks.component.css'
 })
 export class TasksComponent {
+  auth_service = inject(AuthService);
   private toasts_service = inject(ToastsService);
   private tasks_service = inject(TasksService);
+  @ViewChild(ReassignFormComponent) reassign_form_component!:ReassignFormComponent;
   @ViewChild(TaskFormComponent) task_form_component!:TaskFormComponent;
   @ViewChild(TaskDetailsComponent) task_details_component!:TaskDetailsComponent;
   @ViewChild(DateRangePickerComponent) range_picker_component!:DateRangePickerComponent;
@@ -27,7 +30,7 @@ export class TasksComponent {
   selected_tasks_ids = signal<number[]>([]);
 
   current_page = signal<number>(1);
-  lines_per_page:number = 10;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_tasks = signal<number>(0);
 
@@ -147,7 +150,6 @@ export class TasksComponent {
       }else{
         task.status = 'Unassigned';
       }
-      task.create_by = 11;
       this.tasks_service.add(task)
       .subscribe({
         next:(respond_data)=>{
@@ -210,6 +212,7 @@ export class TasksComponent {
   }
 
   on_calendar_btn_click(){
+    this.task_details_component.on_close_btn_click();
     this.is_date_filter_open.set(true);
   }
 
@@ -219,8 +222,8 @@ export class TasksComponent {
 
   on_apply_btn_click(){
     this.refresh_tasks({
-      start_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range.start),
-      end_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range.end),
+      start_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range().start),
+      end_date:this.format_date_to_yyyy_mm_dd(this.range_picker_component.selected_range().end),
     });
     this.is_date_filter_open.set(false);
   }
@@ -232,6 +235,19 @@ export class TasksComponent {
 
   on_assign_form_save(technician:{id:number,full_name:string,image_path:string}){
 
+    let completed_tasks_count = 0;
+    this.all_tasks().forEach(task => {
+      if (this.selected_tasks_ids().includes(task.id) && task.status === 'Completed'){
+        completed_tasks_count++;
+      }
+    });
+
+    if(completed_tasks_count>0){
+      this.toasts_service.add(`(${completed_tasks_count}) of the selected tasks are already completed.`,'danger');
+      this.reassign_form_component.hide_progresbar();
+      return;
+    }
+
     this.tasks_service.assign_tasks_to_technician(
       {task_ids: this.selected_tasks_ids(), technician_id: technician.id},
       technician
@@ -240,9 +256,11 @@ export class TasksComponent {
         this.is_assign_form_open.set(false);
         this.selected_tasks_ids.set([]);
         this.toasts_service.add('Changes have been saved successfully', 'success');
+        this.reassign_form_component.hide_progresbar();
       },
       error:(err)=>{
         this.toasts_service.add(err.message, 'danger');
+        this.reassign_form_component.hide_progresbar();
       },
     })
     

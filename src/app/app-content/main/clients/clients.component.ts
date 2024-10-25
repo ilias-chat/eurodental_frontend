@@ -6,6 +6,7 @@ import { ClientFormComponent } from "./client-form/client-form.component";
 import { ToastsContainerComponent } from '../../../shared/toasts-container/toasts-container.component';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
+import { AuthService } from '../../../authentification/auth.service';
 
 @Component({
   selector: 'app-clients',
@@ -15,6 +16,7 @@ import { ToastsService } from '../../../shared/toasts-container/toast.service';
   styleUrl: './clients.component.css'
 })
 export class ClientsComponent {
+  auth_service = inject(AuthService);
   private toasts_service = inject(ToastsService);
   private clients_service = inject(ClientsService);
   @ViewChild(ClientFormComponent) client_form_component!:ClientFormComponent;
@@ -22,7 +24,7 @@ export class ClientsComponent {
   selected_clients_ids = signal<number[]>([]);
 
   current_page = signal<number>(1);
-  lines_per_page:number = 10;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_clients = signal<number>(0);
 

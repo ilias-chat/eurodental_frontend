@@ -1,0 +1,325 @@
+<div class="profiles-container" [class.show]="is_open()">
+    <div class="header">
+        <div class="title">Manage profiles and access rights</div>
+        <button class="icon-button icon-button-danger" (click)="close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="body">
+        <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
+            <div class="progress-bar"></div>
+        </div>
+
+        <div class="profiles-title">
+            <div class="name">
+                Profile
+            </div>
+            <div class="column">
+                Invoices
+            </div>
+            <div class="column">
+                Clients
+            </div>
+            <div class="column">
+                Products
+            </div>
+            <div class="column">
+                Tasks
+            </div>
+            <div class="column">
+                Users
+            </div>
+            <div class="column">
+                <i class="fa-solid fa-mobile-screen"></i>
+                Tasks
+            </div>
+            <div class="column">
+                <i class="fa-solid fa-mobile-screen"></i>
+                Stock
+            </div>
+
+            <div class="btns">
+                <button class="icon-button primary-button btn-with-label" (click)="on_new_profile_btn_click()">
+                    <i class="fa-solid fa-plus"></i>
+                    <label>create profile</label>
+                </button>
+            </div>
+        </div>
+        <div class="profiles">
+            @for (profile of profiles(); track profile.id) {
+                <div class="profile">
+                    <div class="name">
+                        {{ profile.profile_name }}
+                    </div>
+                    @if(is_update_form_open() && select_profile_id() == profile.id){
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.invoices_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.invoices_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.clients_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.clients_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.products_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.products_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.tasks_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.tasks_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.users_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.users_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.mobile_tasks_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.mobile_tasks_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.mobile_stock_read">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> read</span>
+                            </div>
+                            <div>
+                                <label class="checkbox-container">
+                                    <input type="checkbox" [(ngModel)]="profile.mobile_stock_write">
+                                    <span class="checkmark"></span>
+                                </label>
+                                <span> write</span>
+                            </div>
+                        </div>
+
+                        <div class="btns">
+                            <button class="icon-button primary-button"
+                            (click)="on_save_profile_btn_click(profile)">
+                                <i class="fa-solid fa-floppy-disk"></i>
+                            </button>
+                            <button class="icon-button secondary-button"
+                            (click)="close_update_form()">
+                                <i class="fa-solid fa-xmark"></i>
+                            </button>
+                        </div>
+                    }@else {
+                        <div class="column">
+                                <div>
+                                    @if(profile.invoices_read){
+                                        <i class="fa-solid fa-square-check"></i>
+                                    }@else {
+                                        <i class="fa-regular fa-square"></i>
+                                    }
+                                    <span> read</span>
+                                </div>  
+                                <div>
+                                    @if(profile.invoices_write){
+                                        <i class="fa-solid fa-square-check"></i>
+                                    }@else {
+                                        <i class="fa-regular fa-square"></i>
+                                    }
+                                    <span> write</span>
+                                </div>    
+                        </div>
+                        <div class="column">
+                            <div>
+                                @if(profile.clients_read){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> read</span>
+                            </div>  
+                            <div>
+                                @if(profile.clients_write){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> write</span>
+                            </div>    
+                        </div>
+                        <div class="column">
+                            <div>
+                                @if(profile.products_read){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> read</span>
+                            </div>  
+                            <div>
+                                @if(profile.products_write){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> write</span>
+                            </div>    
+                        </div>
+                        <div class="column">
+                            <div>
+                                @if(profile.tasks_read){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> read</span>
+                            </div>  
+                            <div>
+                                @if(profile.tasks_write){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> write</span>
+                            </div>    
+                        </div>
+                        <div class="column">
+                            <div>
+                                @if(profile.users_read){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> read</span>
+                            </div>  
+                            <div>
+                                @if(profile.users_write){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> write</span>
+                            </div>    
+                        </div>
+                        <div class="column">
+                            <div>
+                                @if(profile.mobile_tasks_read){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> read</span>
+                            </div>  
+                            <div>
+                                @if(profile.mobile_tasks_write){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> write</span>
+                            </div>    
+                        </div>
+                        <div class="column">
+                            <div>
+                                @if(profile.mobile_stock_read){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> read</span>
+                            </div>  
+                            <div>
+                                @if(profile.mobile_stock_write){
+                                    <i class="fa-solid fa-square-check"></i>
+                                }@else {
+                                    <i class="fa-regular fa-square"></i>
+                                }
+                                <span> write</span>
+                            </div>    
+                        </div>
+
+                        <div class="btns">
+                            <button class="icon-button icon-button-primary" (click)="on_edit_btn_click(profile)"><i class="fa-solid fa-pen"></i></button>
+                        </div>
+                    }
+                </div>
+            }
+        </div>
+ 
+    </div>
+
+    <div class="footer">
+        <div class="error" [class.hidden]="error_message() === ''">
+            <i class="fa-solid fa-circle-exclamation"></i>
+            <span> {{ error_message() }} </span>
+            <button (click)="clear_error_message()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <button class="primary-button"> save </button>
+    </div>
+</div>

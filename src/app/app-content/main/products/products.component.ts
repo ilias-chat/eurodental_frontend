@@ -9,6 +9,7 @@ import { Brand, BrandsService } from './brands.service';
 import { SkeletonRowListComponent } from '../../../shared/skeletons/skeleton-row-list/skeleton-row-list.component';
 import { ToastsService } from '../../../shared/toasts-container/toast.service';
 import { AddStockComponent } from './add-stock/add-stock.component';
+import { AuthService } from '../../../authentification/auth.service';
 
 @Component({
   selector: 'app-products',
@@ -24,6 +25,7 @@ import { AddStockComponent } from './add-stock/add-stock.component';
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
+  auth_service = inject(AuthService);
   private toasts_service = inject(ToastsService);
   private products_service = inject(ProductsService);
   private brand_service = inject(BrandsService);
@@ -34,7 +36,7 @@ export class ProductsComponent {
   selected_products_refs = signal<string[]>([]);
 
   current_page = signal<number>(1);
-  lines_per_page:number = 5;
+  lines_per_page:number = 12;
   total_pages = signal<number>(1);
   total_products = signal<number>(0);
 
@@ -141,7 +143,7 @@ export class ProductsComponent {
   }
 
   on_form_submit(product_form_data:{form_data:FormData, product:Product}){
-    
+  
     this.product_form_component.show_progressbar();
 
     if(product_form_data.product.id === 0){

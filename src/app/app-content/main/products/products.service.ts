@@ -44,8 +44,8 @@ export class ProductsService{
       else return this.products();
     }
   
-    add(product:FormData):Observable<Object>{
-      return this.http.post(this.api_url, product).pipe(
+    add(form_data:FormData):Observable<Object>{
+      return this.http.post(this.api_url, form_data).pipe(
         catchError(this.http_service.handle_error)
       );
     }

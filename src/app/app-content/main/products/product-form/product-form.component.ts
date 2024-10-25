@@ -73,6 +73,7 @@ export class ProductFormComponent {
     if(this.invalid_inputs().length > 0) return;
 
       const form_data = new FormData();
+      // Add the product data as a JSON string
       form_data.append('product_name', this.selected_product.product_name);
       form_data.append('description', this.selected_product.description);
       form_data.append('id_category', this.selected_product.id_category?.toString());
@@ -102,10 +103,10 @@ export class ProductFormComponent {
       id_sub_category:0,
       sub_category_name:'',
       id_brand:0,
-      price:undefined,
-      stock_quantity:undefined,
+      price:null,
+      stock_quantity:null,
       has_warranty:false ,
-      warranty_duration_months:undefined,
+      warranty_duration_months:0,
       description:'',
       image_id:0,
     };

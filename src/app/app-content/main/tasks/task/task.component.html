@@ -25,15 +25,25 @@
         </div>
     </div>
     <div class="persone">
-        <img src="{{task.technician_image}}" alt="task image" class="persone-img">
-        <div class="text">
-            <span class="title">
-                {{task.technician}}
-            </span>
-            <span class="sub-title">
-                technician
-            </span>
-        </div>
+        @if (!task.technician_id) {
+            <div src="" class="persone-img skeleton"> </div>
+            <div class="text">
+                <span class="title">
+                    no technician
+                </span>
+            </div>
+        }@else {
+            <img src="{{task.technician_image}}" alt="task image" class="persone-img">
+            <div class="text">
+                <span class="title">
+                    {{task.technician}}
+                </span>
+                <span class="sub-title">
+                    technician
+                </span>
+            </div>
+        }
+
     </div>
     <div>
         <span [class.badge-success]="task.status.toLowerCase() === 'completed'" 
@@ -43,7 +53,9 @@
         </span>
      </div>
     <div class="btns">
-        <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+        @if (auth_service.rights?.tasks_write) {
+            <button class="icon-button icon-button-primary" (click)="on_edit_btn_click()"><i class="fa-solid fa-pen"></i></button>
+        }
         <button class="icon-button icon-button-primary" (click)="on_details_btn_click()"><i class="fa-solid fa-up-right-from-square"></i></button>
     </div>
     </div>

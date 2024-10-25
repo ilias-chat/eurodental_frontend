@@ -59,6 +59,14 @@
         </div>
     </div>
     <div class="calender-footer">
-        <span>{{ date_range() }}</span>
+        <span> 
+            Selected Range: 
+            @if(selected_range().start){
+                <b>{{format_date(selected_range().start!)}} </b>
+            }
+            @if(selected_range().end){
+               to <b>{{format_date(selected_range().end!)}} </b>
+            } 
+        </span>
     </div>
 </div>

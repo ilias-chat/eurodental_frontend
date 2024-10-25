@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 
 @Component({
   selector: 'app-confirm',
@@ -13,11 +13,12 @@ export class ConfirmComponent {
 
   message = signal('');
 
+  confirm_function!: () => void;
   @Output() confirm = new EventEmitter();
 
   on_ok_button_click(){
     this.is_progress_bar_open.set(true);
-
+    this.confirm_function();
     this.confirm.emit();
   }
 

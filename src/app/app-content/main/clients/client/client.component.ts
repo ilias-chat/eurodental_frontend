@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output, signal } from '@angular/core';
 import { Client } from '../client.model';
+import { AuthService } from '../../../../authentification/auth.service';
 
 @Component({
   selector: 'app-client',
@@ -9,6 +10,7 @@ import { Client } from '../client.model';
   styleUrl: './client.component.css'
 })
 export class ClientComponent {
+  auth_service = inject(AuthService);
   @Input({required:true}) client!:Client;
   @Output() edit = new EventEmitter<Client>();
 
