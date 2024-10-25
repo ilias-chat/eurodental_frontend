@@ -28,6 +28,7 @@ export class TaskFormComponent {
     this.close_dialog();
     this.reset_selected_task();
     this.invalid_inputs.set([]);
+    this.clear_error_message();
   }
 
   open_dialog(){
