@@ -13,38 +13,57 @@
 
         <div class="profiles-title">
             <div class="name">
-                Profile
+                Profiles
             </div>
-            <div class="column">
-                Invoices
-            </div>
-            <div class="column">
-                Clients
-            </div>
-            <div class="column">
-                Products
-            </div>
-            <div class="column">
-                Tasks
-            </div>
-            <div class="column">
-                Users
-            </div>
-            <div class="column">
-                <i class="fa-solid fa-mobile-screen"></i>
-                Tasks
-            </div>
-            <div class="column">
-                <i class="fa-solid fa-mobile-screen"></i>
-                Stock
-            </div>
-
-            <div class="btns">
-                <button class="icon-button primary-button btn-with-label" (click)="on_new_profile_btn_click()">
-                    <i class="fa-solid fa-plus"></i>
-                    <label>create profile</label>
-                </button>
-            </div>
+            @if(is_create_form_open()){
+                <div class="create_input">
+                    <input type="text" placeholder="enter the new profile name" [(ngModel)]="new_profile_name">
+                </div>
+                <div class="btns">
+                    <button class="icon-button primary-button btn-with-label"
+                    (click)="on_save_new_profile_btn_click()">
+                        <i class="fa-solid fa-floppy-disk"></i>
+                        <label>save profile</label>
+                    </button>
+                    <button class="icon-button secondary-button btn-with-label"
+                    (click)="close_create_form()">
+                        <i class="fa-solid fa-xmark"></i>
+                        <label>cancel</label>
+                    </button>
+                </div>
+            }@else {
+                <div class="column">
+                    Invoices
+                </div>
+                <div class="column">
+                    Clients
+                </div>
+                <div class="column">
+                    Products
+                </div>
+                <div class="column">
+                    Tasks
+                </div>
+                <div class="column">
+                    Users
+                </div>
+                <div class="column">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    Tasks
+                </div>
+                <div class="column">
+                    <i class="fa-solid fa-mobile-screen"></i>
+                    Stock
+                </div>
+    
+                <div class="btns">
+                    <button class="icon-button primary-button btn-with-label" (click)="on_new_profile_btn_click()">
+                        <i class="fa-solid fa-plus"></i>
+                        <label>create profile</label>
+                    </button>
+                </div>
+            }
+            
         </div>
         <div class="profiles">
             @for (profile of profiles(); track profile.id) {
@@ -167,13 +186,15 @@
                         </div>
 
                         <div class="btns">
-                            <button class="icon-button primary-button"
+                            <button class="icon-button primary-button btn-with-label"
                             (click)="on_save_profile_btn_click(profile)">
                                 <i class="fa-solid fa-floppy-disk"></i>
+                                <label>save changes</label>
                             </button>
-                            <button class="icon-button secondary-button"
+                            <button class="icon-button secondary-button btn-with-label"
                             (click)="close_update_form()">
                                 <i class="fa-solid fa-xmark"></i>
+                                <label>cancel</label>
                             </button>
                         </div>
                     }@else {

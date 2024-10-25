@@ -22,8 +22,10 @@ export class ProfilesComponent {
 
   select_profile_id = signal(0);
   is_update_form_open = signal(false);
+  is_create_form_open = signal(false);
 
   old_profile:Profile|null = null;
+  new_profile_name = signal('');
 
   close(){
     this.is_open.set(false);
@@ -69,7 +71,29 @@ export class ProfilesComponent {
   }
 
   on_new_profile_btn_click(){
+    this.is_create_form_open.set(true);
+  }
 
+  close_create_form(){
+    this.is_create_form_open.set(false);
+    this.new_profile_name.set('');
+  }
+
+  on_save_new_profile_btn_click(){
+    
+    this.is_progressbar_open.set(true);
+    this.profiles_service.add({profile_name: this.new_profile_name()}).subscribe({
+      next:(res_data)=>{
+        this.profiles_service.add_profile = (res_data as Profile);
+        this.is_progressbar_open.set(false);
+        this.close_create_form()
+        this.toasts_service.add('profile have been created successfully', 'success');
+      },
+      error:(res_err)=>{
+        this.error_message.set(res_err.message);
+        this.is_progressbar_open.set(false);
+      },
+    })
   }
 
 }

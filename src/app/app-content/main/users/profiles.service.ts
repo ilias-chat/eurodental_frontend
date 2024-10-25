@@ -56,7 +56,7 @@ export class ProfilesService{
         );
     }
 
-    add(profile:{profile_name:string, id:number}):Observable<Object>{
+    add(profile:{profile_name:string}):Observable<Object>{
         return this.http_client.post(this.api_url + '/profiles', profile).pipe(
             catchError(this.http_service.handle_error)
         );
