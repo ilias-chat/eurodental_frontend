@@ -3,16 +3,18 @@ import { NotificationsComponent } from "../../shared/notifications/notifications
 import { NotificationsService } from '../../shared/notifications/notifications.service';
 import { AuthService } from '../../authentification/auth.service';
 import { map, take } from 'rxjs';
+import { SettingsComponent } from './settings/settings.component';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [NotificationsComponent],
+  imports: [NotificationsComponent, SettingsComponent],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
 export class NavComponent {
 @ViewChild(NotificationsComponent) notifications_Component!:NotificationsComponent;
+@ViewChild(SettingsComponent) settings_Component!:SettingsComponent;
 private notifications_service = inject(NotificationsService);
 private auth_service = inject(AuthService);
 user_name = signal('');

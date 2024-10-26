@@ -1,0 +1,64 @@
+<div class="backdrop" [class.show-backdrop]="!is_closed()">
+    <div class="settings-dialog" [class.show-dialog]="!is_closed()">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                Settings
+            </span>
+            <button class="icon-button icon-button-danger" (click)="close_dialog()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="settings">
+            <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
+                <div class="progress-bar"></div>
+            </div>
+
+           <div class="settings-option first-option">
+                <div class="option-header" (click)="toggle_change_password_option()">
+                    <span>change password</span>
+                    <i class="fa-solid fa-sort-down" 
+                    [class.rotate]="is_change_password_open()"></i>
+                </div>
+                <div class="option-body" [class.hide-option]="!is_change_password_open()">
+                    <div class="form-group">
+                        <label for="current_password">current password</label>
+                        <input type="password" id="current_password" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">new password</label>
+                        <input type="password" id="new_password" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">confirm password</label>
+                        <input type="password" id="confirm_password" autocomplete="off">
+                    </div>
+                    <div class="btns">
+                        <button class="primary-button">save</button>
+                    </div>
+                </div>
+           </div>
+           <div class="settings-option">
+                <div class="option-header" (click)="toggle_update_profile_option()">
+                    <span>update profile</span>
+                    <i class="fa-solid fa-sort-down" 
+                    [class.rotate]="is_update_profile_open()"></i>
+                </div>
+            </div>
+            <div class="settings-option">
+                <div class="option-header" (click)="toggle_language_option()">
+                    <span>languge</span>
+                    <i class="fa-solid fa-sort-down" 
+                    [class.rotate]="is_language_open()"></i>
+                </div>
+            </div>
+            <div class="settings-option">
+                <div class="option-header" (click)="toggle_theme_option()">
+                    <span>theme</span>
+                    <i class="fa-solid fa-sort-down" 
+                    [class.rotate]="is_theme_open()"></i>
+                </div>
+            </div>
+        </div>
+      </div>
+</div>
+

@@ -36,13 +36,13 @@
             <div class="form-group">
                 <label for="product_name">Name *</label>
                 <input type="text" name="product_name" required [(ngModel)]="selected_product.product_name"
-                [class.invalid-input]="invalid_inputs().includes('product_name')">
+                [class.invalid-input]="invalid_inputs().includes('product_name')" autocomplete="off">
             </div>
 
             <div class="form-group">
                 <label for="reference">Reference *</label>
                 <input type="text" name="reference" required [(ngModel)]="selected_product.reference"
-                [class.invalid-input]="invalid_inputs().includes('reference')">
+                [class.invalid-input]="invalid_inputs().includes('reference')" autocomplete="off">
             </div>
 
             
@@ -84,13 +84,13 @@
             <div class="form-group">
                 <label for="stock_quantity">Stock's quantity *</label>
                 <input type="number" id="stock_quantity" name="stock_quantity" required [(ngModel)]="selected_product.stock_quantity"
-                [class.invalid-input]="invalid_inputs().includes('stock_quantity')">
+                [class.invalid-input]="invalid_inputs().includes('stock_quantity')" autocomplete="off">
             </div>
 
             <div class="form-group">
                 <label for="price">Price *</label>
                 <input type="number" step=".1" id="price" name="price" required [(ngModel)]="selected_product.price"
-                [class.invalid-input]="invalid_inputs().includes('price')">
+                [class.invalid-input]="invalid_inputs().includes('price')" autocomplete="off">
             </div>
 
             <div class="form-group">
@@ -105,7 +105,7 @@
                 <label for="warranty_duration_months">Warranty duration by months</label>
                 <input type="number" name="warranty_duration_months" required 
                 [(ngModel)]="selected_product.warranty_duration_months" [disabled]="!selected_product.has_warranty"
-                [class.invalid-input]="invalid_inputs().includes('warranty_duration_months')">
+                [class.invalid-input]="invalid_inputs().includes('warranty_duration_months')" autocomplete="off">
             </div>
 
             <div class="form-group">
