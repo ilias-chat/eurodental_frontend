@@ -459,6 +459,7 @@ select {
     border-radius: .5rem;
     /* font-weight: bold; */
     font-size: medium;
+    /* width:150px; */
   }
 
   .badge-success{

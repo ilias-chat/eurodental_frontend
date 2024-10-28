@@ -9,50 +9,50 @@
 
         <div class="task">
             <span class="title"> 
-                {{ task_details()?.task_name }} 
+                {{ task_details().task_name }} 
                 <span class="sub-title">
                     <i class="fa-regular fa-calendar"></i>
-                    {{ task_details()?.task_date }}
+                    {{ task_details().task_date }}
                 </span>
             </span>
-            <span [class.badge-success]="task_details()?.status === 'Completed'" 
-            [class.badge-danger]="task_details()?.status === 'Open'"
-            [class.badge-warning]="task_details()?.status === 'In Progress'">
-            {{ task_details()?.status }}
+            <span class="status" [class.badge-success]="task_details().status === 'Completed'" 
+            [class.badge-danger]="task_details().status === 'Open'"
+            [class.badge-warning]="task_details().status === 'In Progress'">
+                {{ task_details().status.replace(' ', '_') }}
             </span>
         </div>
 
         <div class="div-right">
             <div class="client">
                 <div class="profile">
-                    <img class="skeleton" src="{{ task_details()?.client_image_path }}" alt="">
+                    <img src="{{ task_details().client?.image_path }}" alt="">
                     <div class="profile-text">
-                        <span>{{ task_details()?.client }}</span>
-                        <span>{{ task_details()?.client_city }}</span>
+                        <span>{{ task_details().client?.first_name }} {{ task_details().client?.first_name }} </span>
+                        <span>{{ task_details().client?.city }}</span>
                     </div>
                 </div>
     
                 <div class="contacts">
                     <div class="contacts-row">
                         <i class="fa-solid fa-envelope"></i>
-                        <span> {{ task_details()?.client_email }} </span>
+                        <span> {{ task_details().client?.email }} </span>
                     </div>
                     <div class="contacts-row">
                         <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span> {{ task_details()?.client_phone_number }} </span>
+                        <span> {{ task_details().client?.phone_number }} </span>
                     </div>
                     <div class="contacts-row">
                         <i class="fa-solid fa-location-dot"></i>
-                        <span> {{ task_details()?.client_address }} </span>
+                        <span> {{ task_details().client?.address }} </span>
                     </div>
                 </div>
             </div>
     
             <div class="technician">
                 <div class="profile">
-                    <img class="skeleton" src="{{ task_details()?.technician_image_path }}" alt="">
+                    <img src="{{ task_details().technician?.image_path }}" alt="">
                     <div class="profile-text">
-                        <span>{{ task_details()?.technician }}</span>
+                        <span>{{ task_details().technician?.first_name }} {{ task_details().technician?.last_name }}</span>
                         <span> technician </span>
                     </div>
                 </div>
@@ -60,38 +60,45 @@
                 <div class="contacts">
                     <div class="contacts-row">
                         <i class="fa-solid fa-envelope"></i>
-                        <span> {{ task_details()?.technician_email }} </span>
+                        <span> {{ task_details().technician?.email }} </span>
                     </div>
                     <div class="contacts-row">
                         <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span> {{ task_details()?.technician_phone_number }} </span>
+                        <span> {{ task_details().technician?.phone_number }} </span>
                     </div>
                     <div class="contacts-row">
                         <i class="fa-solid fa-location-dot"></i>
-                        <span> {{ task_details()?.technician_address }} </span>
+                        <span> {{ task_details().technician?.address }} </span>
                     </div>
                 </div>
             </div>
         </div>
         
         <div class="products">
-            @for (product of task_details()?.products; track product.id) {
+            @if (task_details().products.length > 0) {
+                @for (product of task_details().products; track product.id) {
+                    <div class="product">
+                        <div class="column">
+                            {{ product.name }}
+                            <span class="reference">
+                                #{{ product.reference }}
+                            </span>
+                        </div>
+                        <div class="column">
+                            <b>x{{ product.quantity }}</b>
+                        </div>
+                        <div class="column price">
+                            {{ product.price }} €
+                        </div>
+                         
+                    </div>
+                }
+            }@else {
                 <div class="product">
-                    <div class="column">
-                        {{ product.name }}
-                        <span class="reference">
-                            #{{ product.reference }}
-                        </span>
-                    </div>
-                    <div class="column">
-                        <b>x{{ product.quantity }}</b>
-                    </div>
-                    <div class="column price">
-                        {{ product.price }} €
-                    </div>
-                     
+                    <p>no products used in this task</p>
                 </div>
             }
+
         </div>
 
     </div>

@@ -3,6 +3,33 @@ import { Task } from "./task.model";
 import { HttpClient } from "@angular/common/http";
 import { catchError, Observable, tap } from "rxjs";
 import { HttpService } from "../../../shared/http.service";
+import { Client } from "../clients/client.model";
+import { User } from "../users/user.model";
+
+interface Task_product{
+  id:number,
+  reference:string,
+  name:string,
+  price:number,
+  quantity:number,
+  purshase_date:string,
+}
+
+export interface Task_details{
+  id: number,
+  task_name: string,
+  task_type: string,
+  description: string,
+  technician_id: number,
+  task_date: string,
+  observation: string,
+  create_by: number,
+  client_id: number,
+  status: string,
+  client: Client | null,
+  technician: User | null,
+  products: Task_product[],
+}
 
 @Injectable({
     providedIn:'root'
@@ -68,6 +95,12 @@ export class TasksService {
 
   edit(task:Task):Observable<Object>{
     return this.http.put(this.api_url + task.id, task).pipe(
+      catchError(this.http_service.handle_error)
+    );
+  }
+
+  get_by_id(task_id:number):Observable<Task_details>{
+    return this.http.get<Task_details>(this.api_url + 'task_details/' + task_id).pipe(
       catchError(this.http_service.handle_error)
     );
   }

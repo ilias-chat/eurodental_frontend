@@ -53,7 +53,7 @@
             <button class="primary-button" (click)="refresh_tasks({start_date:'',end_date:''})">refresh</button>
         }
 
-        <app-task-details [task_id]="3"></app-task-details>
+        <app-task-details></app-task-details>
 
         <div class="date-filter-container" [class.show-date-filter]="is_date_filter_open()">
             <button class="close-btn icon-button icon-button-danger" (click)="on_close_date_filter_container_click()">
