@@ -5,7 +5,7 @@
     <div class="logo">Logo</div>
     <div class="buttons">
       <button class="button" routerLink="/app/dashboard" routerLinkActive="active">
-        <i class="icon fa-solid fa-house"></i> <span class="label">Home</span>  
+        <i class="fa-solid fa-chart-simple"></i> <span class="label">Dashboard</span>  
       </button>
       @if (auth_service.rights?.invoices_read) {
         <button class="button" routerLink="/app/invoices" routerLinkActive="active">

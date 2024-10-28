@@ -71,6 +71,8 @@ export class AuthService{
                 localStorage.setItem('user_data',JSON.stringify(user));
 
                 this.get_user_rights(user.id);
+
+                console.log("login: ",user);
             })
         );
     }
@@ -112,6 +114,8 @@ export class AuthService{
             user_data._refresh_token,
             new Date(user_data._refresh_token_expires_in),
         );
+
+        console.log("auto login: ",loaded_user);
 
         if(loaded_user.access_token){
             this.user.next(loaded_user);

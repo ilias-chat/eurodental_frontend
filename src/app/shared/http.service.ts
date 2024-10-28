@@ -6,8 +6,8 @@ import { throwError } from "rxjs";
     providedIn:'root'
 })
 export class HttpService{
-    //private _api_url = 'http://35.180.66.24/api/v1';
-    private _api_url = 'http://127.0.0.1:8000/api/v1';
+    private _api_url = 'http://35.180.66.24/api/v1';
+    //private _api_url = 'http://127.0.0.1:8000/api/v1';
 
     public get api_url() : string {
         return this._api_url;
@@ -34,7 +34,7 @@ export class HttpService{
               error_message = 'Internal Server Error. Please try again later.';
               break;
           default:
-              error_message = `Error Code: ${respose_error.status}\nMessage: ${respose_error.message}`;
+              error_message = `Error Code: ${respose_error.status}\nMessage: ${respose_error.error?.detail}`;
         }
     
         return throwError(() => new Error(error_message));
