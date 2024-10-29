@@ -12,14 +12,12 @@
             <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
                 <div class="progress-bar"></div>
             </div>
-
-           <div class="settings-option first-option">
-                <div class="option-header" (click)="toggle_change_password_option()">
-                    <span>change password</span>
-                    <i class="fa-solid fa-sort-down" 
-                    [class.rotate]="is_change_password_open()"></i>
-                </div>
-                <div class="option-body" [class.hide-option]="!is_change_password_open()">
+            <div class="active-option" [class.hide]="is_all_aoptions_deactivated()">
+                @if (is_change_password_open()) {
+                    <div class="option-header">
+                        <h4>change your password</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
                     <div class="form-group">
                         <label for="current_password">current password</label>
                         <input type="password" id="current_password" autocomplete="off">
@@ -35,37 +33,38 @@
                     <div class="btns">
                         <button class="primary-button">save</button>
                     </div>
-                </div>
+                }@else if (is_update_profile_open()) {
+                    <div class="option-header">
+                        <h4>update your profile</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <p>currently working to bring it to life</p>
+                }@else if (is_language_open()) {
+                    <div class="option-header">
+                        <h4>change language</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <p>currently working to bring it to life</p>
+                }@else if (is_theme_open()) {
+                    <div class="option-header">
+                        <h4>change theme</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <p>currently working to bring it to life</p>
+                }
+            </div>
+
+           <div class="settings-option first-option" (click)="activate_change_password_option()">
+                <span>change password</span>
            </div>
-           <div class="settings-option">
-                <div class="option-header" (click)="toggle_update_profile_option()">
-                    <span>update profile</span>
-                    <i class="fa-solid fa-sort-down" 
-                    [class.rotate]="is_update_profile_open()"></i>
-                </div>
-                <div class="option-body" [class.hide-option]="!is_update_profile_open()">
-                    <p>currently working to bring it to life</p>
-                </div>
+           <div class="settings-option" (click)="activate_update_profile_option()">
+                <span>update profile</span>
             </div>
-            <div class="settings-option">
-                <div class="option-header" (click)="toggle_language_option()">
-                    <span>language</span>
-                    <i class="fa-solid fa-sort-down" 
-                    [class.rotate]="is_language_open()"></i>
-                </div>
-                <div class="option-body" [class.hide-option]="!is_language_open()">
-                    <p>currently working to bring it to life</p>
-                </div>
+            <div class="settings-option" (click)="activate_language_option()">
+                <span>language</span>
             </div>
-            <div class="settings-option">
-                <div class="option-header" (click)="toggle_theme_option()">
-                    <span>theme</span>
-                    <i class="fa-solid fa-sort-down" 
-                    [class.rotate]="is_theme_open()"></i>
-                </div>
-                <div class="option-body" [class.hide-option]="!is_theme_open()">
-                    <p>currently working to bring it to life</p>
-                </div>
+            <div class="settings-option" (click)="activate_theme_option()">
+                <span>theme</span>
             </div>
         </div>
       </div>

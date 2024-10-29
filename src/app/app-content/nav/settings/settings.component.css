@@ -56,18 +56,24 @@
 
 .settings{
     position: relative;
-    padding: 1.5rem;
-    padding-top: 2rem;
     display: flex;
     flex-direction: column;
-    height: 90%;
+    height: 84%;
     overflow-y: auto;
+    overflow-x: hidden;
+    margin: 1rem;
 }
 
 .settings-option{
     border-bottom: 1px solid var(--secondary-text-color);
     border-left: 1px solid var(--secondary-text-color);
     border-right: 1px solid var(--secondary-text-color);
+    padding: 1rem;
+    cursor: pointer;
+}
+
+.settings-option:hover{
+    background-color: var(--secondary-background-color);
 }
 
 .first-option{
@@ -81,33 +87,6 @@
     border-radius: 0 0 .4rem .4rem ;
 }
 
-.option-header{
-    padding: 1rem 1.5rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-}
-
-.option-header i{
-    font-size: 1.6rem;
-    margin-top: -.6rem;
-    transition: 0.2s ease;
-}
-
-.option-body{
-    padding: 1rem 1.5rem;
-    background-color: var(--secondary-background-color);
-    border-top: 1px solid var(--secondary-text-color);
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    overflow-y: hidden;
-    height: 350px;
-    transition: 0.2s ease-in;
-}
-
 .btns{
     margin-top: auto;
     display: flex;
@@ -115,14 +94,42 @@
     justify-content: end;
 }
 
-.hide-option{
-    height: 0;
-    padding-top: 0;
-    padding-bottom: 0;
-    border: none;
+.active-option{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+    padding-top: 1rem;
+    background-color: var(--background-color);
+    border: 1px solid var(--secondary-text-color);
+    border-radius: .4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    color: var(--text-color);
+    transition: transform .1s ease-out;
 }
 
-.rotate{
-    transform: rotate(-90deg) translateY(-.2rem) translateX(-.3rem);
+.option-header{
+    border-bottom: 1px solid var(--secondary-text-color);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
+.option-header>i{
+    padding: .4rem;
+    cursor: pointer;
+    border-radius: .4rem;
+}
+
+.option-header>i:hover{
+    background-color: var(--secondary-background-color);
+}
+
+.hide{
+    transform: translateX(100%);
+}

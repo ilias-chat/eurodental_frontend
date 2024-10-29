@@ -29,19 +29,34 @@ export class SettingsComponent {
     this.is_closed.set(true);
   }
 
-  toggle_change_password_option(){
-    this.is_change_password_open.set(!this.is_change_password_open());
+  activate_change_password_option(){
+    this.deactivate_all_aptions();
+    this.is_change_password_open.set(true);
   }
 
-  toggle_update_profile_option(){
-    this.is_update_profile_open.set(!this.is_update_profile_open());
+  activate_update_profile_option(){
+    this.deactivate_all_aptions();
+    this.is_update_profile_open.set(true);
   }
 
-  toggle_language_option(){
-    this.is_language_open.set(!this.is_language_open());
+  activate_language_option(){
+    this.deactivate_all_aptions();
+    this.is_language_open.set(true);
   }
 
-  toggle_theme_option(){
-    this.is_theme_open.set(!this.is_theme_open());
+  activate_theme_option(){
+    this.deactivate_all_aptions();
+    this.is_theme_open.set(true);
+  }
+
+  deactivate_all_aptions(){
+    this.is_change_password_open.set(false);
+    this.is_update_profile_open.set(false);
+    this.is_language_open.set(false);
+    this.is_theme_open.set(false);
+  }
+
+  is_all_aoptions_deactivated(){
+    return !this.is_change_password_open() && !this.is_update_profile_open() && !this.is_language_open() && !this.is_theme_open();
   }
 }
