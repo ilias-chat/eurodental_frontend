@@ -43,12 +43,18 @@
                     <i class="fa-solid fa-sort-down" 
                     [class.rotate]="is_update_profile_open()"></i>
                 </div>
+                <div class="option-body" [class.hide-option]="!is_update_profile_open()">
+                    <p>currently working to bring it to life</p>
+                </div>
             </div>
             <div class="settings-option">
                 <div class="option-header" (click)="toggle_language_option()">
-                    <span>languge</span>
+                    <span>language</span>
                     <i class="fa-solid fa-sort-down" 
                     [class.rotate]="is_language_open()"></i>
+                </div>
+                <div class="option-body" [class.hide-option]="!is_language_open()">
+                    <p>currently working to bring it to life</p>
                 </div>
             </div>
             <div class="settings-option">
@@ -56,6 +62,9 @@
                     <span>theme</span>
                     <i class="fa-solid fa-sort-down" 
                     [class.rotate]="is_theme_open()"></i>
+                </div>
+                <div class="option-body" [class.hide-option]="!is_theme_open()">
+                    <p>currently working to bring it to life</p>
                 </div>
             </div>
         </div>

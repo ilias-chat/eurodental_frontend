@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
-import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
-import { Current_user } from "./current_user.model";
+import { catchError, Observable, tap, throwError } from "rxjs";
 import { HttpService } from "../shared/http.service";
-import { Profile, ProfilesService } from "../app-content/main/users/profiles.service";
+import { Profile } from "../app-content/main/users/profiles.service";
 
 interface AuthResponseData {
     id: number,
@@ -15,9 +14,17 @@ interface AuthResponseData {
     profile: string,
     profile_id: number,
     access_token:string,
-    access_token_expire_menutes:number,
     refresh_token:string,
-    refresh_token_expire_menutes:number,
+}
+
+interface Current_user{
+    id: number,
+    email: string,
+    first_name: string,
+    last_name: string,
+    image_path:string,
+    profile: string,
+    profile_id: number,
 }
 
 @Injectable({
@@ -30,16 +37,39 @@ export class AuthService{
     private http_service = inject(HttpService);
     private router = inject(Router);
 
-    user = new BehaviorSubject<Current_user|null>(null);
-
+    private _user = signal<Current_user | null>(null);
     private _rights = signal<Profile | null>(null);
+    private _access_token = signal<string>('');
+    private _refresh_token = signal<string>('');
 
     
     public get rights() : Profile | null {
         return this._rights();
     }
+
     
+    public get access_token() : string {
+        return this._access_token();
+    }
+
+    public get refresh_token() : string {
+        return this._refresh_token();
+    }
+
+    public get user() : Current_user | null {
+        return this._user();
+    }
     
+    logout(){
+        this._user.set(null);
+        this._rights.set(null); 
+        this._access_token.set('');
+        this._refresh_token.set('');
+        this.router.navigate(['/login']);
+        localStorage.removeItem('user_data');
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('refresh_token');
+    }
 
     login(username:string, password:string):Observable<Object>{
 
@@ -49,134 +79,121 @@ export class AuthService{
 
         return this.http.post<AuthResponseData>(this.http_service.api_url + '/login', form_data)
         .pipe(
-            catchError(this.http_service.handle_error), 
+            //catchError(this.http_service.handle_error), 
             tap(response_data=>{
-                const access_token_expiraton_date = new Date(new Date().getTime() + (response_data.access_token_expire_menutes*60000));
-                const refresh_token_expiraton_date = new Date(new Date().getTime() + (response_data.refresh_token_expire_menutes*60000));
+                this._user.set(response_data);
+                this._access_token.set(response_data.access_token);
+                this._refresh_token.set(response_data.refresh_token);
+                // console.log("access token: ", this.access_token);
+                // console.log("refresh token: ", this.refresh_token);
+                this.get_user_rights(this._user()?.profile_id);
 
-                const user = new Current_user(
-                    response_data.id,
-                    response_data.email,
-                    response_data.first_name,
-                    response_data.last_name,
-                    response_data.image_path,
-                    response_data.profile,
-                    response_data.profile_id,
-                    response_data.access_token,
-                    access_token_expiraton_date,
-                    response_data.refresh_token,
-                    refresh_token_expiraton_date,
-                );
-                this.user.next(user);
-                localStorage.setItem('user_data',JSON.stringify(user));
-
-                this.get_user_rights(user.id);
-
-                console.log("login: ",user);
+                localStorage.setItem('user_data',JSON.stringify(this._user()));
+                localStorage.setItem('access_token',JSON.stringify(this._access_token()));
+                localStorage.setItem('refresh_token',JSON.stringify(this._refresh_token()));
             })
         );
     }
 
-    logout(){
-        this.user.next(null);
-        this.router.navigate(['/login']);
-        localStorage.removeItem('user_data');
-        this._rights.set(null);
+    refresh_access_token(): Observable<{access_token:string}> {
+        return this.http.post<{access_token:string}>(
+            `${this.http_service.api_url}/refresh_token`,
+             {},
+             {
+                headers: new HttpHeaders({
+                    'Authorization': `Bearer ${this.refresh_token}`
+                })
+            }
+            ).pipe(
+            tap(response_data => {
+                console.log("refresh: ",response_data.access_token);
+                this._access_token.set(response_data.access_token);
+            }),
+            catchError(error => {
+                console.error('Error refreshing token:', error);
+                return throwError(() => error);
+            })
+        );
     }
 
     auto_login(){
-        const user_data:{
-            id: number,
-            email: string,
-            first_name: string,
-            last_name: string,
-            image_path: string,
-            profile: string,
-            profile_id: number,
-            _access_token:string,
-            _access_token_expires_in: string,
-            _refresh_token:string
-            _refresh_token_expires_in: string,
-        } = JSON.parse(localStorage.getItem('user_data')!);
+        const stored_user:Current_user = JSON.parse(localStorage.getItem('user_data')!);
+        const stored_access_token:string = JSON.parse(localStorage.getItem('access_token')!);
+        const stored_refresh_token:string = JSON.parse(localStorage.getItem('refresh_token')!);
 
-        if(!user_data) return;
+        if(!stored_access_token || !stored_refresh_token || !stored_user) return;
 
-        const loaded_user = new Current_user(
-            user_data.id,
-            user_data.email,
-            user_data.first_name,
-            user_data.last_name,
-            user_data.image_path,
-            user_data.profile,
-            user_data.profile_id,
-            user_data._access_token,
-            new Date(user_data._access_token_expires_in),
-            user_data._refresh_token,
-            new Date(user_data._refresh_token_expires_in),
-        );
-
-        console.log("auto login: ",loaded_user);
-
-        if(loaded_user.access_token){
-            this.user.next(loaded_user);
-            this.get_user_rights(loaded_user.id);
-        }
+        this._user.set(stored_user);
+        this._access_token.set(stored_access_token);
+        this._refresh_token.set(stored_refresh_token);
+        this.get_user_rights(this._user()?.profile_id);
     }
 
-    refresh_access_token(): Observable<Object> {
-        
-        // Get the current user object from BehaviorSubject
-        const current_user = this.user.value; 
-    
-        // Ensure we have a refresh token
-        if (!current_user || !current_user.refresh_token) {
-            return throwError(() => new Error('No refresh token available.'));
-        }
-    
-        return this.http.post<AuthResponseData>(
-            this.http_service.api_url + '/refresh_token',
-            {}, // Empty body (no payload required)
-            {
-                headers: new HttpHeaders({
-                    'Authorization': `Bearer ${current_user.refresh_token}`,
-                    'Content-Type': 'application/json',
-                    'accept': 'application/json' 
-                })
-            }
+    change_password(old_password:string, new_password:string):Observable<Object>{
+        return this.http.post(
+            `${this.http_service.api_url}/change_password`,
+            {id:this.user?.id, old_password:old_password, new_password:new_password}
+        ).pipe(
+            catchError(this.http_service.handle_error)
         )
-        .pipe(
-            catchError(this.http_service.handle_error),  
-            tap(response_data => {
-                // Update expiration date for the new access token
-                const access_token_expiraton_date = new Date(new Date().getTime() + (response_data.access_token_expire_menutes*60000));
-                const refresh_token_expiraton_date = new Date(new Date().getTime() + (response_data.refresh_token_expire_menutes*60000));
-
-                const updated_user = new Current_user(
-                    response_data.id,
-                    response_data.email,
-                    response_data.first_name,
-                    response_data.last_name,
-                    response_data.image_path,
-                    response_data.profile,
-                    response_data.profile_id,
-                    response_data.access_token,
-                    access_token_expiraton_date,
-                    response_data.refresh_token || current_user.refresh_token, // Use the new refresh token if provided, otherwise keep the old one
-                    refresh_token_expiraton_date,
-                );
-
-                // Emit the updated user to the BehaviorSubject
-                this.user.next(updated_user);
-
-                // Persist the updated user data to localStorage
-                localStorage.setItem('user_data', JSON.stringify(updated_user));
-            })
-        );
     }
 
-    get_user_rights(user_id:number){
+    reset_password(email:string):Observable<Object>{
+        return this.http.post(
+            `${this.http_service.api_url}/reset_password`,
+            {email:email}
+        ).pipe(
+            catchError(this.http_service.handle_error)
+        )
+    }
 
-        this.http.get<Profile>(this.http_service.api_url + '/rights/' + user_id).pipe(
+    // login(username:string, password:string):Observable<Object>{
+
+    //     const form_data = new FormData();
+    //     form_data.append('username', username);
+    //     form_data.append('password', password);
+
+    //     return this.http.post<AuthResponseData>(this.http_service.api_url + '/web/login', form_data)
+    //     .pipe(
+    //         catchError(this.http_service.handle_error), 
+    //         tap(response_data=>{
+    //             this._user.set(response_data);
+    //             this._access_token.set(response_data.access_token);
+    //             console.log(this.access_token)
+    //             this.get_user_rights(this._user()?.profile_id);
+
+    //             localStorage.setItem('user_data',JSON.stringify(this._user()));
+    //         })
+    //     );
+    // }
+
+    // auto_login(){
+    //     const loaded_user:Current_user = JSON.parse(localStorage.getItem('user_data')!);
+
+    //     if(!loaded_user) return;
+
+    //     this._user.set(loaded_user);
+    // }
+
+    // refresh_access_token(): Observable<any> {
+    //     return this.http.post<any>(`${this.http_service.api_url}/web/refresh_token`, {}, { withCredentials: true }).pipe(
+    //         tap(response_data => {
+    //             console.log(response_data);
+    //             this._access_token.set(response_data)
+    //         }),
+    //         catchError(error => {
+    //             console.error('Error refreshing token:', error);
+    //             return throwError(() => error);
+    //         })
+    //     );
+    // }
+    
+
+    get_user_rights(profile_id:number|undefined){
+
+        if(!profile_id) return;
+
+        this.http.get<Profile>(this.http_service.api_url + '/rights/' + profile_id).pipe(
             catchError(this.http_service.handle_error)
         ).subscribe({
             next:(res_data)=>{
@@ -185,8 +202,7 @@ export class AuthService{
             error:(err)=>{
                 console.log(err);
             },
-        });
-        
+        }); 
     }
     
 }

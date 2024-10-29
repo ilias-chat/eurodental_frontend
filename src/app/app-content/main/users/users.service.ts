@@ -44,7 +44,6 @@ export class UsersService {
   }
 
   add(user:FormData):Observable<Object>{
-    user.append('password', this.generatePassword());
     return this.http.post(this.api_url, user).pipe(
       catchError(this.http_service.handle_error)
     );
@@ -84,15 +83,15 @@ export class UsersService {
     ); 
   }
   
-  private generatePassword() {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
-    let password = '';
+  // private generatePassword() {
+  //   const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+  //   let password = '';
   
-    for (let i = 0; i < 8; i++) {
-      const randomIndex = Math.floor(Math.random() * characters.length);
-      password += characters[randomIndex];
-    }
+  //   for (let i = 0; i < 8; i++) {
+  //     const randomIndex = Math.floor(Math.random() * characters.length);
+  //     password += characters[randomIndex];
+  //   }
   
-    return password;
-  }
+  //   return password;
+  // }
 }

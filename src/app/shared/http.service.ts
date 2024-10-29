@@ -34,7 +34,7 @@ export class HttpService{
               error_message = 'Internal Server Error. Please try again later.';
               break;
           default:
-              error_message = `Error Code: ${respose_error.status}\nMessage: ${respose_error.error?.detail}`;
+              error_message = `Error Code: ${respose_error.status}\nMessage: ${respose_error.error?.error_detail}`;
         }
     
         return throwError(() => new Error(error_message));

@@ -7,16 +7,14 @@ export const Auth_guard: CanActivateFn = () => {
     const auth_service = inject(AuthService);
     const router = inject(Router);
 
-    return auth_service.user.pipe(
-        take(1),
-        map(user=>{
-            const is_auth = !!user;
-            if (is_auth){
-                return true;
-            }
-            return router.createUrlTree(['/login']);
-        })
-    );
+    return true;
+
+    // if (auth_service.access_token !== ''){
+    //     return true;
+    // }
+    // else
+    //     return router.createUrlTree(['/login']);
+
 };
 
 // @Injectable()
