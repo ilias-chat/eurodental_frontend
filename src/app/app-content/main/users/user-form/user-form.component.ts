@@ -46,14 +46,20 @@ export class UserFormComponent {
     this.error_message.set('');
     this.invalid_inputs.set([]);
 
+    if(!this.is_valid_email(this.selected_user.email)){
+      this.error_message.set('enter a valid email address');
+    }
+
     if(!this.selected_user.first_name)
       this.invalid_inputs.set([...this.invalid_inputs(), 'first_name']);
     if(!this.selected_user.last_name)
       this.invalid_inputs.set([...this.invalid_inputs(), 'last_name']);
-    if(!this.selected_user.email)
+    if(!this.selected_user.email || !this.is_valid_email(this.selected_user.email))
       this.invalid_inputs.set([...this.invalid_inputs(), 'email']);
     if(!this.selected_user.profile_id)
       this.invalid_inputs.set([...this.invalid_inputs(), 'profile_id']);
+    // if(!this.selected_user.phone_number)
+    //   this.invalid_inputs.set([...this.invalid_inputs(), 'phone_number']);
 
     if(this.invalid_inputs().length > 0){
       //this.error_message.set('Fill in all the requered inputs');
@@ -133,6 +139,11 @@ export class UserFormComponent {
 
   clear_error_massage(){
     this.error_message.set('');
+  }
+
+  is_valid_email(email:string) {
+    const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    return emailPattern.test(email);
   }
 
 }

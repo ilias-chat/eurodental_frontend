@@ -32,13 +32,13 @@
             <div class="form-group">
             <label for="first_name">First Name *</label>
             <input type="text" id="first_name" name="first_name" required [(ngModel)]="selected_user.first_name"
-            [class.invalid-input]="invalid_inputs().includes('first_name')">
+            [class.invalid-input]="invalid_inputs().includes('first_name')" autocomplete="off">
             </div>
         
             <div class="form-group">
             <label for="last_name">Last Name *</label>
             <input type="text" id="last_name" name="last_name" required [(ngModel)]="selected_user.last_name"
-            [class.invalid-input]="invalid_inputs().includes('last_name')">
+            [class.invalid-input]="invalid_inputs().includes('last_name')" autocomplete="off">
             </div>  
         </div>
 
@@ -58,12 +58,13 @@
             <div class="form-group">
             <label for="email">Email *</label>
             <input type="email" id="email" name="email" required [(ngModel)]="selected_user.email"
-            [class.invalid-input]="invalid_inputs().includes('email')">
+            [class.invalid-input]="invalid_inputs().includes('email')" autocomplete="off">
             </div>
         
             <div class="form-group">
             <label for="phone_number">Phone Number</label>
-            <input type="tel" id="phone_number" name="phone_number" required [(ngModel)]="selected_user.phone_number">
+            <input type="tel" id="phone_number" name="phone_number" required [(ngModel)]="selected_user.phone_number" 
+            autocomplete="off">
             </div>      
 
             <div class="form-group">
@@ -73,7 +74,8 @@
 
             <div class="form-group">
                 <label for="adresse">Address</label>
-                <textarea id="adresse" name="adresse" required [(ngModel)]="selected_user.address">
+                <textarea id="adresse" name="adresse" required 
+                [(ngModel)]="selected_user.address" autocomplete="off">
                 </textarea>
             </div>
   

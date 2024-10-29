@@ -51,16 +51,20 @@
 
 .menu-btn{
   position: absolute;
-  right: -20%;
   color: var(--main-color);
   background-color: transparent;
   border: none;
+  right: -32px;
   font-size: medium;
   transition: .2s ease;
+  padding: .2rem;
+  cursor: pointer;
+  margin: .2rem;
+  z-index: 10;
 }
 
-.menu-closed>.menu-btn{
-  right: -40%;
+.menu-btn:hover{
+  background-color: var(--secondary-backgound-color);
 }
 
 .menu-closed>.buttons>.button>span{

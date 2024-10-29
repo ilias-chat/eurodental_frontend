@@ -6,7 +6,7 @@
     position: relative;
     padding: 1rem 2rem;
     color: var(--text-color);
-    height: 30vh;
+    height: 300px;
     display: flex;
     flex-direction: column;
 }

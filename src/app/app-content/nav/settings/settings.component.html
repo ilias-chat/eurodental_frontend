@@ -1,0 +1,72 @@
+<div class="backdrop" [class.show-backdrop]="!is_closed()">
+    <div class="settings-dialog" [class.show-dialog]="!is_closed()">
+        <div class="dialog-header">
+            <span class="dialog-title">
+                Settings
+            </span>
+            <button class="icon-button icon-button-danger" (click)="close_dialog()">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <div class="settings">
+            <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
+                <div class="progress-bar"></div>
+            </div>
+            <div class="active-option" [class.hide]="is_all_aoptions_deactivated()">
+                @if (is_change_password_open()) {
+                    <div class="option-header">
+                        <h4>change your password</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <div class="form-group">
+                        <label for="current_password">current password</label>
+                        <input type="password" id="current_password" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="new_password">new password</label>
+                        <input type="password" id="new_password" autocomplete="off">
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm_password">confirm password</label>
+                        <input type="password" id="confirm_password" autocomplete="off">
+                    </div>
+                    <div class="btns">
+                        <button class="primary-button">save</button>
+                    </div>
+                }@else if (is_update_profile_open()) {
+                    <div class="option-header">
+                        <h4>update your profile</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <p>currently working to bring it to life</p>
+                }@else if (is_language_open()) {
+                    <div class="option-header">
+                        <h4>change language</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <p>currently working to bring it to life</p>
+                }@else if (is_theme_open()) {
+                    <div class="option-header">
+                        <h4>change theme</h4>
+                        <i class="fa-solid fa-angles-right" (click)="deactivate_all_aptions()"></i>
+                    </div>
+                    <p>currently working to bring it to life</p>
+                }
+            </div>
+
+           <div class="settings-option first-option" (click)="activate_change_password_option()">
+                <span>change password</span>
+           </div>
+           <div class="settings-option" (click)="activate_update_profile_option()">
+                <span>update profile</span>
+            </div>
+            <div class="settings-option" (click)="activate_language_option()">
+                <span>language</span>
+            </div>
+            <div class="settings-option" (click)="activate_theme_option()">
+                <span>theme</span>
+            </div>
+        </div>
+      </div>
+</div>
+

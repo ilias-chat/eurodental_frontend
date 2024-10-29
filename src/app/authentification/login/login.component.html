@@ -1,40 +1,100 @@
 
+@if(message()!==''){
+    <div class="message">
+        <i class="fa-solid fa-circle-exclamation"></i>
+        <span> {{ message() }} </span>
+        <button (click)="message.set('')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+}
+
 <div class="login">
-    <div class='background'>
+    <!-- <div class='background'>
         <h2 class="logo">
             Application logo
         </h2>
-    </div>
-
-    <form>
+    </div> -->
+    <form [class.switch]="switch()">
         @if(is_loading()){
             <div class="progress-bar-container">
                 <div class="progress-bar"></div>
             </div>
-        } 
+        }
+        @if (view() === ui_type.login) {
+            <h2>Wellcome</h2>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input #email_input type="text" name="email" [(ngModel)]="email"
+                [class.invalid-input]="email_error() !== ''" (keyup)="reset_email_error()">
+                @if(email_error() !== ''){
+                    <label class="error-label">{{email_error()}}</label>
+                }
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input #password_input type="password" name="password" [(ngModel)]="password"
+                [class.invalid-input]="password_error() !== ''" (keyup)="reset_password_error()">
+                @if(password_error() !== ''){
+                    <label class="error-label">{{password_error()}}</label>
+                }
+            </div>
+            <div class="form-group">
+                <a (click)="switch_to(ui_type.forgot_password);">Forgot password?</a>
+            </div>
+            <button type="button" class="primary-button login-btn"
+            (click)="on_login_btn_click()">Log in</button>
+        }@else if (view() === ui_type.set_password) {
+            <h2>Create your password</h2>
+            <div class="form-group">
+                <label for="new_password">Password</label>
+                <input type="password" name="password" 
+                [class.invalid-input]="new_password_error() !== ''" [(ngModel)]="new_password">
+                <label class="message-label" [class.valid]="is_eight_characters_long(new_password())">
+                    -at least 8 characters long
+                    @if (is_eight_characters_long(new_password())) { <i class="fa-solid fa-check"></i> }
+                </label>
+                <label class="message-label" [class.valid]="contains_lowercase(new_password())">
+                    -contain at least one lowercase character
+                    @if (contains_lowercase(new_password())) { <i class="fa-solid fa-check"></i> }
+                </label>
+                <label class="message-label" [class.valid]="contains_uppercase(new_password())">
+                    -contain at least one uppercase character
+                    @if (contains_uppercase(new_password())) { <i class="fa-solid fa-check"></i> }
+                </label>
+                <label class="message-label" [class.valid]="contains_number(new_password())">
+                    -contain at least one number
+                    @if (contains_number(new_password())) { <i class="fa-solid fa-check"></i> }
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="confirm_password">Confirm Password</label>
+                <input type="password" name="confirm_passwordf" 
+                [class.invalid-input]="confirm_password_error() !== ''" [(ngModel)]="confirm_password">
+                @if(confirm_password_error() !== ''){
+                    <label class="error-label">{{confirm_password_error()}}</label>
+                }
+            </div>
+            <button type="button" class="primary-button login-btn"
+            (click)="on_save_password_click()">Save password</button>
+
+        }@else if (view() === ui_type.forgot_password) {
+            <h2>Forgot password</h2>
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input #email_input type="text" name="email" [(ngModel)]="email"
+                [class.invalid-input]="email_error() !== ''" (keyup)="reset_email_error()">
+                @if(email_error() !== ''){
+                    <label class="error-label">{{email_error()}}</label>
+                }
+            </div>
+            <div class="form-group">
+                <a (click)="switch_to(ui_type.login)">Return to log in</a>
+            </div>
+            <button type="button" class="primary-button login-btn"
+            (click)="on_reset_password_click()">Reset password</button>
+        }
+ 
     
-        <h2>Wellcome</h2>
-        <div class="form-group">
-            <label for="email">Email</label>
-            <input #email_input type="text" name="email" 
-            [class.invalid-input]="email_error() !== ''" (keyup)="reset_email_error()">
-            @if(email_error() !== ''){
-                <label class="error-label">{{email_error()}}</label>
-            }
-        </div>
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input #password_input type="password" name="password" 
-            [class.invalid-input]="password_error() !== ''" (keyup)="reset_password_error()">
-            @if(password_error() !== ''){
-                <label class="error-label">{{password_error()}}</label>
-            }
-        </div>
-        <div class="form-group">
-            <a href="">Forgot password?</a>
-        </div>
-        <button type="button" class="primary-button login-btn"
-        (click)="on_login_btn_click()">Log in</button>
+    
     </form>
 </div>
 

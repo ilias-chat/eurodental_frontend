@@ -5,7 +5,9 @@
             <span>{{ notifications_count }}</span>
         }
     </button>
-<button><i class="icon fa-solid fa-gear"></i></button>
+<button (click)="settings_Component.open_dialog()">
+    <i class="icon fa-solid fa-gear"></i>
+</button>
 <div class="profile">
     <img [src]="user_image()" alt="profile pic">
     <div class="text">
@@ -14,4 +16,5 @@
     </div>
 </div>
 <app-notifications></app-notifications>
+<app-settings></app-settings>
 </nav>

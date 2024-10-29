@@ -1,11 +1,11 @@
 <div class="side-menu" [class.menu-closed]="is_menu_closed===true">
-    <button class="menu-btn" (click)="on_btn_menu_cliked($event)">
+    <div class="menu-btn" (click)="on_btn_menu_cliked($event)">
       <i class="fa-solid fa-angles-left"></i>
-    </button>
+    </div>
     <div class="logo">Logo</div>
     <div class="buttons">
       <button class="button" routerLink="/app/dashboard" routerLinkActive="active">
-        <i class="icon fa-solid fa-house"></i> <span class="label">Home</span>  
+        <i class="fa-solid fa-chart-simple"></i> <span class="label">Dashboard</span>  
       </button>
       @if (auth_service.rights?.invoices_read) {
         <button class="button" routerLink="/app/invoices" routerLinkActive="active">
@@ -19,7 +19,7 @@
       }
       @if (auth_service.rights?.products_read) {
         <button class="button" routerLink="/app/products" routerLinkActive="active">
-          <i class="icon fa-solid fa-tags"></i> <span class="label">Products </span>
+          <i class="fa-solid fa-boxes-stacked"></i> <span class="label">Stock </span>
         </button>
       }
       @if (auth_service.rights?.tasks_read) {
