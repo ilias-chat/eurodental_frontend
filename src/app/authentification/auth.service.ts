@@ -106,7 +106,6 @@ export class AuthService{
             }
             ).pipe(
             tap(response_data => {
-                console.log("refresh: ",response_data.access_token);
                 this._access_token.set(response_data.access_token);
             }),
             catchError(error => {
@@ -133,9 +132,7 @@ export class AuthService{
         return this.http.post(
             `${this.http_service.api_url}/change_password`,
             {id:this.user?.id, old_password:old_password, new_password:new_password}
-        ).pipe(
-            catchError(this.http_service.handle_error)
-        )
+        );
     }
 
     reset_password(email:string):Observable<Object>{

@@ -59,9 +59,9 @@
     display: flex;
     flex-direction: column;
     height: 84%;
-    overflow-y: auto;
     overflow-x: hidden;
-    margin: 1rem;
+    overflow-y: auto;
+    padding: 1rem;
 }
 
 .settings-option{
@@ -96,10 +96,10 @@
 
 .active-option{
     position: absolute;
-    top: 0;
-    right: 0;
-    width: 100%;
-    height: 100%;
+    top: 1rem;
+    right: 1rem;
+    width: calc(100% - 2rem);
+    height: calc(100% - 1rem);
     padding: 2rem;
     padding-top: 1rem;
     background-color: var(--background-color);
@@ -131,5 +131,23 @@
 }
 
 .hide{
-    transform: translateX(100%);
+    transform: translateX(120%);
+}
+
+.message-label{
+    font-size: small;
+    color: var(--text-color);
+}
+
+.valid{
+    color: var(--success-color-darker);
+}
+
+.invalid{
+    color: var(--danger-color-darker);
+}
+
+.form-group{
+    display: flex;
+    flex-direction: column;
 }

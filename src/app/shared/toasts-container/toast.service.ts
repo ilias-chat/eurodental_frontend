@@ -26,7 +26,6 @@ export class ToastsService{
             if(this.interval_id != -1){
                 clearInterval(this.interval_id);
                 this.interval_id = -1;
-                console.log('removed');
             }
         }
     }
