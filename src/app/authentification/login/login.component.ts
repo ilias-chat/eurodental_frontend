@@ -29,9 +29,6 @@ export class LoginComponent {
 
   email_error = signal('');
   password_error = signal('');
-  
-  email = signal('');
-  password = signal('');
   new_password_error = signal('');
   confirm_password_error = signal('');
 
@@ -41,6 +38,8 @@ export class LoginComponent {
   public ui_type = ui_type;
   view = signal(ui_type.login);
 
+  email = signal('');
+  password = signal('');
   new_password = signal('');
   confirm_password = signal('');
 
@@ -89,7 +88,11 @@ export class LoginComponent {
         }
       },
       error:(response_err)=> {
-        this.toasts_service.add(response_err.message, 'danger');
+        if(response_err.status === 403){
+          this.toasts_service.add("invalid email or password", 'danger');
+        }else{
+          this.toasts_service.add(response_err.message, 'danger');
+        }
         this.is_loading.set(false);
       },
   });

@@ -9,9 +9,11 @@
             </button>
         </div>
         <div class="settings">
-            <div class="progress-bar-container" [class.hidden]="!is_progressbar_open()">
-                <div class="progress-bar"></div>
-            </div>
+            @if (is_loading()) {
+                <div class="progress-bar-container">
+                    <div class="progress-bar"></div>
+                </div>
+            }
             <div class="active-option" [class.hide]="is_all_aoptions_deactivated()">
                 @if (is_change_password_open()) {
                     <div class="option-header">
@@ -20,18 +22,43 @@
                     </div>
                     <div class="form-group">
                         <label for="current_password">current password</label>
-                        <input type="password" id="current_password" autocomplete="off">
+                        <input type="password" id="current_password" autocomplete="off" 
+                        [class.invalid-input]="password_error() !== ''" [(ngModel)]="password">
+                        @if(password_error() !== ''){
+                            <label class="message-label invalid">{{password_error()}}</label>
+                        }
                     </div>
                     <div class="form-group">
                         <label for="new_password">new password</label>
-                        <input type="password" id="new_password" autocomplete="off">
+                        <input type="password" id="new_password" autocomplete="off" [(ngModel)]="new_password" 
+                        [class.invalid-input]="new_password_error() !== ''">
+                        <label class="message-label" [class.valid]="is_eight_characters_long(new_password())">
+                            -at least 8 characters long
+                            @if (is_eight_characters_long(new_password())) { <i class="fa-solid fa-check"></i> }
+                        </label>
+                        <label class="message-label" [class.valid]="contains_lowercase(new_password())">
+                            -contain at least one lowercase character
+                            @if (contains_lowercase(new_password())) { <i class="fa-solid fa-check"></i> }
+                        </label>
+                        <label class="message-label" [class.valid]="contains_uppercase(new_password())">
+                            -contain at least one uppercase character
+                            @if (contains_uppercase(new_password())) { <i class="fa-solid fa-check"></i> }
+                        </label>
+                        <label class="message-label" [class.valid]="contains_number(new_password())">
+                            -contain at least one number
+                            @if (contains_number(new_password())) { <i class="fa-solid fa-check"></i> }
+                        </label>
                     </div>
                     <div class="form-group">
                         <label for="confirm_password">confirm password</label>
-                        <input type="password" id="confirm_password" autocomplete="off">
+                        <input type="password" id="confirm_password" autocomplete="off" [(ngModel)]="confirm_password"
+                        [class.invalid-input]="confirm_password_error() !== ''">
+                        @if(confirm_password_error() !== ''){
+                            <label class="message-label invalid">{{confirm_password_error()}}</label>
+                        }
                     </div>
                     <div class="btns">
-                        <button class="primary-button">save</button>
+                        <button class="primary-button" (click)="on_save_password_click()">save</button>
                     </div>
                 }@else if (is_update_profile_open()) {
                     <div class="option-header">

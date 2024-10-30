@@ -20,7 +20,6 @@ export class NotificationsComponent {
   ngOnInit(){
     this.notifications = this.notifications_service.all();
     this.notifications_service.non_seen_count.set(this.notifications.filter((n)=>n.seen===false).length);
-    console.log(this.notifications_service.non_seen_count());
   }
 
   open_dialog(){
