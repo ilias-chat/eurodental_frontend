@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProductsComboboxComponent } from './products-combobox.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('ProductsComboboxComponent', () => {
   let component: ProductsComboboxComponent;
@@ -8,7 +9,7 @@ describe('ProductsComboboxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ProductsComboboxComponent]
+      imports: [ProductsComboboxComponent, HttpClientTestingModule]
     })
     .compileComponents();
     
