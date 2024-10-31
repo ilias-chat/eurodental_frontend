@@ -51,9 +51,13 @@
                 <app-skeleton-row-list></app-skeleton-row-list>
             }
         }@else {
-            @for(product of products; track product.id){
-                <app-product [product] = "product" [selected]="selected_products_refs().includes(product.reference)" 
-                 (selected_change)="on_product_selected_change(product.reference)" (edit)="on_product_edit($event)"></app-product>
+            @if (products.length > 0) {
+                @for(product of products; track product.id){
+                    <app-product [product] = "product" [selected]="selected_products_refs().includes(product.reference)" 
+                     (selected_change)="on_product_selected_change(product.reference)" (edit)="on_product_edit($event)"></app-product>
+                }
+            }@else {
+                <p>there is no products to show</p>
             }
         }
 
