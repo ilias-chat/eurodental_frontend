@@ -1,6 +1,5 @@
 <app-product-form (submit)="on_form_submit($event)"></app-product-form>
-<app-categories></app-categories>
-<app-brands></app-brands>
+
 
 @if(is_add_quantity_form_open()){
     <app-add-stock [product_refs]="selected_products_refs" 
@@ -8,6 +7,8 @@
 }
 
 <div class="products-container">
+    <app-brands></app-brands>
+    <app-categories></app-categories>
     <div class="list-header">
         <input #search_input type="text" class="search-input" 
         placeholder="Search by name" (keyup)="on_search_input_keyup()">
@@ -20,7 +21,7 @@
         <a (click)="on_reset_filter_click()">reset filter</a>
           
         @if (auth_service.rights?.products_write) {
-            <button class="edit icon-button primary-button btn-with-label" (click)="on_manage_brands_btn_click()">
+            <button class=" left icon-button primary-button btn-with-label" (click)="on_manage_brands_btn_click()">
                 <i class="fa-solid fa-tags"></i>
                 <label>manage brands</label>
             </button>
@@ -29,7 +30,14 @@
                 <i class="fa-solid fa-diagram-project"></i>
                 <label>manage categories</label>
             </button>
-    
+        }    
+
+            <!-- <button class="icon-button primary-button btn-with-label" [class.left]="!auth_service.rights?.products_write" (click)="refresh_products()">
+                <i class="fa-solid fa-rotate"></i>
+                <label>refresh list</label>
+            </button> -->
+
+        @if (auth_service.rights?.products_write) {
             <button class="primary-button button-with-icon" (click)="on_add_product()">
                 <i class="fa-solid fa-plus"></i>
                 <span> new product </span>
@@ -42,16 +50,16 @@
             @for (item of [1,2,3,4,5]; track $index) {
                 <app-skeleton-row-list></app-skeleton-row-list>
             }
+        }@else {
+            @for(product of products; track product.id){
+                <app-product [product] = "product" [selected]="selected_products_refs().includes(product.reference)" 
+                 (selected_change)="on_product_selected_change(product.reference)" (edit)="on_product_edit($event)"></app-product>
+            }
         }
 
         @if(is_error()){
             <p>Error occurred while loading the data.</p>
             <button class="primary-button" (click)="refresh_products()">refresh</button>
-        }
-
-        @for(product of products; track product.id){
-            <app-product [product] = "product" [selected]="selected_products_refs().includes(product.reference)" 
-             (selected_change)="on_product_selected_change(product.reference)" (edit)="on_product_edit($event)"></app-product>
         }
     </div>
     

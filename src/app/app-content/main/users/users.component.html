@@ -9,7 +9,7 @@
         <select #combo_profile class="combo-profile" (change)="on_combo_profile_change()">
             <option value=""></option>
             @for (profile of profiles(); track profile.id) {
-                <option value="{{ profile.id }}">{{ profile.profile_name }}</option>
+                <option value="{{ profile.id_profile }}">{{ profile.profile_name }}</option>
             }
         </select>
         <a (click)="on_reset_filter_click()">reset filter</a>

@@ -50,9 +50,9 @@
             </div>
         
             <div class="form-group">
-            <label for="phone_number">Phone Number *</label>
-            <input type="tel" id="phone_number" name="phone_number" required [(ngModel)]="selected_client.phone_number"
-            [class.invalid-input]="invalid_inputs().includes('phone_number')" autocomplete="off">
+            <label for="phone_number">Phone Number</label>
+            <input type="tel" id="phone_number" name="phone_number" max="10" [(ngModel)]="selected_client.phone_number"
+             autocomplete="off">
             </div>
         
             <div class="form-group">

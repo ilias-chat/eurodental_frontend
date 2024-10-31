@@ -51,8 +51,8 @@ export class ClientFormComponent {
       this.invalid_inputs.set([...this.invalid_inputs(), 'email']);
     if(!this.selected_client.city)
       this.invalid_inputs.set([...this.invalid_inputs(), 'city']);
-    if(!this.selected_client.phone_number)
-      this.invalid_inputs.set([...this.invalid_inputs(), 'phone_number']);
+    // if(!this.selected_client.phone_number)
+    //   this.invalid_inputs.set([...this.invalid_inputs(), 'phone_number']);
 
     if(this.invalid_inputs().length > 0){
       //this.error_message.set('Fill in all the requered inputs');

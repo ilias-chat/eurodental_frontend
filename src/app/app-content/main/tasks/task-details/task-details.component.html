@@ -1,12 +1,5 @@
 <div class="task-details" [class.show]="is_open()">
     <div class="header">
-        <div class="title">Task details</div>
-        <button class="icon-button icon-button-danger" (click)="on_close_btn_click()">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-    <div class="body">
-
         <div class="task">
             <span class="title"> 
                 {{ task_details().task_name }} 
@@ -15,12 +8,23 @@
                     {{ task_details().task_date }}
                 </span>
             </span>
-            <span class="status" [class.badge-success]="task_details().status === 'Completed'" 
-            [class.badge-danger]="task_details().status === 'Open'"
-            [class.badge-warning]="task_details().status === 'In Progress'">
-                {{ task_details().status.replace(' ', '_') }}
-            </span>
         </div>
+        <span class="status" [class.badge-success]="task_details().status === 'Completed'" 
+        [class.badge-danger]="task_details().status === 'Unassigned'"
+        [class.badge-warning]="task_details().status === 'In Progress'">
+            {{ task_details().status.replace(' ', '_') }}
+        </span>
+        <button class="close icon-button icon-button-danger" (click)="on_close_btn_click()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+
+    <div class="body">
+        @if (is_loading()) {
+            <div class="progress-bar-container">
+                <div class="progress-bar"></div>
+            </div>
+        }
 
         <div class="div-right">
             <div class="client">
@@ -49,57 +53,123 @@
             </div>
     
             <div class="technician">
-                <div class="profile">
-                    <img src="{{ task_details().technician?.image_path }}" alt="">
-                    <div class="profile-text">
-                        <span>{{ task_details().technician?.first_name }} {{ task_details().technician?.last_name }}</span>
-                        <span> technician </span>
+
+                @if (task_details().technician_id) {
+                    <div class="profile">
+                        <img src="{{ task_details().technician?.image_path }}" alt="">
+                        <div class="profile-text">
+                            <span>{{ task_details().technician?.first_name }} {{ task_details().technician?.last_name }}</span>
+                            <span> technician </span>
+                        </div>
                     </div>
-                </div>
-    
-                <div class="contacts">
-                    <div class="contacts-row">
-                        <i class="fa-solid fa-envelope"></i>
-                        <span> {{ task_details().technician?.email }} </span>
+        
+                    <div class="contacts">
+                        <div class="contacts-row">
+                            <i class="fa-solid fa-envelope"></i>
+                            <span> {{ task_details().technician?.email }} </span>
+                        </div>
+                        <div class="contacts-row">
+                            <i class="fa-solid fa-mobile-screen-button"></i>
+                            <span> {{ task_details().technician?.phone_number }} </span>
+                        </div>
+                        <div class="contacts-row">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <span> {{ task_details().technician?.address }} </span>
+                        </div>
                     </div>
-                    <div class="contacts-row">
-                        <i class="fa-solid fa-mobile-screen-button"></i>
-                        <span> {{ task_details().technician?.phone_number }} </span>
-                    </div>
-                    <div class="contacts-row">
-                        <i class="fa-solid fa-location-dot"></i>
-                        <span> {{ task_details().technician?.address }} </span>
-                    </div>
-                </div>
+                }@else {
+                    no technician assigned to this task
+                }
+                
             </div>
         </div>
         
         <div class="products">
-            @if (task_details().products.length > 0) {
-                @for (product of task_details().products; track product.id) {
+            <div class="products-header">
+                @if(auth_service.rights?.tasks_write){
+                    @if(is_add_product_form_open()){
+                        <app-products-combobox class="select-product" value=""></app-products-combobox>
+                        <button class="icon-button primary-button btn-with-label" (click)="on_save_new_product()">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                            <label>save</label>
+                        </button>
+                        <button class="icon-button secondary-button btn-with-label" (click)="is_add_product_form_open.set(false)">
+                            <i class="fa-solid fa-xmark"></i>
+                            <label>cancel</label>
+                        </button>
+                    }@else {
+                        <span>Products list</span>
+                        <button class="primary-button button-with-icon" (click)="on_add_product()">
+                            <i class="fa-solid fa-plus"></i>
+                            <span> add product </span>
+                        </button>
+                    }
+                }
+            </div>
+            <div class="products-body">
+                @if (task_details().products.length > 0) {
+                    @for (product of task_details().products; track product.id) {
+                        <div class="product">
+                            @if (is_update_product_form_open() && selected_product_id() === product.id) {
+                                <div class="column">
+                                    {{ product.product_details.product_name }}
+                                    <span class="reference">
+                                        #{{ product.product_reference }}
+                                    </span>
+                                </div>
+                                <div class="input">
+                                    <b>x</b>
+                                    <input type="number" [(ngModel)]="product.quantity">
+                                </div>
+                                <div class="input">
+                                    <input type="number" [(ngModel)]="product.price">
+                                    <b>€</b>
+                                </div>
+                                <div class="btns">
+                                    <button class="icon-button primary-button btn-with-label" (click)="on_save_update_product(product)">
+                                        <i class="fa-solid fa-floppy-disk"></i>
+                                        <label>save</label>
+                                    </button>
+                                    <button class="icon-button secondary-button btn-with-label" (click)="on_close_update_form()">
+                                        <i class="fa-solid fa-xmark"></i>
+                                        <label>cancel</label>
+                                    </button>
+                                </div>
+                            }@else {
+                                <div class="column">
+                                    {{ product.product_details.product_name }}
+                                    <span class="reference">
+                                        #{{ product.product_reference }}
+                                    </span>
+                                </div>
+                                <div class="column">
+                                    <b>x{{ product.quantity }}</b>
+                                </div>
+                                <div class="column price">
+                                    {{ product.price }} €
+                                </div>
+                                 
+                                <div class="column">
+                                    <button class="icon-button icon-button-primary" (click)="on_update_product(product.id)">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </div>
+                            }
+                            
+                        </div>
+                    }
+                }@else {
                     <div class="product">
-                        <div class="column">
-                            {{ product.name }}
-                            <span class="reference">
-                                #{{ product.reference }}
-                            </span>
-                        </div>
-                        <div class="column">
-                            <b>x{{ product.quantity }}</b>
-                        </div>
-                        <div class="column price">
-                            {{ product.price }} €
-                        </div>
-                         
+                        <p>no products used in this task</p>
                     </div>
                 }
-            }@else {
-                <div class="product">
-                    <p>no products used in this task</p>
-                </div>
-            }
+            </div>
+           
 
         </div>
+
+    </div>
+    <div class="footer">
 
     </div>
 </div>

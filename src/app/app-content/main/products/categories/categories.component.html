@@ -1,111 +1,111 @@
-<div class="backdrop" [class.show-backdrop]="is_open()">
-    <div class="dialog">
-        <div class="dialog-header">
-            <span class="dialog-title">
-                Manage categories and sub-categories
-            </span>
-            <button class="icon-button icon-button-danger" (click)="on_close()">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
+<div class="categories-container" [class.show]="is_open()">
+    <div class="header">
+        <span class="title">
+            Manage categories and sub-categories
+        </span>
+        <button class="icon-button icon-button-danger" (click)="on_close()">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+    </div>
+    <div class="body">
+        <div class="progress-bar-container" [class.hidden]="!is_progresbar_open()">
+            <div class="progress-bar"></div>
         </div>
-        <div class="dialog-body">
-            <div class="progress-bar-container" [class.hidden]="!is_progresbar_open()">
-                <div class="progress-bar"></div>
-            </div>
 
-            <h3>categories</h3>
-            <h3>sub-categories</h3>
+        <h3>categories</h3>
+        <h3>sub-categories</h3>
 
-            <div class="categories">
-                @for (cat of categories(); track cat.id) {
-                    <div class="category" [class.selected]="selected_category().id === cat.id">
-                        @if (is_category_form_open() && selected_category().id === cat.id) {
-                            <input type="text" [(ngModel)]="selected_category().category"
-                            [class.invalid-input]="!is_category_input_valid()">
-                            <button class="icon-button primary-button"
-                            (click)="on_save_category_btn_click()">
-                                <i class="fa-solid fa-floppy-disk"></i>
-                            </button>
-                            <button class="icon-button secondary-button"
-                            (click)="on_close_category_form_btn_click()">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        }@else {
-                            <span (click)="on_category_click(cat)">{{ cat.category }}</span>
-                            <button class="edit icon-button icon-button-primary" (click)="on_edit_category_btn_click(cat)">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                        }
-                    </div>
-                }
-            </div>
-            <div class="sub-categories">
-                @for (cat of sub_categories_by_category; track cat.id) {
-                    <div class="sub-category">
-                        @if (is_sub_category_form_open() && selected_subcategory().id === cat.id) {
-                            <input type="text" [(ngModel)]="selected_subcategory().sub_category"
-                            [class.invalid-input]="!is_sub_category_input_valid()">
-                            <button class="icon-button primary-button"
-                                (click)="on_save_sub_category_btn_click()">
-                                <i class="fa-solid fa-floppy-disk"></i>
-                            </button>
-                            <button class="icon-button secondary-button"
-                                (click)="on_close_subcategory_form_btn_click()">
-                                <i class="fa-solid fa-xmark"></i>
-                            </button>
-                        }@else {
-                            <span>{{ cat.sub_category }}</span>
-                            <button class="icon-button icon-button-primary" (click)="on_edit_sub_category_btn_click(cat)">
-                                <i class="fa-solid fa-pen"></i>
-                            </button>
-                        }
-                    </div>
-                }
-            </div>
-            
-            <div class="categories-footer">
-                @if (is_category_form_open() && selected_category().id === 0) {
-                    <input type="text" [(ngModel)]="selected_category().category"
-                    [class.invalid-input]="!is_category_input_valid()">
-                    <button class="icon-button primary-button"
-                    (click)="on_save_category_btn_click()">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                    </button>
-                    <button class="icon-button secondary-button"
-                    (click)="on_close_category_form_btn_click()">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                }@else {
-                    <span class="total"> 
-                        total categories: {{ categories().length }}
-                     </span>
-                    <button class="icon-button primary-button" (click)="on_new_category_btn_click()">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                }
-            </div>
-    
-            <div class="sub-categories-footer">
-                @if (is_sub_category_form_open() && selected_subcategory().id === 0) {
-                    <input type="text" [(ngModel)]="selected_subcategory().sub_category"
-                    [class.invalid-input]="!is_sub_category_input_valid()">
-                    <button class="icon-button primary-button"
-                    (click)="on_save_sub_category_btn_click()">
-                        <i class="fa-solid fa-floppy-disk"></i>
-                    </button>
-                    <button class="icon-button secondary-button"
-                    (click)="on_close_subcategory_form_btn_click()">
-                        <i class="fa-solid fa-xmark"></i>
-                    </button>
-                }@else {
-                    <span class="total"> 
-                        total sub-categories: {{ sub_categories_by_category.length }}
-                     </span>
-                    <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                }
-            </div>
+        <div class="categories">
+            @for (cat of categories(); track cat.id) {
+                <div class="category" [class.selected]="selected_category().id === cat.id">
+                    @if (is_category_form_open() && selected_category().id === cat.id) {
+                        <input type="text" [(ngModel)]="selected_category().category"
+                        [class.invalid-input]="!is_category_input_valid()">
+                        <button class="icon-button primary-button"
+                        (click)="on_save_category_btn_click()">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button>
+                        <button class="icon-button secondary-button"
+                        (click)="on_close_category_form_btn_click()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    }@else {
+                        <span (click)="on_category_click(cat)">{{ cat.category }}</span>
+                        <button class="edit icon-button icon-button-primary" (click)="on_edit_category_btn_click(cat)">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+        <div class="sub-categories">
+            @for (cat of sub_categories_by_category; track cat.id) {
+                <div class="sub-category">
+                    @if (is_sub_category_form_open() && selected_subcategory().id === cat.id) {
+                        <input type="text" [(ngModel)]="selected_subcategory().sub_category"
+                        [class.invalid-input]="!is_sub_category_input_valid()">
+                        <button class="icon-button primary-button"
+                            (click)="on_save_sub_category_btn_click()">
+                            <i class="fa-solid fa-floppy-disk"></i>
+                        </button>
+                        <button class="icon-button secondary-button"
+                            (click)="on_close_subcategory_form_btn_click()">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    }@else {
+                        <span>{{ cat.sub_category }}</span>
+                        <button class="icon-button icon-button-primary" (click)="on_edit_sub_category_btn_click(cat)">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+                    }
+                </div>
+            }
+        </div>
+        
+        <div class="categories-footer">
+            @if (is_category_form_open() && selected_category().id === 0) {
+                <input type="text" [(ngModel)]="selected_category().category"
+                [class.invalid-input]="!is_category_input_valid()">
+                <button class="icon-button primary-button"
+                (click)="on_save_category_btn_click()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+                <button class="icon-button secondary-button"
+                (click)="on_close_category_form_btn_click()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            }@else {
+                <span class="total"> 
+                    total categories: {{ categories().length }}
+                    </span>
+                <button class="icon-button primary-button" (click)="on_new_category_btn_click()">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            }
+        </div>
+
+        <div class="sub-categories-footer">
+            @if (is_sub_category_form_open() && selected_subcategory().id === 0) {
+                <input type="text" [(ngModel)]="selected_subcategory().sub_category"
+                [class.invalid-input]="!is_sub_category_input_valid()">
+                <button class="icon-button primary-button"
+                (click)="on_save_sub_category_btn_click()">
+                    <i class="fa-solid fa-floppy-disk"></i>
+                </button>
+                <button class="icon-button secondary-button"
+                (click)="on_close_subcategory_form_btn_click()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            }@else {
+                <span class="total"> 
+                    total sub-categories: {{ sub_categories_by_category.length }}
+                    </span>
+                <button class="icon-button primary-button" (click)="on_new_sub_category_btn_click()"
+                [disabled]="this.selected_category().id == 0">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
+            }
         </div>
     </div>
 </div>
+

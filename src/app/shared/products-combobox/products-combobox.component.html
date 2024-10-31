@@ -1,0 +1,13 @@
+<div class="combobox">
+    <input #combobox_input type="text" readonly [value]="value"
+    (click)="toggle_options()">
+    <i class="fa-solid fa-angle-down" (click)="toggle_options()"></i>
+    <div #options_list class="options hidden">
+        <input type="text" placeholder="Search by name or reference..." [(ngModel)]="search_input_value">
+        @for (product of get_products; track product.id) {
+            <div class="option" [attr.data-product_id]="product.id" 
+            (click)="select_option($event)">{{ product.product_name }} {{ product.reference }}</div>
+        }
+    </div>
+</div>
+  
