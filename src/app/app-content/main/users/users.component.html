@@ -41,10 +41,16 @@
             <button class="primary-button" (click)="refresh_users()">refresh</button>
         }
 
-        @for(user of users; track user.id){
-            <app-user [user] = "user" [selected]="selected_users_ids().includes(user.id)" 
-            (edit)="on_user_edit($event)" (selected_change)="on_user_selected_change(user.id)"></app-user>
+        @if (users.length > 0) {
+            @for(user of users; track user.id){
+                <app-user [user] = "user" [selected]="selected_users_ids().includes(user.id)" 
+                (edit)="on_user_edit($event)" (selected_change)="on_user_selected_change(user.id)"></app-user>
+            }
+        }@else {
+            <p>there is no users to show</p>
         }
+
+
     </div>
 
     <div class="list-footer">

@@ -32,10 +32,15 @@
             <button class="primary-button" (click)="refresh_clients()">refresh</button>
         }
 
-        @for(client of clients; track client.id){
-            <app-client [client] = "client" [selected]="selected_clients_ids().includes(client.id)" 
-            (edit)="on_client_edit($event)" (selected_change)="on_client_selected_change(client.id)"></app-client>
+        @if(clients.length > 0){
+            @for(client of clients; track client.id){
+                <app-client [client] = "client" [selected]="selected_clients_ids().includes(client.id)" 
+                (edit)="on_client_edit($event)" (selected_change)="on_client_selected_change(client.id)"></app-client>
+            }
+        }@else {
+            <p>there is no clients to show</p>
         }
+        
     </div>
 
     <div class="list-footer">

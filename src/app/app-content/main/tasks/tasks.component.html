@@ -42,10 +42,14 @@
                     <app-skeleton-row-list></app-skeleton-row-list>
                 }
             }@else{
-                @for(task of tasks; track task.id){
-                    <app-task [task] = "task" [selected]="selected_tasks_ids().includes(task.id)" 
-                    (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"
-                    (show_details)="on_show_details(task.id)"></app-task>
+                @if(tasks.length > 0){
+                    @for(task of tasks; track task.id){
+                        <app-task [task] = "task" [selected]="selected_tasks_ids().includes(task.id)" 
+                        (edit)="on_task_edit($event)" (selected_change)="on_task_selected_change(task.id)"
+                        (show_details)="on_show_details(task.id)"></app-task>
+                    }
+                }@else {
+                    <p>there is no tasks to show</p>
                 }
             }
     
