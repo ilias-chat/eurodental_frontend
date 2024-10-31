@@ -8,11 +8,19 @@ import { User } from "../users/user.model";
 
 interface Task_product{
   id:number,
-  reference:string,
+  product_reference:string,
   name:string,
   price:number,
   quantity:number,
   purshase_date:string,
+  product_details:Product,
+}
+
+interface Product{
+  product_name:string,
+  price:number,
+  has_warranty:boolean,
+  warranty_duration_months:number,
 }
 
 export interface Task_details{

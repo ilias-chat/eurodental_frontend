@@ -157,7 +157,6 @@ export class UsersComponent {
         error:(err)=>{
           this.user_form_component.hide_progressbar();
           this.user_form_component.error_message.set(err.message);
-          console.log(err);
         },
       });     
     } else {
@@ -172,7 +171,6 @@ export class UsersComponent {
         error:(err)=>{
           this.user_form_component.hide_progressbar();
           this.user_form_component.error_message.set(err.message);
-          console.log('edid error:',err);
         },
       });
     }

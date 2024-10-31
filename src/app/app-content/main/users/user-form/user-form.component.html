@@ -50,7 +50,7 @@
                 [class.invalid-input]="invalid_inputs().includes('profile_id')">
                     <option value=""></option>
                     @for (profile of profiles(); track profile.id) {
-                        <option value="{{ profile.id }}">{{ profile.profile_name }}</option>
+                        <option value="{{ profile.id_profile }}">{{ profile.profile_name }}</option>
                     }
                 </select>
             </div>
@@ -63,7 +63,7 @@
         
             <div class="form-group">
             <label for="phone_number">Phone Number</label>
-            <input type="tel" id="phone_number" name="phone_number" required [(ngModel)]="selected_user.phone_number" 
+            <input type="tel" id="phone_number" name="phone_number" max="10" required [(ngModel)]="selected_user.phone_number" 
             autocomplete="off">
             </div>      
 

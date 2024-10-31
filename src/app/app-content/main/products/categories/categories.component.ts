@@ -15,9 +15,6 @@ import { ToastsService } from '../../../../shared/toasts-container/toast.service
 export class CategoriesComponent {
   is_open = signal<boolean>(false);
 
-  private http_client = inject(HttpClient);
-  private api_url = 'http://35.180.66.24';
-
   private Toasts_service = inject(ToastsService);
   private categoris_service = inject(CategoriesService);
   private sub_categoris_service = inject(SubCategoriesService);
@@ -106,7 +103,7 @@ export class CategoriesComponent {
     this.is_progresbar_open.set(true);
 
     if (this.selected_category().id === 0) {
-      this.http_client.post(this.api_url+'/categories',{category:this.selected_category().category}).subscribe({
+      this.categoris_service.add(this.selected_category()).subscribe({
         next:(respond_data)=>{
           this.selected_category().id = (respond_data as Category).id;
           this.categoris_service.add_category = this.selected_category();
@@ -121,7 +118,7 @@ export class CategoriesComponent {
         },
       });
     }else{
-      this.http_client.put(this.api_url+'/categories/'+this.selected_category().id, {category:this.selected_category().category}).subscribe({
+      this.categoris_service.edit(this.selected_category()).subscribe({
         next:(respond_data)=>{
           this.categoris_service.edit_category = this.selected_category();
           this.close_category_form();
@@ -149,10 +146,9 @@ export class CategoriesComponent {
     this.is_progresbar_open.set(true);
 
     if (this.selected_subcategory().id === 0) {
-      this.http_client.post(
-        this.api_url+'/sub_categories',
-        {sub_category:this.selected_subcategory().sub_category, category_id:this.selected_category().id}
-        ).subscribe({
+      //console.log(this.selected_subcategory());
+      this.selected_subcategory().category_id = this.selected_category().id;
+      this.sub_categoris_service.add(this.selected_subcategory()).subscribe({
         next:(respond_data)=>{
           this.selected_subcategory().id = (respond_data as Sub_category).id;
           this.selected_subcategory().category_id = (respond_data as Sub_category).category_id;
@@ -168,10 +164,7 @@ export class CategoriesComponent {
         },
       });
     }else{
-      this.http_client.put(
-        this.api_url+'/sub_categories/'+this.selected_subcategory().id, 
-        {sub_category:this.selected_subcategory().sub_category}
-        ).subscribe({
+      this.sub_categoris_service.edit(this.selected_subcategory()).subscribe({
         next:(respond_data)=>{
           this.sub_categoris_service.edit_sub_category = this.selected_subcategory()
           this.close_sub_category_form();
